@@ -1,42 +1,237 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+/* 基本重置和全局樣式 */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* 確保內容垂直居中 */
+}
+
+/* 模擬 240x320 螢幕 */
+.app-container {
+  width: 240px;
+  height: 320px;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* 防止內容溢出 */
+}
+
+/* 頂部 Header */
+.app-header {
+  background-color: #3f51b5; /* 主要品牌色 */
+  color: white;
+  padding: 5px 0;
+  text-align: center;
+  font-size: 0.8em; /* 調整字體大小 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 1.2em; /* 調整標題字體大小 */
+}
+
+/* 主要內容區域 */
+.app-content {
+  flex-grow: 1; /* 讓內容區塊佔滿可用空間 */
+  overflow-y: auto; /* 允許內容垂直滾動 */
+  padding: 8px; /* 內邊距 */
+  -webkit-overflow-scrolling: touch; /* 改善移動端滾動體驗 */
+  background-color: #f7f7f7;
+}
+
+.content-page {
+  padding-bottom: 5px; /* 確保內容底部不會被導航欄遮擋 */
+}
+
+.page-title {
+  font-size: 1em; /* 頁面標題字體大小 */
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 10px;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* 商品瀏覽頁 */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* 每行最多2個商品 */
+  gap: 8px; /* 商品間距 */
+  justify-content: center;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.product-card {
+  background-color: #fff;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  padding: 5px;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  font-size: 0.75em; /* 商品卡片字體大小 */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.product-image {
+  width: 80px;
+  height: 80px;
+  background-color: #e0e0e0; /* 圖片佔位符 */
+  margin: 0 auto 5px auto;
+  border-radius: 3px;
 }
 
-.card {
-  padding: 2em;
+.product-name {
+  margin: 0 0 3px 0;
+  color: #555;
+  white-space: nowrap; /* 不換行 */
+  overflow: hidden; /* 隱藏溢出部分 */
+  text-overflow: ellipsis; /* 顯示省略號 */
 }
 
-.read-the-docs {
-  color: #888;
+.product-price {
+  margin: 0;
+  color: #e91e63; /* 價格顏色 */
+  font-weight: bold;
+}
+
+/* 搜尋頁 */
+.search-input {
+  width: calc(100% - 10px); /* 考慮到 padding */
+  padding: 6px;
+  margin-bottom: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.8em;
+  box-sizing: border-box; /* 包含 padding 和 border */
+}
+
+.search-button {
+  width: 100%;
+  padding: 6px;
+  background-color: #4caf50; /* 搜尋按鈕顏色 */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.8em;
+  cursor: pointer;
+}
+
+.search-button:hover {
+  background-color: #43a047;
+}
+
+.no-result-text {
+    font-size: 0.75em;
+    color: #888;
+    text-align: center;
+    margin-top: 15px;
+}
+
+
+/* 用戶資料頁 */
+.profile-info {
+  background-color: #fff;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  padding: 8px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  font-size: 0.8em;
+}
+
+.profile-info p {
+  margin: 0 0 5px 0;
+}
+
+.profile-button {
+  width: 100%;
+  padding: 6px;
+  margin-top: 5px;
+  background-color: #2196f3; /* 編輯資料按鈕顏色 */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.8em;
+  cursor: pointer;
+}
+
+.profile-button:hover {
+  background-color: #1976d2;
+}
+
+.profile-button.logout-button {
+  background-color: #f44336; /* 登出按鈕顏色 */
+}
+
+.profile-button.logout-button:hover {
+  background-color: #d32f2f;
+}
+
+.auth-actions {
+  display: flex;
+  gap: 8px; /* 登入註冊按鈕間距 */
+  margin-top: 10px;
+}
+
+.auth-button {
+  flex: 1; /* 讓兩個按鈕平均分配寬度 */
+  padding: 6px;
+  background-color: #ff9800; /* 登入註冊按鈕顏色 */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.8em;
+  cursor: pointer;
+}
+
+.auth-button:hover {
+  background-color: #fb8c00;
+}
+
+
+/* 底部導航欄 */
+.bottom-nav {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  background-color: #3f51b5; /* 與 Header 相同的品牌色 */
+  color: white;
+  padding: 5px 0;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.nav-item {
+  flex: 1; /* 每個導航項平均分配空間 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7); /* 非活躍狀態顏色 */
+  cursor: pointer;
+  font-size: 0.7em; /* 導航文字字體大小 */
+  padding: 3px 0;
+  transition: color 0.2s ease-in-out;
+}
+
+.nav-item.active {
+  color: white; /* 活躍狀態顏色 */
+  font-weight: bold;
+}
+
+.nav-item .icon {
+  font-size: 1.2em; /* 圖標大小 */
+  margin-bottom: 2px;
+}
+
+.nav-item .label {
+  display: block; /* 讓文字換行 */
 }

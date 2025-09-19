@@ -25,4 +25,4 @@ function HomePage() {
   );
 }
 
-export default ShopPage;
+export default HomePage;

@@ -6,7 +6,7 @@ import './App.css'; // 你的主 App CSS 檔案
 import HomePage from './page/Home';
 import SearchPage from './page/Search';
 import ProfilePage from './page/Profile';
-import SavedPage from './page/Saved';
+// import SavedPage from './page/Saved';
 
 function App() {
   return (
@@ -21,7 +21,7 @@ function App() {
         <main className="app-content">
           <Routes>
             <Route path="/" element={<HomePage />} /> {/* 根路徑顯示 ShopPage */}
-            <Route path="/home" element={<ShopPage />} />
+            <Route path="/home" element={<HomePage />} />
             <Route path="/search" element={<SearchPage />} />
             <Route path="/profile" element={<ProfilePage />} />
           </Routes>

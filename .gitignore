@@ -3,4 +3,5 @@
 .env
 .devcontainer
 *.pyc
-__pycache__
+*.pyo
+__pycache__/

@@ -10,6 +10,11 @@ Depends on docker file
 ```bash
 docker compose up --build
 ```
+如果有缺少module 嘗試以下指令
+```bash
+docker-compose up --build --no-cache
+```
+
 
 ### backend
 

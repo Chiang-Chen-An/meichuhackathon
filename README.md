@@ -2,9 +2,11 @@
 
 ## Environment
 
+Depends on docker file
+
 ### docker
 
-docker compose 裡面目前只有一個 service `mysql`，可以執行以下指令來啟動
+用 `docker-compose.yml` 來啟動
 ```bash
 docker compose up --build
 ```

@@ -17,7 +17,7 @@ services:
       - mysql-data:/var/lib/mysql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 30s
+      interval: 1s
       timeout: 10s
       retries: 5
 
@@ -29,6 +29,9 @@ services:
     restart: unless-stopped
     ports:
       - "8000:8000"
+    volumes:
+      - ./backend:/app
+    command: ["flask", "--app", "app:app", "run", "--debug", "--host=0.0.0.0", "--port=8000"]
     environment:
       DB_HOST: mysql
       DB_PORT: 3306
@@ -48,6 +51,9 @@ services:
     restart: unless-stopped
     ports:
       - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
     environment:
       REACT_APP_BACKEND_URL: http://localhost:8000
       TZ: Asia/Taipei

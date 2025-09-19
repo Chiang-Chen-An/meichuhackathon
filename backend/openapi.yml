@@ -207,7 +207,7 @@ paths:
                   error:
                     type: string
               
-  /job/{provider_id}:
+  /job/provider/{provider_id}:
     get:
       tags: [Job]
       summary: Get job by provider_id
@@ -343,4 +343,48 @@ paths:
                     example: "Create Job Failed"
                   error:
                     type: string
-        
+    get:
+      tags: [Job]
+      summary: Get all jobs
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    job_id:
+                      type: integer
+                      example: 1
+                    job_name:
+                      type: string
+                      example: "餐廳服務生"
+                    type:
+                      type: string
+                      example: "服務業"
+                    payment:
+                      type: string
+                      example: "200 - 300"
+                    date:
+                      type: string
+                      example: "2023-12-01 - 2023-12-31"
+                    job_provider_id:
+                      type: integer
+                      example: 1
+                    create_at:
+                      type: string
+                      format: date
+                      example: "2023-11-01"
+        '404':
+          description: No jobs found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "No jobs found"

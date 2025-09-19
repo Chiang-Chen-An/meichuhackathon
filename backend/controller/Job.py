@@ -14,7 +14,7 @@ def getJobbyId(job_id):
     
     return jsonify(job.to_dict()), 200
 
-@job_bp.route('/job/<int:provider_id>', methods=['GET'])
+@job_bp.route('/job/provider/<int:provider_id>', methods=['GET'])
 def getJobbyProvider(provider_id):
     provider = User.query.get(provider_id)
 
@@ -22,11 +22,9 @@ def getJobbyProvider(provider_id):
         return { 'message': 'Provider is not exist' }, 404
     
     jobs = provider.jobs
-
-    if not jobs:
-        return { 'message': 'No job provided by the user.' }, 200
+    jobs_list = [job.to_dict() for job in jobs]
     
-    return jsonify([e.to_dict() for e in jobs]), 200
+    return jsonify(jobs_list), 200
 
 @job_bp.route('/job', methods=['POST'])
 def createJob():
@@ -72,3 +70,9 @@ def createJob():
         'message': 'Create Job Successfully',
         'Job': job.to_dict()
     }, 201
+
+@job_bp.route('/job', methods=['GET'])
+def getAlljob():
+    jobs = Job.query.all()
+    jobs_list = [job.to_dict() for job in jobs]
+    return jsonify(jobs_list), 200

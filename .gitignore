@@ -1,7 +1,55 @@
-.vscode
+# IDE and Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
 .DS_Store
+
+# Environment variables
 .env
-.devcontainer
+
+# Development containers
+.devcontainer/
+
+# Python
 *.pyc
 *.pyo
+*.pyd
 __pycache__/
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+.ENV/
+
+# Flask
+instance/
+.webassets-cache
+
+# Database
+*.db
+
+# Logs
+*.log
+logs/
+
+# Docker
+.dockerignore
+
+# Node.js (for frontend)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn-integrity
+
+# Temporary files
+*.tmp
+*.temp

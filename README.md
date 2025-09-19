@@ -19,15 +19,15 @@ docker compose up --build
 
 1. 到最新版的資料庫
     ```bash
-    flask db upgrade
+    docker exec -it backend flask db upgrade
     ```
 2. 回到上一版的資料庫
     ```bash
-    flask db downgrade
+    docker exec -it backend flask db downgrade
     ```
 3. 更新資料庫要自動產生 migration 檔案
     ```bash
-    flask db migrate -m "<commit message>"
+    docker exec -it backend flask db migrate -m "<commit message>"
     ```
 
 #### ai discussion

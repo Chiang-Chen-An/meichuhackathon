@@ -8,6 +8,8 @@ class User(db.Model):
     password = db.Column(db.String(255), nullable=False)
     email = db.Column(db.String(100), nullable=True, unique=True)
 
+    jobs = db.relationship('Job', back_populates='job_provider', cascade='all, delete-orphan')
+
     created_at = db.Column(db.Date, nullable=False, default=db.func.current_date())
 
     def __repr__(self):

@@ -13,6 +13,7 @@ servers:
   
 tags:
   - User
+  - Job
 
 paths:
   /user/{user_id}:
@@ -163,3 +164,183 @@ paths:
                   error:
                     type: string
                     example: "Invalid phone number or password"
+  
+  /job/{job_id}:
+    get:
+      tags: [Job]
+      summary: Get job by job_id
+      parameters:
+        - in: path
+          name: job_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  job_id:
+                    type: integer
+                  job_name:
+                    type: string
+                  type:
+                    type: string
+                  payment:
+                    type: string
+                  date:
+                    type: string
+                  job_provider_id:
+                    type: integer
+                  created_at:
+                    type: date
+        '404':
+          description: Job not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+              
+  /job/{provider_id}:
+    get:
+      tags: [Job]
+      summary: Get job by provider_id
+      parameters:
+        - in: path
+          name: provider_id
+          required: true
+          schema:
+            type: integer
+      responses:  # 修正：response -> responses
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    job_id:
+                      type: integer
+                      example: 1
+                    job_name:
+                      type: string
+                      example: "餐廳服務生"
+                    type:
+                      type: string
+                      example: "服務業"
+                    payment:
+                      type: string
+                      example: "200 - 300"
+                    date:
+                      type: string
+                      example: "2023-12-31 - 2023-12-01"
+                    job_provider_id:
+                      type: integer
+                      example: 1
+                    create_at:
+                      type: string
+                      format: date
+                      example: "2023-11-01"
+        '404':
+          description: Provider not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Provider is not exist"
+
+  /job:
+    post:
+      tags: [Job]
+      summary: Create new job
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - job_name
+                - payment_low
+                - payment_high
+                - date_start
+                - date_end
+                - provider_id
+              properties:
+                job_name:
+                  type: string
+                  example: "餐廳服務生"
+                payment_low:
+                  type: integer
+                  example: 200
+                payment_high:
+                  type: integer
+                  example: 300
+                date_start:
+                  type: string
+                  format: date
+                  example: "2023-12-01"
+                date_end:
+                  type: string
+                  format: date
+                  example: "2023-12-31"
+                job_type:
+                  type: string
+                  example: "服務業"
+                provider_id:
+                  type: integer
+                  example: 1
+      responses:
+        '201':
+          description: Job created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Create Job Successfully"
+                  Job:
+                    type: object
+                    properties:
+                      job_id:
+                        type: integer
+                        example: 1
+                      job_name:
+                        type: string
+                        example: "餐廳服務生"
+        '400':
+          description: Bad request - missing required fields
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Lack of necessary information"
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Create Job Failed"
+                  error:
+                    type: string
+        

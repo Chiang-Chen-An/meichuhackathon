@@ -4,6 +4,7 @@ from flask import Flask
 from flask_restful import Api
 from models import db, migrate
 from controller.User import user_bp
+from controller.Job import job_bp
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://user:user@mysql:3306/db'
@@ -23,8 +24,8 @@ swag = Swagger(app, template_file = 'openapi.yml')
 api = Api(app)
 
 # API
-
 app.register_blueprint(user_bp)
+app.register_blueprint(job_bp)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8000, debug=True)

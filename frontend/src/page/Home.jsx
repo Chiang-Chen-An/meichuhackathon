@@ -1,5 +1,5 @@
 import React from 'react';
-import './HomePage.css';
+import './Home.css';
 function HomePage() {
   return (
     <div className="content-page">

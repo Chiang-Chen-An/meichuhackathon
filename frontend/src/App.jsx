@@ -3,9 +3,10 @@ import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-do
 import './App.css'; // 你的主 App CSS 檔案
 
 // 導入頁面組件
-import HomePage from './Home';
-import SearchPage from './Search';
-import ProfilePage from './Profile';
+import HomePage from './page/Home';
+import SearchPage from './page/Search';
+import ProfilePage from './page/Profile';
+import SavedPage from './page/Saved';
 
 function App() {
   return (

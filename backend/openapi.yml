@@ -1,0 +1,165 @@
+openapi: 3.0.0
+info:
+  title: Flask SQLAlchemy RESTful API
+  version: 1.0.0
+  description: |
+    - 產生的 OpenAPI 文件，對應 Flask + SQLAlchemy 所有 RESTful API。
+    
+    - 所有 API 回傳 JSON。
+
+servers:
+  - url: http://127.0.0.1:8000
+    description: Development server
+  
+tags:
+  - User
+
+paths:
+  /user/{user_id}:
+    get:
+      tags: [User]
+      summary: Get user by user_id
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: integer
+                  email:
+                    type: string
+                  created_at:
+                    type: string
+                    format: date
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+  
+  /register:
+    post:
+      tags: [User]
+      summary: Register
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - phone_number
+                - password
+              properties:
+                phone_number:
+                  type: string
+                  example: "0912345678"
+                password:
+                  type: string
+                  example: "password123"
+                email:
+                  type: string
+                  format: email
+                  example: "user@example.com"
+      responses:
+        '201':
+          description: User registered successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "User registered successfully"
+                  user_id:
+                    type: integer
+                    example: 1
+        '400':
+          description: Bad request - missing required fields or invalid data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Phone number and password are required"
+        '409':
+          description: Conflict - user already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "User already exists"
+
+  /login:
+    post:
+      tags: [User]
+      summary: Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - phone_number
+                - password
+              properties:
+                phone_number:
+                  type: string
+                  example: "0912345678"
+                password:
+                  type: string
+                  example: "password123"
+      responses:
+        '200':
+          description: User login successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "User login successfully"
+                  user_id:
+                    type: integer
+                    example: 1
+        '400':
+          description: Bad request - missing required fields or invalid data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Phone number and password are required"
+        '401':
+          description: Unauthorized - invalid credentials
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Invalid phone number or password"

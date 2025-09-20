@@ -14,12 +14,12 @@ function ProfilePage() {
   const [showUpdateForm, setShowUpdateForm] = useState(false);
   const [showPasswordUpdateModal, setShowPasswordUpdateModal] = useState(false);
   const [showLogoutConfirmModal, setShowLogoutConfirmModal] = useState(false);
-  
+
   // 表單狀態
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -48,23 +48,23 @@ function ProfilePage() {
 
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
-    
+
     // 驗證表單
     if (!email && !password) {
       setError("Please provide at least email or password to update");
       return;
     }
-    
+
     if (password && password !== confirmPassword) {
       setError("Passwords do not match");
       return;
     }
-    
+
     try {
       setUpdating(true);
       setError("");
       setSuccessMessage("");
-      
+
       const updateData = {};
       if (email && email !== user.email) {
         updateData.email = email;
@@ -72,33 +72,27 @@ function ProfilePage() {
       if (password) {
         updateData.password = password;
       }
-      
+
       if (Object.keys(updateData).length === 0) {
         setError("No changes to update");
         return;
       }
-      
+
       const response = await updateProfile(updateData);
-      
-      // 檢查是否需要重新登入（密碼更新的情況）
+
       if (response.logout) {
-        // 顯示成功訊息的彈窗
         setShowPasswordUpdateModal(true);
         return;
       }
-      
+
       setSuccessMessage(response.message);
-      
-      // 重新載入用戶資料
+
       await loadUserProfile();
-      
-      // 清空密碼欄位
+
       setPassword("");
       setConfirmPassword("");
-      
-      // 關閉更新表單
+
       setShowUpdateForm(false);
-      
     } catch (error) {
       console.error("Update profile failed:", error);
       setError(error.message || "Failed to update profile");
@@ -116,7 +110,6 @@ function ProfilePage() {
       setLoggingOut(true);
       setShowLogoutConfirmModal(false);
       await logout();
-      // 登出成功後跳轉到首頁
       navigate("/");
     } catch (error) {
       console.error("Logout failed:", error);
@@ -150,7 +143,7 @@ function ProfilePage() {
         <div className="error-message">
           Please login to view profile
           <button onClick={() => navigate("/login")} className="btn-primary">
-            Go to Login
+            Go to login
           </button>
         </div>
         <Navigation />
@@ -161,92 +154,98 @@ function ProfilePage() {
   return (
     <div className="profile-content-page">
       <div className="profile-header">
-        <h2>{showUpdateForm ? "更新個人資料" : "個人資料"}</h2>
+        <h2>{showUpdateForm ? "Edit Profile" : "Profile"}</h2>
       </div>
 
       <div className="profile-container">
         {!showUpdateForm ? (
-          /* 用戶資訊顯示 */
           <div className="user-info-compact">
             <div className="info-item">
-              <span className="info-label">用戶 ID:</span>
+              <span className="info-label">User ID:</span>
               <span className="info-value">{user.user_id}</span>
             </div>
             <div className="info-item">
-              <span className="info-label">電話:</span>
-              <span className="info-value">{user.phone_number || "未設定"}</span>
-            </div>
-            <div className="info-item email-item">
-              <span className="info-label">電子郵件:</span>
-              <div className="info-value email-wrap">{user.email || "未設定"}</div>
-            </div>
-            <div className="info-item">
-              <span className="info-label">用戶名:</span>
-              <span className="info-value">{user.username || "未設定"}</span>
-            </div>
-            <div className="info-item">
-              <span className="info-label">註冊時間:</span>
+              <span className="info-label">Phone Num.:</span>
               <span className="info-value">
-                {user.created_at ? new Date(user.created_at).toLocaleDateString() : "未知"}
+                {user.phone_number || "Not set"}
               </span>
             </div>
-            
+            <div className="info-item email-item">
+              <span className="info-label">Email:</span>
+              <div className="info-value email-wrap">
+                {user.email || "Not set"}
+              </div>
+            </div>
+            <div className="info-item">
+              <span className="info-label">Username:</span>
+              <span className="info-value">{user.username || "Not set"}</span>
+            </div>
+            <div className="info-item">
+              <span className="info-label">Register Date:</span>
+              <span className="info-value">
+                {user.created_at
+                  ? new Date(user.created_at).toLocaleDateString()
+                  : "Unknown"}
+              </span>
+            </div>
+
             <div className="button-group-compact">
               <button
                 className="btn-primary btn-small"
                 onClick={() => setShowUpdateForm(true)}
               >
-                更新資料
+                Update Profile
               </button>
-              
+
               <button
                 type="button"
                 className="btn-danger btn-small"
                 onClick={handleLogout}
                 disabled={loggingOut}
               >
-                {loggingOut ? "登出中..." : "登出"}
+                {loggingOut ? "Logging out..." : "Log out"}
               </button>
             </div>
           </div>
         ) : (
-          /* 更新表單 */
           <form onSubmit={handleUpdateProfile} className="profile-form-compact">
             <div className="form-group-compact">
-              <label className="form-label-compact">電子郵件:</label>
+              <label className="form-label-compact">Email:</label>
               <input
                 type="email"
                 className="form-input-compact"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="輸入新的電子郵件"
+                placeholder="Enter new Email"
               />
             </div>
 
             <div className="form-group-compact">
-              <label className="form-label-compact">新密碼:</label>
+              <label className="form-label-compact">New password:</label>
               <input
                 type="password"
                 className="form-input-compact"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="輸入新密碼"
+                placeholder="Enter new password"
               />
             </div>
 
             <div className="form-group-compact">
-              <label className="form-label-compact">確認密碼:</label>
+              <label className="form-label-compact">Confirm password:</label>
               <input
-                type="password"
+                type="Password"
                 className="form-input-compact"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="再次輸入新密碼"
+                placeholder="Re-enter new password"
               />
             </div>
 
             {error && <div className="error-message-compact">{error}</div>}
-            {successMessage && <div className="success-message-compact">{successMessage}</div>}
+            {successMessage && (
+              <div className="success-message-compact">{successMessage}</div>
+            )}
 
             <div className="button-group-compact">
               <button
@@ -254,9 +253,9 @@ function ProfilePage() {
                 className="btn-primary btn-small"
                 disabled={updating}
               >
-                {updating ? "更新中..." : "更新"}
+                {updating ? "Updating..." : "Update"}
               </button>
-              
+
               <button
                 type="button"
                 className="btn-secondary btn-small"
@@ -269,62 +268,60 @@ function ProfilePage() {
                   setShowUpdateForm(false);
                 }}
               >
-                取消
+                Cancel
               </button>
             </div>
           </form>
         )}
       </div>
 
-      {/* 密碼更新成功彈窗 */}
       {showPasswordUpdateModal && (
         <div className="modal-overlay">
           <div className="modal-content">
             <div className="modal-header">
-              <h3>✅ 更新成功</h3>
+              <h3>✅ Update success</h3>
             </div>
             <div className="modal-body">
-              <p>密碼更新成功！</p>
-              <p>請重新登入以確保安全。</p>
+              <p>Password update successfully!</p>
+              <p>Please re-login</p>
             </div>
             <div className="modal-footer">
-              <button 
+              <button
                 className="btn-primary btn-small modal-btn"
                 onClick={handlePasswordUpdateConfirm}
               >
-                前往登入
+                Login
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* 登出確認彈窗 */}
       {showLogoutConfirmModal && (
         <div className="modal-overlay">
           <div className="modal-content">
             <div className="modal-header">
-              <h3>⚠️ 確認登出</h3>
+              <h3>⚠️ Confirm logout</h3>
             </div>
             <div className="modal-body">
-              <p>確定要登出嗎？</p>
-              <p>登出後您將返回首頁。</p>
+              <p>Are you sure?</p>
+              <p>You will return to homepage</p>
             </div>
             <div className="modal-footer">
-              <button 
+              <button
                 className="btn-danger btn-small modal-btn"
                 onClick={confirmLogout}
                 disabled={loggingOut}
-                style={{ marginRight: '6px' }}
+                style={{ marginRight: "6px" }}
               >
-                {loggingOut ? "登出中..." : "確認登出"}
+                {loggingOut ? "Logging out" : "Log out"}
               </button>
-              <button 
+              <button
                 className="btn-secondary btn-small modal-btn"
                 onClick={cancelLogout}
                 disabled={loggingOut}
               >
-                取消
+                Cancel
               </button>
             </div>
           </div>

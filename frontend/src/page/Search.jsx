@@ -12,6 +12,7 @@ function SearchPage() {
     get_jobs()
       .then((response) => {
         console.log("Registration successful:", response);
+        setJobs(response);
       })
       .catch((error) => {
         console.error("Registration failed:", error);

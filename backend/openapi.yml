@@ -808,6 +808,50 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
+  /recruit/applications:
+    get:
+      tags: [Recruit]
+      summary: Get my job applications
+      description: Retrieve all job applications submitted by the current logged-in user
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: integer
+                    example: 1
+                  applications:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/JobApplicationForApplicant'
+                  total_applications:
+                    type: integer
+                    example: 3
+        '401':
+          description: User not logged in
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Please login first"
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "User not found"
+
   /recruit/applications/user/{user_id}:
     get:
       tags: [Recruit]

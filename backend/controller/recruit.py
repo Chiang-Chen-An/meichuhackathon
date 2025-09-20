@@ -68,6 +68,28 @@ def apply_for_job():
             'error': str(e)
         }, 500
 
+@recruit_bp.route('/recruit/applications', methods=['GET'])
+def get_my_applications():
+    """取得當前登入用戶的所有應徵記錄"""
+    # 從 session 取得當前登入用戶
+    user_id = session.get('user_id')
+    if not user_id:
+        return {'message': 'Please login first'}, 401
+    
+    user = User.query.get(user_id)
+    if not user:
+        session.clear()  # 清除無效的 session
+        return {'message': 'User not found'}, 404
+    
+    applications = JobApplication.query.filter_by(applicant_id=user_id).all()
+    applications_list = [app.to_dict_for_applicant() for app in applications]
+    
+    return jsonify({
+        'user_id': user_id,
+        'applications': applications_list,
+        'total_applications': len(applications_list)
+    }), 200
+
 @recruit_bp.route('/recruit/applications/user/<int:user_id>', methods=['GET'])
 def get_user_applications(user_id):
     """取得使用者的所有應徵記錄"""

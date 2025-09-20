@@ -1,13 +1,18 @@
-.app-container{
-  display: flex;/* 水平置中 */
-  justify-content: center;/* 垂直置中 */
-  align-items: center;
+.app-container {
+  width: 240px;
+  height: 320px;
+  flex-direction: column;
+  margin: auto;
 }
 
-.app-header{
-  display: flex;/* 水平置中 */
-  justify-content: center;/* 垂直置中 */
-  align-items: center;
-  text-align: center;
+.app-header {
   margin-top: 20px;
+  margin: auto;
+  position: absolute;
+}
+
+.app-content {
+  width: 240px;
+  height: 320px;
+  margin: auto;
 }

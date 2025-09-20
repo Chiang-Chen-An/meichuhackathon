@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { NavLink } from 'react-router-dom';
-import './navigation.css';
+import React, { useState, useEffect, useRef } from "react";
+import { NavLink } from "react-router-dom";
+import "./navigation.css";
 
 function Navigation() {
-  const [focusedLinkIndex, setFocusedLinkIndex] = useState(-1); 
+  const [focusedLinkIndex, setFocusedLinkIndex] = useState(-1);
 
   const navLinks = [
     { to: "/home", label: "Home", iconName: "Shop_icon" },
@@ -19,11 +19,14 @@ function Navigation() {
 
   useEffect(() => {
     const handleKeyDown = (event) => {
-      const isNavFocused = document.activeElement && 
-                           linkRefs.current.some(ref => ref.current && ref.current.contains(document.activeElement));
+      const isNavFocused =
+        document.activeElement &&
+        linkRefs.current.some(
+          (ref) => ref.current && ref.current.contains(document.activeElement)
+        );
 
       switch (event.key) {
-        case 'ArrowLeft':
+        case "ArrowLeft":
           event.preventDefault();
           setFocusedLinkIndex((prevIndex) => {
             if (prevIndex === -1) return 3;
@@ -31,7 +34,7 @@ function Navigation() {
             return (prevIndex - 1 + navLinks.length) % navLinks.length;
           });
           break;
-        case 'ArrowRight':
+        case "ArrowRight":
           event.preventDefault();
           setFocusedLinkIndex((prevIndex) => {
             if (prevIndex === -1) return 0;
@@ -39,10 +42,13 @@ function Navigation() {
             return (prevIndex + 1) % navLinks.length;
           });
           break;
-        case 'Enter':
+        case "Enter":
           event.preventDefault();
-          if (focusedLinkIndex !== -1 && linkRefs.current[focusedLinkIndex].current) {
-            setFocusedLinkIndex(-1); 
+          if (
+            focusedLinkIndex !== -1 &&
+            linkRefs.current[focusedLinkIndex].current
+          ) {
+            setFocusedLinkIndex(-1);
             linkRefs.current[focusedLinkIndex].current.click();
           }
           break;
@@ -51,18 +57,27 @@ function Navigation() {
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener("keydown", handleKeyDown);
     };
   }, [navLinks.length, focusedLinkIndex]);
 
   useEffect(() => {
-    if (focusedLinkIndex !== -1 && linkRefs.current[focusedLinkIndex] && linkRefs.current[focusedLinkIndex].current) {
+    if (
+      focusedLinkIndex !== -1 &&
+      linkRefs.current[focusedLinkIndex] &&
+      linkRefs.current[focusedLinkIndex].current
+    ) {
       linkRefs.current[focusedLinkIndex].current.focus();
     } else if (focusedLinkIndex === -1) {
-      if (document.activeElement && linkRefs.current.some(ref => ref.current && ref.current.contains(document.activeElement))) {
+      if (
+        document.activeElement &&
+        linkRefs.current.some(
+          (ref) => ref.current && ref.current.contains(document.activeElement)
+        )
+      ) {
         document.activeElement.blur();
       }
     }
@@ -74,8 +89,10 @@ function Navigation() {
         <NavLink
           key={link.to}
           to={link.to}
-          className={({ isActive }) => 
-            `nav-item ${isActive ? 'active' : ''} ${focusedLinkIndex === index ? 'focused' : ''}`
+          className={({ isActive }) =>
+            `nav-item ${isActive ? "active" : ""} ${
+              focusedLinkIndex === index ? "focused" : ""
+            }`
           }
           ref={linkRefs.current[index]}
           tabIndex={0}

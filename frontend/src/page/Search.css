@@ -1,0 +1,35 @@
+.content-page {
+  width: 240px;
+  height: 320px;
+  color: #fff;
+}
+
+.search-bar {
+  position: absolute;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  padding: auto;
+  top: 7%;
+  display: flex;
+  overflow: hidden;
+}
+
+.search-input {
+  flex: 1;
+  padding: auto;
+  border: none;
+  outline: none;
+}
+
+.search-button {
+  border: none;
+  padding: auto;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+}
+
+.search-button:hover {
+  background-color: #0056b3;
+}

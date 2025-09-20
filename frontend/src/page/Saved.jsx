@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Saved.css";
 import Navigation from "../components/navigation";
 import JobElement from "../components/job_element";
@@ -8,6 +9,7 @@ function SavedPage() {
   const [saved_jobs, set_saved_jobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchSavedJobs();
@@ -26,6 +28,10 @@ function SavedPage() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleLoginRedirect = () => {
+    navigate("/login");
   };
 
   const handleJobUnsaved = (unsavedJob) => {
@@ -55,8 +61,8 @@ function SavedPage() {
       {error && (
         <div className="error-message">
           {error}
-          <button onClick={fetchSavedJobs} className="retry-button">
-            Retry
+          <button onClick={handleLoginRedirect} className="login-button">
+            Login
           </button>
         </div>
       )}

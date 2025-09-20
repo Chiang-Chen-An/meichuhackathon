@@ -21,7 +21,7 @@
   border-radius: 8px;
 }
 
-/* Fixed bottom bar with 4 equal-width text items */
+/* Fixed bottom bar with 5 equal-width text items */
 .fixed-bottom-bar {
   position: fixed;
   bottom: 0;
@@ -29,12 +29,12 @@
   width: 100%;
   background-color: #333;
   color: white;
-  font-size: 14px; /* Adjust font size for small screen */
+  font-size: 12px; /* 調小字體大小 */
   z-index: 9999;
   display: flex;
   justify-content: space-evenly; /* Distribute space evenly between items */
   align-items: center; /* Vertically center content */
-  padding: 5px 0;
+  padding: 8px 0;
   box-sizing: border-box;
 }
 
@@ -43,18 +43,50 @@
   text-align: center;
   white-space: nowrap;
   transition: all 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .fixed-bottom-bar .text-item svg {
-  font-size: 30px;
+  font-size: 24px; /* 調小圖示大小 */
   color: #b3b3b3; /* Default icon color (inactive) */
   transition: color 0.3s ease; /* Smooth color transition */
 }
 
-.fixed-bottom-bar .text-item a {
+.fixed-bottom-bar .text-item a,
+.fixed-bottom-bar .text-item button {
   text-decoration: none; /* Remove underline */
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
 }
 
-.fixed-bottom-bar .text-item a:hover svg {
-  color: #555555; /* Hover effect for icons */
+.fixed-bottom-bar .text-item a:hover svg,
+.fixed-bottom-bar .text-item button:hover svg {
+  color: #007bff; /* 懸停效果 */
+}
+
+.fixed-bottom-bar .text-item a.active svg,
+.fixed-bottom-bar .text-item button.active svg {
+  color: #007bff; /* 活躍狀態顏色 */
+}
+
+.fixed-bottom-bar .text-item span {
+  font-size: 10px;
+  margin-top: 2px;
+  color: #b3b3b3;
+  transition: color 0.3s ease;
+}
+
+.fixed-bottom-bar .text-item a:hover span,
+.fixed-bottom-bar .text-item button:hover span {
+  color: #007bff;
+}
+
+.fixed-bottom-bar .text-item a.active span,
+.fixed-bottom-bar .text-item button.active span {
+  color: #007bff;
 }

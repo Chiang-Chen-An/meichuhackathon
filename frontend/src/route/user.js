@@ -26,10 +26,48 @@ export async function register(data) {
 
 export async function updateUsername() {
     try {
-        const base_url = 'http://127.0.0.1:8000';
-        const response = await axios.post(`${base_url}/update/username`, data);
+        const base_url = 'http://localhost:8000';
+        const response = await axios.post(`${base_url}/update/username`, data, {
+            withCredentials: true
+        });
         return response.data;
     } catch (error) {
         throw error.response ? error.response.data: error;
+    }
+}
+
+export async function getCurrentUser() {
+    try {
+        const base_url = 'http://localhost:8000';
+        const response = await axios.get(`${base_url}/current_user`, {
+            withCredentials: true
+        });
+        return response.data;
+    } catch (error) {
+        throw error.response ? error.response.data : error;
+    }
+}
+
+export async function updateProfile(data) {
+    try {
+        const base_url = 'http://localhost:8000';
+        const response = await axios.put(`${base_url}/user/profile`, data, {
+            withCredentials: true
+        });
+        return response.data;
+    } catch (error) {
+        throw error.response ? error.response.data : error;
+    }
+}
+
+export async function logout() {
+    try {
+        const base_url = 'http://localhost:8000';
+        const response = await axios.post(`${base_url}/logout`, {}, {
+            withCredentials: true
+        });
+        return response.data;
+    } catch (error) {
+        throw error.response ? error.response.data : error;
     }
 }

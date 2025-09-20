@@ -24,6 +24,7 @@ class User(db.Model):
         return {
             'user_id': self.user_id,
             'username': self.username,
+            'phone_number': self.phone_number,  # 添加電話號碼
             'email': self.email,
             'created_at': self.created_at.isoformat()
         }

@@ -93,7 +93,7 @@
   max-width: 500px;
 }
 
-.retry-button {
+.login-button {
   background-color: #4caf50;
   color: white;
   border: none;
@@ -105,7 +105,7 @@
   transition: background-color 0.3s ease;
 }
 
-.retry-button:hover {
+.login-button:hover {
   background-color: #45a049;
 }
 

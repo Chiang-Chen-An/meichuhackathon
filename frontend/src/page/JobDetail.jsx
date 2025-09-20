@@ -8,6 +8,7 @@ import { MdDateRange } from "react-icons/md";
 import { BiCategory } from "react-icons/bi";
 import { savedJob, unsaveJob, checkJobSaved } from "../route/userJob";
 import "./JobDetail.css";
+import { API_BASE_URL } from "../config";
 
 function JobDetailPage() {
   const { jobId } = useParams();
@@ -95,7 +96,7 @@ function JobDetailPage() {
           loop
           muted
           x-puffin-playsinline=""
-        > 
+        >
           <source src={`${API_BASE_URL}/job/${jobId}/video`} type="video/mp4" />
         </video>
       </div>

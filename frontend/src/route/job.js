@@ -1,8 +1,9 @@
 import axios from 'axios';
+import  { API_BASE_URL } from '../config/config'
 
 export async function get_jobs() {
     try {
-        const base_url = 'http://localhost:8000';
+        const base_url = API_BASE_URL;
         const response = await axios.get(`${base_url}/job`, {
             withCredentials: true
         });
@@ -22,7 +23,7 @@ export async function get_jobs_by_keyword(data) {
     // }
 
     try {
-        const base_url = 'http://localhost:8000';
+        const base_url = API_BASE_URL;
         const response = await axios.post(`${base_url}/search/jobs`, data, {
             withCredentials: true
         });
@@ -34,7 +35,7 @@ export async function get_jobs_by_keyword(data) {
 
 export async function createJob(data) {
     try {
-        const base_url = 'http://127.0.0.1:8000';
+        const base_url = API_BASE_URL;
         const response = await axios.post(`${base_url}/job`, data);
         return response.data;
     } catch (error) {
@@ -44,7 +45,7 @@ export async function createJob(data) {
 
 export async function get_job_by_job_id(job_id) {
     try {
-        const base_url = 'http://127.0.0.1:8000';
+        const base_url = API_BASE_URL;
         const response = await axios.get(`${base_url}/job/${job_id}`)
         return response.data;
     } catch (error) {

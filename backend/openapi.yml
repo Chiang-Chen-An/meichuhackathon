@@ -7,10 +7,6 @@ info:
     
     - 所有 API 回傳 JSON。
 
-servers:
-  - url: http://203.116.30.127:8000
-    description: PROD
-  
 tags:
   - User
   - Job

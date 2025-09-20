@@ -1,6 +1,8 @@
 from flasgger import Swagger
 from flask import Flask
 # from flask_migrate import Migrate
+import os
+from dotenv import load_dotenv
 from flask_restful import Api
 from models import db, migrate
 from controller.User import user_bp
@@ -13,13 +15,20 @@ from flask_cors import CORS
 
 from controller.search import search_bp
 
+load_dotenv()
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://user:user@mysql:3306/db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # 設定 secret key 用於 session 管理
 app.config['SECRET_KEY'] = 'meichuhackathon2024-super-secret-key-for-session-management'
+
+SERVER_HOST = os.getenv('SERVER_HOST')
+SERVER_PORT = os.getenv('SERVER_PORT')
+SERVER_PROTOCOL = os.getenv('SERVER_PROTOCOL')
+
 # 設定 CORS 支援 credentials
-CORS(app, supports_credentials=True, origins=['http://localhost:5173', 'http://127.0.0.1:5173', 'http://203.116.30.127:5173'])
+CORS(app, supports_credentials=True, origins=['http://localhost:5173', 'http://127.0.0.1:5173', f'{SERVER_PROTOCOL}://{SERVER_HOST}:5173'])
 db.init_app(app)
 migrate.init_app(app, db)
 app.config['SWAGGER'] = {
@@ -28,7 +37,13 @@ app.config['SWAGGER'] = {
     "version": "1.0.0",
     "termsOfService": "",
     "openapi": "3.0.2",
-    "hide_top_bar": True
+    "hide_top_bar": True,
+    "servers": [
+        {
+            "url": f"{SERVER_PROTOCOL}://{SERVER_HOST}:{SERVER_PORT}",
+            "description": "Current Environment"
+        }
+    ]
 }
 
 swag = Swagger(app, template_file = 'openapi.yml')

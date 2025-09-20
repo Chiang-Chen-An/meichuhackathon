@@ -1,9 +1,10 @@
 import axios from 'axios';
+import  { API_BASE_URL } from '../config/config'
 
 
 export async function savedJob(data) {
     try {
-        const base_url = 'http://localhost:8000';
+        const base_url = API_BASE_URL;
         const response = await axios.post(`${base_url}/user/jobs`, data, {
             withCredentials: true
         });
@@ -15,7 +16,7 @@ export async function savedJob(data) {
 
 export async function getSavedJob() {
     try {
-        const base_url = 'http://localhost:8000';
+        const base_url = API_BASE_URL;
         const response = await axios.get(`${base_url}/user/jobs`, {
             withCredentials: true
         });
@@ -27,7 +28,7 @@ export async function getSavedJob() {
 
 export async function checkJobSaved(jobId) {
     try {
-        const base_url = 'http://localhost:8000';
+        const base_url = API_BASE_URL;
         const response = await axios.get(`${base_url}/user/jobs/check/${jobId}`, {
             withCredentials: true
         });
@@ -39,7 +40,7 @@ export async function checkJobSaved(jobId) {
 
 export async function batchCheckJobsSaved(jobIds) {
     try {
-        const base_url = 'http://localhost:8000';
+        const base_url = API_BASE_URL;
         const response = await axios.post(`${base_url}/user/jobs/batch_check`, {
             job_ids: jobIds
         }, {
@@ -53,7 +54,7 @@ export async function batchCheckJobsSaved(jobIds) {
 
 export async function unsaveJob(jobId) {
     try {
-        const base_url = 'http://localhost:8000';
+        const base_url = API_BASE_URL;
         const response = await axios.delete(`${base_url}/user/jobs/${jobId}`, {
             withCredentials: true
         });

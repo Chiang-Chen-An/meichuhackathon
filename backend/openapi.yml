@@ -15,6 +15,7 @@ tags:
   - User
   - Job
   - Recruit
+  - Search
 
 paths:
   /user/{user_id}:
@@ -1043,6 +1044,105 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+
+  /search/jobs:
+    get:
+      tags: [Search]
+      summary: Search jobs
+      description: Search for jobs by name, type, or date range
+      parameters:
+        - in: query
+          name: name
+          schema:
+            type: string
+          description: Search jobs by name (partial match)
+          example: "工程師"
+        - in: query
+          name: type
+          schema:
+            type: string
+          description: Search jobs by type (partial match)
+          example: "服務業"
+        - in: query
+          name: date_start
+          schema:
+            type: string
+            format: date
+          description: Search jobs available from this date (YYYY-MM-DD)
+          example: "2023-12-01"
+        - in: query
+          name: date_end
+          schema:
+            type: string
+            format: date
+          description: Search jobs available until this date (YYYY-MM-DD)
+          example: "2023-12-31"
+        - in: query
+          name: status
+          schema:
+            type: string
+            enum: [open, closed]
+            default: open
+          description: Filter by job status
+          example: "open"
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  search_params:
+                    type: object
+                    description: Applied search parameters
+                    properties:
+                      name:
+                        type: string
+                        example: "工程師"
+                      type:
+                        type: string
+                        example: "服務業"
+                      date_start:
+                        type: string
+                        example: "2023-12-01"
+                      date_end:
+                        type: string
+                        example: "2023-12-31"
+                      status:
+                        type: string
+                        example: "open"
+                  total_results:
+                    type: integer
+                    example: 5
+                  jobs:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Job'
+        '400':
+          description: Invalid date format or date range
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    examples:
+                      invalid_format:
+                        value: "Invalid date_start format. Please use YYYY-MM-DD format"
+                      invalid_range:
+                        value: "Search start date must be earlier than search end date"
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Failed to search jobs"
 
 components:
   schemas:

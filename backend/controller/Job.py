@@ -55,7 +55,7 @@ def createJob():
         end_date = datetime.strptime(date_end, '%Y-%m-%d').date()
         
         # 驗證開始日期必須早於結束日期
-        if start_date >= end_date:
+        if start_date > end_date:
             return { 'message': 'Date start must be earlier than date end' }, 400
             
     except ValueError as e:

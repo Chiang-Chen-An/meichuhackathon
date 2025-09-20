@@ -77,11 +77,8 @@ function HomePage() {
               key={videos[currentIndex].videoUrl}
               autoPlay
               loop
-              x-puffin-playsinline
-              // playsInline
-              // webkit-playsinline
-              // disablePictureInPicture
-              disablePictureInPicture
+              muted
+              x-puffin-playsinline=""
             >
               <source src={videos[currentIndex].videoUrl} type="video/mp4" />
             </video>
@@ -101,11 +98,7 @@ function HomePage() {
                     autoPlay
                     loop
                     muted
-                    // playsInline
-                    // webkit-playsinline
-                    // disablePictureInPicture
-                    x-puffin-playsinline
-                    disablePictureInPicture
+                    x-puffin-playsinline=""
                   >
                     <source src={video.videoUrl} type="video/mp4" />
                   </video>

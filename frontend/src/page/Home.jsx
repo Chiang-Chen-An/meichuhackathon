@@ -6,6 +6,7 @@ import './Home.css';
 function HomePage() {
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [nav, setNavMode] = useState(0);
   const [mode, setMode] = useState('short');
   
   const videos = [ // TODO: 模擬影片用的靜態array，這邊要改成從資料庫抓影片
@@ -15,12 +16,18 @@ function HomePage() {
   ];
 
   const handleKeyDown = (event) => {
-    if (event.key === "ArrowDown") {
+    if (nav === 0 && event.key === "ArrowRight") {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % videos.length);
-    } else if (event.key === "ArrowUp") {
+    } else if (nav === 0 && event.key === "ArrowLeft") {
       setCurrentIndex((prevIndex) => (prevIndex - 1 + videos.length) % videos.length);
-    }else if (event.key === "enter") {
+    }else if (nav === 0 && event.key === "enter") {
       setCurrentIndex((prevIndex) => (prevIndex - 1 + videos.length) % videos.length); // 改成 把現在的短影音加入收藏
+    }else if (event.key === "LSK") {
+      setNavMode(1);
+      console.log("nav 1");
+    }else if (event.key == "RSK") {
+      setNavMode(0);
+      console.log("nav 0");
     }
     console.log("Current Image Path:", videos[currentIndex].image);
   };

@@ -5,6 +5,7 @@ import "./navigation.css";
 
 function Navigation() {
   const [focusedLinkIndex, setFocusedLinkIndex] = useState(-1);
+  const [nav, setNavMode] = useState(0);
   const isLoggedIn = false;//localStorage.getItem("isLoggedIn") === true;
 
   const iconMap = {
@@ -50,6 +51,7 @@ function Navigation() {
         case "ArrowLeft":
           event.preventDefault();
           setFocusedLinkIndex((prevIndex) => {
+            if(nav === 0) return -1;
             if (prevIndex === -1) return 3;
             if (prevIndex === 0) return -1;
             return (prevIndex - 1 + navLinks.length) % navLinks.length;
@@ -58,6 +60,7 @@ function Navigation() {
         case "ArrowRight":
           event.preventDefault();
           setFocusedLinkIndex((prevIndex) => {
+            if(nav === 0) return -1;
             if (prevIndex === -1) return 0;
             if (prevIndex === 3) return -1;
             return (prevIndex + 1) % navLinks.length;
@@ -66,12 +69,23 @@ function Navigation() {
         case "Enter":
           event.preventDefault();
           if (
+            nav === 1 &&
             focusedLinkIndex !== -1 &&
             linkRefs.current[focusedLinkIndex].current
           ) {
             setFocusedLinkIndex(-1);
             linkRefs.current[focusedLinkIndex].current.click();
           }
+          break;
+        case ("RSK" || "9"):
+          setNavMode(0);
+          console.log("nav 0");
+          break;
+        case ("LSK" || "0"):
+          setNavMode(1);
+          console.log("nav 1");
+          event.preventDefault();
+          setFocusedLinkIndex(0);
           break;
         default:
           break;

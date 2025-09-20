@@ -29,8 +29,8 @@ class Job(db.Model):
             'job_id': self.job_id,
             'job_name': self.job_name,
             'type': self.job_type,
-            'payment': f'{self.payment_low} - {self.payment_high}',
-            'date': f'{self.date_end} - {self.date_start}',
+            'payment': f'{self.payment_low} ~ {self.payment_high}',
+            'date': f'{self.date_start} ~ {self.date_end}',
             'job_provider_id': self.provider_id,
             'create_at': self.created_at
         }

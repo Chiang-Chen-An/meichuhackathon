@@ -2,6 +2,7 @@ from models.User import User
 from models.Job import Job
 from models import db
 from flask import request, jsonify, Blueprint
+from datetime import datetime
 
 job_bp = Blueprint('job', __name__)
 
@@ -44,14 +45,26 @@ def createJob():
     if not job_name or not payment_low or not payment_high or not date_start or not date_end or not provider_id:
         return { 'message': 'Lack of necessary information' }, 400
     
+    # 驗證日期格式和邏輯
+    try:
+        # 嘗試解析日期字符串（假設格式為 YYYY-MM-DD）
+        start_date = datetime.strptime(date_start, '%Y-%m-%d').date()
+        end_date = datetime.strptime(date_end, '%Y-%m-%d').date()
+        
+        # 驗證開始日期必須早於結束日期
+        if start_date >= end_date:
+            return { 'message': 'Date start must be earlier than date end' }, 400
+            
+    except ValueError as e:
+        return { 'message': 'Invalid date format. Please use YYYY-MM-DD format' }, 400
 
     try:
         job = Job(
             job_name = job_name,
             payment_low = payment_low,
             payment_high = payment_high,
-            date_start = date_start,
-            date_end = date_end,
+            date_start = start_date,
+            date_end = end_date,
             job_type = job_type,
             provider_id = provider_id
         )

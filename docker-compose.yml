@@ -31,7 +31,7 @@ services:
       - "8000:8000"
     volumes:
       - ./backend:/app
-    command: ["flask", "--app", "app:app", "run", "--debug", "--host=0.0.0.0", "--port=8000"]
+    # command: ["flask", "--app", "app:app", "run", "--debug", "--host=0.0.0.0", "--port=8000"]
     environment:
       DB_HOST: mysql
       DB_PORT: 3306
@@ -60,3 +60,4 @@ services:
 
 volumes:
   mysql-data:
+  minio_data:

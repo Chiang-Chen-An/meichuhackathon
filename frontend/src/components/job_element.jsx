@@ -27,7 +27,7 @@ function JobElement({
       const response = await checkJobSaved(job.job_id);
       setIsSaved(response.is_saved);
     } catch (error) {
-      console.error("Check saved status failed:", error);
+      console.error('Check saved status failed:', error);
     } finally {
       setIsCheckingStatus(false);
     }
@@ -56,22 +56,22 @@ function JobElement({
   };
 
   const handleUnsaveJob = async () => {
-    if (!window.confirm("確定要取消收藏這個工作嗎？")) {
+    if (!window.confirm('確定要取消收藏這個工作嗎？')) {
       return;
     }
-
+    
     try {
       setIsUnsaving(true);
       const response = await unsaveJob(job.job_id);
       console.log("Unsave job successful:", response);
       setIsSaved(false);
 
+      
       if (onUnsave) {
         onUnsave(job);
       }
     } catch (error) {
-      console.error("Unsave job failed:", error);
-      alert(error.message || "Failed to unsave job");
+      console.error('Unsave job failed:', error);
     } finally {
       setIsUnsaving(false);
     }
@@ -95,13 +95,7 @@ function JobElement({
               onClick={handleSaveJob}
               disabled={isSaving || isSaved || isCheckingStatus}
             >
-              {isCheckingStatus
-                ? "檢查中..."
-                : isSaving
-                ? "收藏中..."
-                : isSaved
-                ? "已收藏"
-                : "收藏"}
+              {isCheckingStatus ? 'Checking...' : isSaving ? 'Saving...' : isSaved ? 'Saved' : 'Save'}
             </button>
           )}
 
@@ -111,7 +105,7 @@ function JobElement({
               onClick={handleUnsaveJob}
               disabled={isUnsaving}
             >
-              {isUnsaving ? "取消中..." : "取消收藏"}
+              {isUnsaving ? 'Removing...' : 'Remove from Saved'}
             </button>
           )}
         </div>

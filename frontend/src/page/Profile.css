@@ -1,4 +1,3 @@
-/* 針對 240x320 小螢幕優化的樣式 - 參照 Home 頁面設計 */
 .profile-content-page {
   display: flex;
   flex-direction: column;
@@ -159,8 +158,8 @@
   cursor: pointer;
   transition: all 0.3s ease;
   flex: 1;
-  min-width: 45px;
-  max-width: 70px;
+  min-width: 60px;
+  max-width: 90px;
 }
 
 .btn-primary {

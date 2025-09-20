@@ -154,7 +154,7 @@ function ProfilePage() {
   return (
     <div className="profile-content-page">
       <div className="profile-header">
-        <h2>{showUpdateForm ? "Edit Profile" : "Profile"}</h2>
+        <h2>{showUpdateForm ? "Update Profile" : "Profile"}</h2>
       </div>
 
       <div className="profile-container">
@@ -162,30 +162,27 @@ function ProfilePage() {
           <div className="user-info-compact">
             <div className="info-item">
               <span className="info-label">User ID:</span>
+              <span className="info-label">User ID:</span>
               <span className="info-value">{user.user_id}</span>
             </div>
             <div className="info-item">
-              <span className="info-label">Phone Num.:</span>
-              <span className="info-value">
-                {user.phone_number || "Not set"}
-              </span>
+              <span className="info-label">Phone:</span>
+              <span className="info-value">{user.phone_number || "Not set"}</span>
             </div>
             <div className="info-item email-item">
               <span className="info-label">Email:</span>
-              <div className="info-value email-wrap">
-                {user.email || "Not set"}
-              </div>
+              <div className="info-value email-wrap">{user.email || "Not set"}</div>
             </div>
             <div className="info-item">
               <span className="info-label">Username:</span>
               <span className="info-value">{user.username || "Not set"}</span>
+              <span className="info-label">Username:</span>
+              <span className="info-value">{user.username || "Not set"}</span>
             </div>
             <div className="info-item">
-              <span className="info-label">Register Date:</span>
+              <span className="info-label">Created:</span>
               <span className="info-value">
-                {user.created_at
-                  ? new Date(user.created_at).toLocaleDateString()
-                  : "Unknown"}
+                {user.created_at ? new Date(user.created_at).toLocaleDateString() : "Unknown"}
               </span>
             </div>
 
@@ -203,7 +200,7 @@ function ProfilePage() {
                 onClick={handleLogout}
                 disabled={loggingOut}
               >
-                {loggingOut ? "Logging out..." : "Log out"}
+                {loggingOut ? "Logging out..." : "Logout"}
               </button>
             </div>
           </div>
@@ -211,17 +208,18 @@ function ProfilePage() {
           <form onSubmit={handleUpdateProfile} className="profile-form-compact">
             <div className="form-group-compact">
               <label className="form-label-compact">Email:</label>
+              <label className="form-label-compact">Email:</label>
               <input
                 type="email"
                 className="form-input-compact"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter new Email"
+                placeholder="Enter new email"
               />
             </div>
 
             <div className="form-group-compact">
-              <label className="form-label-compact">New password:</label>
+              <label className="form-label-compact">新密碼:</label>
               <input
                 type="password"
                 className="form-input-compact"
@@ -232,13 +230,13 @@ function ProfilePage() {
             </div>
 
             <div className="form-group-compact">
-              <label className="form-label-compact">Confirm password:</label>
+              <label className="form-label-compact">Confirm Password:</label>
               <input
                 type="Password"
                 className="form-input-compact"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="Re-enter new password"
+                placeholder="再次輸入新密碼"
               />
             </div>
 
@@ -279,18 +277,18 @@ function ProfilePage() {
         <div className="modal-overlay">
           <div className="modal-content">
             <div className="modal-header">
-              <h3>✅ Update success</h3>
+              <h3>✅ Update Successful</h3>
             </div>
             <div className="modal-body">
-              <p>Password update successfully!</p>
-              <p>Please re-login</p>
+              <p>Password updated successfully!</p>
+              <p>Please log in again for security.</p>
             </div>
             <div className="modal-footer">
               <button
                 className="btn-primary btn-small modal-btn"
                 onClick={handlePasswordUpdateConfirm}
               >
-                Login
+                Go to Login
               </button>
             </div>
           </div>
@@ -301,11 +299,11 @@ function ProfilePage() {
         <div className="modal-overlay">
           <div className="modal-content">
             <div className="modal-header">
-              <h3>⚠️ Confirm logout</h3>
+              <h3>⚠️ Confirm Logout</h3>
             </div>
             <div className="modal-body">
-              <p>Are you sure?</p>
-              <p>You will return to homepage</p>
+              <p>Are you sure you want to logout?</p>
+              <p>You will be redirected to the home page.</p>
             </div>
             <div className="modal-footer">
               <button
@@ -314,7 +312,7 @@ function ProfilePage() {
                 disabled={loggingOut}
                 style={{ marginRight: "6px" }}
               >
-                {loggingOut ? "Logging out" : "Log out"}
+                {loggingOut ? "Logging out..." : "Confirm Logout"}
               </button>
               <button
                 className="btn-secondary btn-small modal-btn"

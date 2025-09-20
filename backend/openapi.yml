@@ -14,6 +14,7 @@ servers:
 tags:
   - User
   - Job
+  - Recruit
 
 paths:
   /user/{user_id}:
@@ -164,6 +165,67 @@ paths:
                   error:
                     type: string
                     example: "Invalid phone number or password"
+
+  /logout:
+    post:
+      tags: [User]
+      summary: Logout user
+      description: Clear user session and logout
+      responses:
+        '200':
+          description: Logout successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Logout successfully"
+
+  /current_user:
+    get:
+      tags: [User]
+      summary: Get current logged in user
+      description: Retrieve information about the currently logged in user from session
+      responses:
+        '200':
+          description: Current user information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: integer
+                    example: 123
+                  email:
+                    type: string
+                    example: "user@example.com"
+                  created_at:
+                    type: string
+                    format: date
+                    example: "2023-11-01"
+        '401':
+          description: Not logged in
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Not logged in"
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "User not found"
   
   /job/{job_id}:
     get:
@@ -388,3 +450,390 @@ paths:
                   message:
                     type: string
                     example: "No jobs found"
+
+  /recruit/apply:
+    post:
+      tags: [Recruit]
+      summary: Apply for a job
+      description: Submit a job application (simplified version - only requires job_id, applicant_id automatically obtained from session)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - job_id
+              properties:
+                job_id:
+                  type: integer
+                  description: ID of the job to apply for
+                  example: 1
+      responses:
+        '201':
+          description: Application submitted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Application submitted successfully"
+                  application:
+                    $ref: '#/components/schemas/JobApplication'
+        '400':
+          description: Bad request (missing fields, applying to own job, etc.)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Not logged in
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Applicant or Job not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Already applied for this job
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /recruit/applications/user/{user_id}:
+    get:
+      tags: [Recruit]
+      summary: Get user's job applications
+      description: Retrieve all job applications submitted by a specific user
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+          description: ID of the user
+          example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: integer
+                    example: 1
+                  applications:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/JobApplicationForApplicant'
+                  total_applications:
+                    type: integer
+                    example: 1
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /recruit/applications/job/{job_id}:
+    get:
+      tags: [Recruit]
+      summary: Get job applications for a specific job
+      description: Retrieve all applications for a specific job (for employers only - automatically verified through session)
+      parameters:
+        - in: path
+          name: job_id
+          required: true
+          schema:
+            type: integer
+          description: ID of the job
+          example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  job_id:
+                    type: integer
+                    example: 1
+                  job_name:
+                    type: string
+                    example: "軟體工程師"
+                  applications:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/JobApplicationForEmployer'
+                  total_applications:
+                    type: integer
+                    example: 1
+        '401':
+          description: Not logged in
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Not authorized to view this job's applications
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Job not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /recruit/application/{application_id}/review:
+    put:
+      tags: [Recruit]
+      summary: Review a job application
+      description: Employer can accept or reject a job application (employer identity automatically verified through session)
+      parameters:
+        - in: path
+          name: application_id
+          required: true
+          schema:
+            type: integer
+          description: ID of the application to review
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - action
+              properties:
+                action:
+                  type: string
+                  enum: [accept, reject]
+                  description: Action to take on the application
+                  example: "accept"
+      responses:
+        '200':
+          description: Application reviewed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Application accepted successfully"
+                  application:
+                    $ref: '#/components/schemas/JobApplication'
+        '400':
+          description: Bad request (invalid action or already reviewed)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Not logged in
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Not authorized to review this application
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Application not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /recruit/application/{application_id}:
+    get:
+      tags: [Recruit]
+      summary: Get application details
+      description: Retrieve details of a specific job application
+      parameters:
+        - in: path
+          name: application_id
+          required: true
+          schema:
+            type: integer
+          description: ID of the application
+          example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobApplication'
+        '404':
+          description: Application not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    
+    delete:
+      tags: [Recruit]
+      summary: Withdraw application
+      description: Applicant can withdraw their job application (only if not yet reviewed, applicant identity automatically verified through session)
+      parameters:
+        - in: path
+          name: application_id
+          required: true
+          schema:
+            type: integer
+          description: ID of the application to withdraw
+          example: 1
+      responses:
+        '200':
+          description: Application withdrawn successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Application withdrawn successfully"
+        '400':
+          description: Cannot withdraw reviewed application
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Not logged in
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Not authorized to withdraw this application
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Application not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Application not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+          example: "An error occurred"
+    
+    JobApplication:
+      type: object
+      properties:
+        application_id:
+          type: integer
+          example: 1
+        applicant_id:
+          type: integer
+          example: 1
+        job_id:
+          type: integer
+          example: 1
+        job_name:
+          type: string
+          example: "軟體工程師"
+        applicant_email:
+          type: string
+          example: "applicant@example.com"
+        status:
+          type: string
+          enum: [applied, accepted, rejected]
+          example: "applied"
+        applied_at:
+          type: string
+          format: date-time
+          example: "2023-11-15T10:30:00.000Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2023-11-15T10:30:00.000Z"
+    
+    JobApplicationForApplicant:
+      type: object
+      properties:
+        application_id:
+          type: integer
+          example: 1
+        job_id:
+          type: integer
+          example: 1
+        job_name:
+          type: string
+          example: "軟體工程師"
+        company_email:
+          type: string
+          example: "company@example.com"
+        status:
+          type: string
+          enum: [applied, accepted, rejected]
+          example: "applied"
+        applied_at:
+          type: string
+          format: date-time
+          example: "2023-11-15T10:30:00.000Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2023-11-15T10:30:00.000Z"
+    
+    JobApplicationForEmployer:
+      type: object
+      properties:
+        application_id:
+          type: integer
+          example: 1
+        applicant_id:
+          type: integer
+          example: 1
+        applicant_email:
+          type: string
+          example: "applicant@example.com"
+        status:
+          type: string
+          enum: [applied, accepted, rejected]
+          example: "applied"
+        applied_at:
+          type: string
+          format: date-time
+          example: "2023-11-15T10:30:00.000Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2023-11-15T10:30:00.000Z"

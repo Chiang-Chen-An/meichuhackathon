@@ -1,6 +1,6 @@
 from models.User import User
 from models import db
-from flask import request, jsonify, Blueprint
+from flask import request, jsonify, Blueprint, session
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -70,9 +70,13 @@ def login():
         if not check:
             return { 'message': 'phone number or password not correct' }, 401
         
+        # 設定 session 記錄登入狀態
+        session['user_id'] = user.user_id
+        session['phone_number'] = user.phone_number
+        
         return { 
             'message': 'Login Successfully',
-            'User': user.__repr__()
+            'User': user.to_dict()
         }, 200
     
     except Exception as e:
@@ -80,3 +84,23 @@ def login():
             'message': 'Login Failed',
             'error': str(e)
         }, 500
+
+@user_bp.route('/logout', methods=['POST'])
+def logout():
+    """登出並清除 session"""
+    session.clear()
+    return {'message': 'Logout successfully'}, 200
+
+@user_bp.route('/current_user', methods=['GET'])
+def get_current_user():
+    """取得當前登入的使用者資訊"""
+    user_id = session.get('user_id')
+    if not user_id:
+        return {'message': 'Not logged in'}, 401
+    
+    user = User.query.get(user_id)
+    if not user:
+        session.clear()  # 清除無效的 session
+        return {'message': 'User not found'}, 404
+    
+    return jsonify(user.to_dict()), 200

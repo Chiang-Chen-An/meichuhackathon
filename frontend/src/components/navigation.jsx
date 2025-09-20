@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { NavLink, useNavigate, useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import { FaHome, FaSearch, FaBookmark, FaUser } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
 import { getCurrentUser } from '../route/user';
@@ -9,6 +9,7 @@ function Navigation() {
   const [nav, setNavMode] = useState(0);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [focusedLinkIndex, setFocusedLinkIndex] = useState(-1);
   const navigate = useNavigate();
 
   // 檢查登入狀態
@@ -92,7 +93,7 @@ function Navigation() {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [navLinks.length, focusedLinkIndex]);
+  }, [nav, navigate, navLinks]);
 
   useEffect(() => {
     if (

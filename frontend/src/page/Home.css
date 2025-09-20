@@ -14,7 +14,7 @@
 
 /* Mode Toggle Button */
 .mode-toggle-button {
-  background-color: #333;
+  background-color: rgba(127, 127, 127, 0.5);
   color: #fff;
   border: none;
   font-size: 14pt; /* Adjust font size for better readability */
@@ -22,15 +22,15 @@
   cursor: pointer;
   padding: 5pt;
   position: absolute;
-  top: 10pt;
-  right: 10pt;
+  top: 5pt;
+  right: 5pt;
   z-index: 10;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 4pt;
-  width: 30pt;
-  height: 30pt;
+  width: 20pt;
+  height: 20pt;
 }
 
 .mode-toggle-button i {
@@ -58,7 +58,7 @@
   overflow: hidden;
   background-color: #1a1a1a;
   box-shadow: 0 2pt 4pt rgba(0, 0, 0, 0.3);
-  width: 100%;  /* Ensure it takes up full width */
+  width: 100%; /* Ensure it takes up full width */
   height: 100%; /* Ensure it takes up full height */
   max-width: 100%; /* Prevent width from exceeding the screen width */
   max-height: 100%; /* Prevent height from exceeding the screen height */
@@ -128,7 +128,11 @@
   left: 0;
   right: 0;
   padding: 15pt;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.7) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
   color: white; /* Ensure text is visible */
 }
 
@@ -137,7 +141,6 @@
   margin: 0;
   padding: 5pt 0;
 }
-
 
 /* Specific styles for 'list' video mode */
 .video-list {
@@ -149,7 +152,7 @@
   padding: 0pt;
   box-sizing: border-box;
   border: none;
-  margin-top: 10%;
+  margin-top: 5%;
 }
 
 .video-list .video-item {
@@ -164,25 +167,25 @@
 }
 
 .video-list .video-item .video-container {
-  flex: 0 0 40%;               /* 60% of the width for video */
-  height: 100%;                /* Let video scale based on aspect ratio */
+  flex: 0 0 40%; /* 60% of the width for video */
+  height: 100%; /* Let video scale based on aspect ratio */
   display: flex;
-  justify-content: center;     /* Center video inside container */
+  justify-content: center; /* Center video inside container */
 }
 
 .video-list .video-item .video {
-  width: 100%;                 /* Ensure video fills its container */
-  height: auto;                /* Maintain aspect ratio */
-  object-fit: cover;         /* Fit the video nicely inside container */
-  border: none;                /* Optional: remove borders */
+  width: 100%; /* Ensure video fills its container */
+  height: auto; /* Maintain aspect ratio */
+  object-fit: cover; /* Fit the video nicely inside container */
+  border: none; /* Optional: remove borders */
 }
 
 .video-list .video-item .data-wrap[id="list"] {
-  flex: 0 0 60%;               /* 40% of the width for data text */
+  flex: 0 0 60%; /* 40% of the width for data text */
   padding: 10pt;
   display: flex;
   flex-direction: column;
-  justify-content: center;     /* Vertically center the text */
+  justify-content: center; /* Vertically center the text */
   color: #fff;
   box-sizing: border-box;
 }

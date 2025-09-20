@@ -1,6 +1,7 @@
 import { get_job_by_job_id } from "../route/job";
 import { useParams } from "react-router-dom";
 import React, { useState, useEffect } from "react";
+import Navigation from "../components/navigation";
 
 function JobDetailPage() {
   const { jobId } = useParams();
@@ -44,11 +45,12 @@ function JobDetailPage() {
 
   return (
     <div className="job-detail-page">
-      <p className="job-name">{job.job_name}</p>
-      <p className="job-payment">{job.payment}</p>
-      <p className="job-date">{job.date}</p>
-      <p className="job-type">{job.type}</p>
-      {/* <video
+      <div className="job-detail-container">
+        <p className="job-detail-text">Name: {job.job_name}</p>
+        <p className="job-detail-text">Payment: {job.payment}</p>
+        <p className="job-detail-text">Duration: {job.date}</p>
+        <p className="job-detail-text">Type: {job.type}</p>
+        {/* <video
         className="video"
         key={job.videoUrl}
         autoPlay
@@ -58,6 +60,8 @@ function JobDetailPage() {
       >
         <source src={job.videoUrl} type="video/mp4" />
       </video> */}
+      </div>
+      <Navigation />
     </div>
   );
 }

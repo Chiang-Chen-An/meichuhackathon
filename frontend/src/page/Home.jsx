@@ -12,7 +12,6 @@ function HomePage() {
   const navigate = useNavigate();
 
   const videos = [
-    // TODO: 模擬影片用的靜態array，這邊要改成從資料庫抓影片
     {
       id: 1,
       name: "Video 1",
@@ -43,7 +42,7 @@ function HomePage() {
     } else if (nav === 0 && event.key === "enter") {
       setCurrentIndex(
         (prevIndex) => (prevIndex - 1 + videos.length) % videos.length
-      ); // 改成 把現在的短影音加入收藏
+      );
     } else if (event.key === "LSK") {
       if (nav === 0) setNavMode(1);
       else setNavMode(0);

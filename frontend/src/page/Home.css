@@ -12,12 +12,11 @@
   border: none;
 }
 
-/* Mode Toggle Button */
 .mode-toggle-button {
   background-color: rgba(127, 127, 127, 0.5);
   color: #fff;
   border: none;
-  font-size: 14pt; /* Adjust font size for better readability */
+  font-size: 14pt;
   font-weight: 400;
   cursor: pointer;
   padding: 5pt;
@@ -41,7 +40,6 @@
   background-color: #555;
 }
 
-/* Video Screen Container */
 .video-screen {
   flex-grow: 1;
   display: flex;
@@ -51,30 +49,27 @@
   padding-bottom: 20%;
 }
 
-/* Common Video Item Styling */
 .video-item {
   display: flex;
   flex-direction: column;
   overflow: hidden;
   background-color: #1a1a1a;
   box-shadow: 0 2pt 4pt rgba(0, 0, 0, 0.3);
-  width: 100%; /* Ensure it takes up full width */
-  height: 100%; /* Ensure it takes up full height */
-  max-width: 100%; /* Prevent width from exceeding the screen width */
-  max-height: 100%; /* Prevent height from exceeding the screen height */
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
 }
 
-/* Video Image Styling */
 .video {
   width: 100%;
   height: 100%;
-  background-size: cover; /* Cover the entire area */
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   border: none;
 }
 
-/* Data Wrapper for video name and description */
 .data-wrap {
   display: flex;
   flex-direction: column;
@@ -82,11 +77,11 @@
   box-sizing: border-box;
   position: relative;
   border: none;
-  z-index: 2; /* Ensure the text sits above the image */
+  z-index: 2;
 }
 
 .video-name {
-  font-size: 14pt; /* Larger font size */
+  font-size: 14pt;
   font-weight: 900;
   margin: 0;
   color: #fff;
@@ -94,36 +89,35 @@
 }
 
 .video-data {
-  font-size: 10pt; /* Smaller description text */
+  font-size: 10pt;
   font-weight: 400;
   margin: 5pt 0 0 0;
   color: #ccc;
   line-height: 1.3;
 }
 
-/* Specific styles for 'short' video mode */
 .video-screen > .video-item {
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Center video content */
+  justify-content: center;
   align-items: center;
   width: 100%;
   height: 100%;
-  position: relative; /* Important for absolute positioning of the image */
+  position: relative;
 }
 
 .video-screen > .video-item .video-image {
-  position: absolute; /* Position the image absolutely to fill the container */
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  padding-top: 0; /* Reset padding */
+  padding-top: 0;
   border: none;
 }
 
 .video-screen > .video-item .data-wrap[name="short"] {
-  position: absolute; /* Position the text container on top of the image */
+  position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
@@ -133,21 +127,19 @@
     rgba(0, 0, 0, 0.7) 0%,
     rgba(0, 0, 0, 0) 100%
   );
-  color: white; /* Ensure text is visible */
+  color: white;
 }
 
-/* Specific styling for smaller video items */
 .video-screen > .video-item .data-wrap[name="short"] p {
   margin: 0;
   padding: 5pt 0;
 }
 
-/* Specific styles for 'list' video mode */
 .video-list {
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-height: calc(100vh - 60pt); /* Adjust height based on viewport */
+  max-height: calc(100vh - 60pt);
   overflow-y: auto;
   padding: 0pt;
   box-sizing: border-box;
@@ -167,30 +159,29 @@
 }
 
 .video-list .video-item .video-container {
-  flex: 0 0 40%; /* 60% of the width for video */
-  height: 100%; /* Let video scale based on aspect ratio */
+  flex: 0 0 40%;
+  height: 100%;
   display: flex;
-  justify-content: center; /* Center video inside container */
+  justify-content: center;
 }
 
 .video-list .video-item .video {
-  width: 100%; /* Ensure video fills its container */
-  height: auto; /* Maintain aspect ratio */
-  object-fit: cover; /* Fit the video nicely inside container */
-  border: none; /* Optional: remove borders */
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border: none;
 }
 
 .video-list .video-item .data-wrap[id="list"] {
-  flex: 0 0 60%; /* 40% of the width for data text */
+  flex: 0 0 60%;
   padding: 10pt;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Vertically center the text */
+  justify-content: center;
   color: #fff;
   box-sizing: border-box;
 }
 
-/* Navigation Arrows Styling */
 .navigation-arrows {
   position: absolute;
   top: 50%;
@@ -198,15 +189,15 @@
   z-index: 5;
   display: flex;
   justify-content: space-between;
-  padding: 0 3px; /* Padding between the arrows */
-  transform: translateY(-50%); /* Vertically center the arrows */
+  padding: 0 3px;
+  transform: translateY(-50%);
 }
 
 .arrow-left,
 .arrow-right {
   cursor: pointer;
   color: #fff;
-  background-color: rgba(0, 0, 0, 0); /* Semi-transparent background */
+  background-color: rgba(0, 0, 0, 0);
   border-radius: 50%;
   padding: 2px;
 }

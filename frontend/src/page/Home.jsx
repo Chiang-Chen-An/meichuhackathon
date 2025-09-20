@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
 import Navigation from '../components/navigation';
 import { FaExchangeAlt } from 'react-icons/fa';
-import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
+import { IoIosArrowBack, IoIosArrowForward, IoMdAdd } from 'react-icons/io';
+import { useNavigate } from "react-router-dom"; 
 import './Home.css';
 function HomePage() {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [nav, setNavMode] = useState(0);
   const [mode, setMode] = useState('short');
+
+  const navigate = useNavigate();
   
   const videos = [ // TODO: 模擬影片用的靜態array，這邊要改成從資料庫抓影片
     { id: 1, name: "Video 1", data: "Bnana is very yummy", image: "../assets/test.jpg" },
@@ -43,6 +46,9 @@ function HomePage() {
 
   return (
     <div className="home-content-page">
+      <button className="create-job-button" onClick={() => navigate("/createJob")}>
+        <IoMdAdd size={20} />
+      </button>
       <button className="mode-toggle-button" onClick={toggleMode}>
         <FaExchangeAlt size={20} />
       </button>

@@ -41,6 +41,34 @@
   background-color: #555;
 }
 
+.create-job-button {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  font-size: 14pt; /* Adjust font size for better readability */
+  font-weight: 400;
+  cursor: pointer;
+  padding: 5pt;
+  position: absolute;
+  top: 10pt;
+  left: 10pt;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4pt;
+  width: 30pt;
+  height: 30pt;
+}
+
+.create-job-button i {
+  font-size: 20px;
+}
+
+.create-job-button:hover {
+  background-color: #555;
+}
+
 /* Video Screen Container */
 .video-screen {
   flex-grow: 1;

@@ -14,15 +14,12 @@ import ProfilePage from "./page/Profile";
 import RegisterPage from "./page/Register";
 import SavedPage from './page/Saved';
 import LoginPage from './page/Login';
+import CreateJobPage from './page/CreateJob';
 
 function App() {
   return (
     <Router>
       <div className="app-container">
-        {/* logo or title */}
-        {/* <header className="app-header">
-          <h3>KaziLink</h3>
-        </header> */}
 
         {/* main contains */}
         <main className="app-content">
@@ -31,11 +28,11 @@ function App() {
             {/* 根路徑顯示 ShopPage */}
             <Route path="/home" element={<HomePage />} />
             <Route path="/saved" element={<SavedPage />} />
-            {/* <Route path="/nav" element={<NavigationPage />} /> */}
             <Route path="/search" element={<SearchPage />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/createJob" element={<CreateJobPage />} />
           </Routes>
         </main>
       </div>

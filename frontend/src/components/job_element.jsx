@@ -1,13 +1,115 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import "./job_elements.css";
+import { savedJob, checkJobSaved, unsaveJob } from "../route/userJob";
 
-function JobElement({ job }) {
+function JobElement({ job, showSaveButton = true, showUnsaveButton = false, onSave, onUnsave, initialSavedStatus = false }) {
+  const [isSaving, setIsSaving] = useState(false);
+  const [isUnsaving, setIsUnsaving] = useState(false);
+  const [isSaved, setIsSaved] = useState(initialSavedStatus);
+  const [isCheckingStatus, setIsCheckingStatus] = useState(false);
+
+  // 組件載入時檢查收藏狀態
+  useEffect(() => {
+    if (showSaveButton && job?.job_id && !initialSavedStatus) {
+      checkSavedStatus();
+    }
+  }, [job?.job_id, showSaveButton, initialSavedStatus]);
+
+  const checkSavedStatus = async () => {
+    try {
+      setIsCheckingStatus(true);
+      const response = await checkJobSaved(job.job_id);
+      setIsSaved(response.is_saved);
+    } catch (error) {
+      console.error('Check saved status failed:', error);
+      // 如果檢查失敗（比如未登入），就保持預設狀態
+    } finally {
+      setIsCheckingStatus(false);
+    }
+  };
+
+  const handleSaveJob = async () => {
+    try {
+      setIsSaving(true);
+      const response = await savedJob({ job_id: job.job_id });
+      console.log('Save job successful:', response);
+      setIsSaved(true);
+      
+      // 如果有提供 onSave 回調函數，就呼叫它
+      if (onSave) {
+        onSave(job);
+      }
+      
+    } catch (error) {
+      console.error('Save job failed:', error);
+      // 如果是已經收藏過的錯誤，就設為已收藏狀態
+      if (error.message === 'Job already saved') {
+        setIsSaved(true);
+      } else {
+        alert(error.message || 'Failed to save job');
+      }
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleUnsaveJob = async () => {
+    if (!window.confirm('確定要取消收藏這個工作嗎？')) {
+      return;
+    }
+    
+    try {
+      setIsUnsaving(true);
+      const response = await unsaveJob(job.job_id);
+      console.log('Unsave job successful:', response);
+      setIsSaved(false);
+      
+      // 如果有提供 onUnsave 回調函數，就呼叫它
+      if (onUnsave) {
+        onUnsave(job);
+      }
+      
+    } catch (error) {
+      console.error('Unsave job failed:', error);
+      alert(error.message || 'Failed to unsave job');
+    } finally {
+      setIsUnsaving(false);
+    }
+  };
+
   return (
     <div className="job-element">
-      <h5 className="job-name">{job.job_name}</h5>
-      <p className="job-payment">{job.payment}</p>
-      <p className="job-date">{job.date}</p>
-      <p className="job-type">{job.type}</p>
-      {/* <p className="job-description">{job.description}</p> */}
+      <div className="job-content">
+        <h5 className="job-name">{job.job_name}</h5>
+        <p className="job-payment">{job.payment}</p>
+        <p className="job-date">{job.date}</p>
+        <p className="job-type">{job.type}</p>
+        {/* <p className="job-description">{job.description}</p> */}
+      </div>
+      
+      {(showSaveButton || showUnsaveButton) && (
+        <div className="job-actions">
+          {showSaveButton && (
+            <button
+              className={`save-button ${isSaved ? 'saved' : ''}`}
+              onClick={handleSaveJob}
+              disabled={isSaving || isSaved || isCheckingStatus}
+            >
+              {isCheckingStatus ? '檢查中...' : isSaving ? '收藏中...' : isSaved ? '已收藏' : '收藏'}
+            </button>
+          )}
+          
+          {showUnsaveButton && (
+            <button
+              className="unsave-button"
+              onClick={handleUnsaveJob}
+              disabled={isUnsaving}
+            >
+              {isUnsaving ? '取消中...' : '取消收藏'}
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 }

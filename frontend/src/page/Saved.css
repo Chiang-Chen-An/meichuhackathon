@@ -1,13 +1,121 @@
 .saved-content-page {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   background-color: #f0f2f5;
   height: 100%;
   width: 100%;
-  overflow: hidden;
+  overflow-y: auto;
   position: relative;
   margin: 0;
   border: none;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.saved-content-page h3 {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.saved-info {
+  flex: 1;
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 80px;
+}
+
+.saved-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+}
+
+.saved-item {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.saved-item:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.saved-date {
+  font-size: 12px;
+  color: #888;
+  margin-top: 10px;
+  text-align: right;
+  font-style: italic;
+}
+
+.no-result-container {
+  text-align: center;
+  padding: 40px 20px;
+  color: #666;
+}
+
+.no-result-text {
+  font-size: 18px;
+  color: #999;
+  margin-bottom: 10px;
+}
+
+.no-result-subtitle {
+  font-size: 14px;
+  color: #bbb;
+}
+
+.loading-message {
+  text-align: center;
+  color: #666;
+  font-size: 16px;
+  margin: 40px 0;
+  padding: 20px;
+}
+
+.error-message {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 15px;
+  border-radius: 5px;
+  margin: 20px 0;
+  text-align: center;
+  border: 1px solid #ef5350;
+  width: 100%;
+  max-width: 500px;
+}
+
+.retry-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 15px;
+  margin-left: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.retry-button:hover {
+  background-color: #45a049;
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+  .saved-content-page {
+    padding: 15px;
+  }
+  
+  .saved-item {
+    padding: 12px;
+  }
 }

@@ -18,7 +18,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://user:user@mysql:
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # 設定 secret key 用於 session 管理
 app.config['SECRET_KEY'] = 'meichuhackathon2024-super-secret-key-for-session-management'
-CORS(app)  
+# 設定 CORS 支援 credentials
+CORS(app, supports_credentials=True, origins=['http://localhost:5173', 'http://127.0.0.1:5173'])  
 db.init_app(app)
 migrate.init_app(app, db)
 app.config['SWAGGER'] = {

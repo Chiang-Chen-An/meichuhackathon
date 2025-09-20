@@ -10,11 +10,11 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const [id, setId] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Simple validation
@@ -23,21 +23,34 @@ const Login = () => {
       return;
     }
 
-    // Simulating successful login
+    // Clear previous messages
     setErrorMessage("");
+    setSuccessMessage("");
+    setIsLoading(true);
 
-    // You can replace this with actual form submission logic
-    login({ phone_number_or_email: phoneNumberOrEmail, password })
-      .then((msg) => {
-        console.log(msg);
-        alert(msg.message);
-        setSuccessMessage(msg.message);
-        setId(msg.user_id);
-      })
-      .catch((err) => {
-        console.error(err);
-        alert("Login failed");
-      });
+    try {
+      // 根據後端 API，使用 phone_number 作為參數名
+      const loginData = {
+        phone_number: phoneNumberOrEmail,
+        password: password
+      };
+      
+      const response = await login(loginData);
+      console.log('Login successful:', response);
+      
+      setSuccessMessage(response.message);
+      
+      // 登入成功後導航到首頁或儀表板
+      setTimeout(() => {
+        navigate("/"); // 或者導航到 "/dashboard" 或其他頁面
+      }, 1000);
+      
+    } catch (error) {
+      console.error('Login failed:', error);
+      setErrorMessage(error.message || "Login failed. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -76,16 +89,17 @@ const Login = () => {
         <div className="login-button-group">
           <button
             className="login-button"
-            type="button"  // Use type="button" to avoid form submission
-            onClick={() => navigate("/login")}  // Navigate to login page on click
+            type="submit"  // 改為 submit 以觸發表單提交
+            disabled={isLoading}
           >
-            Log In
+            {isLoading ? "Logging in..." : "Log In"}
           </button>
 
           <button
             className="login-register-button"
             type="button"  // Use type="button" to avoid form submission
-            onClick={() => navigate("/register")}  // Navigate to login page on click
+            onClick={() => navigate("/register")}  // Navigate to register page on click
+            disabled={isLoading}
           >
             Sign Up
           </button>

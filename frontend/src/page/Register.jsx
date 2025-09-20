@@ -19,7 +19,6 @@ const Register = () => {
     e.preventDefault();
 
     if (!phoneNumber || !email || !password) {
-      setErrorMessage("All fields are required.");
       return;
     }
 
@@ -42,9 +41,6 @@ const Register = () => {
       }, 1000);
     } catch (error) {
       console.error("Registration failed:", error);
-      setErrorMessage(
-        error.message || "Registration failed. Please try again."
-      );
     } finally {
       setIsLoading(false);
     }

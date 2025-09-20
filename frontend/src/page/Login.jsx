@@ -18,7 +18,6 @@ const Login = () => {
     e.preventDefault();
 
     if (!phoneNumberOrEmail || !password) {
-      setErrorMessage("Both phone number/email and password are required.");
       return;
     }
 
@@ -42,7 +41,6 @@ const Login = () => {
       }, 1000);
     } catch (error) {
       console.error("Login failed:", error);
-      setErrorMessage(error.message || "Login failed. Please try again.");
     } finally {
       setIsLoading(false);
     }

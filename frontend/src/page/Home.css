@@ -163,18 +163,28 @@
   align-items: center;
 }
 
+.video-list .video-item .video-container {
+  flex: 0 0 40%;               /* 60% of the width for video */
+  height: 100%;                /* Let video scale based on aspect ratio */
+  display: flex;
+  justify-content: center;     /* Center video inside container */
+}
+
 .video-list .video-item .video {
-  width: auto;
-  max-width: 70%;
-  height: 100%;
-  border: none;
+  width: 100%;                 /* Ensure video fills its container */
+  height: auto;                /* Maintain aspect ratio */
+  object-fit: cover;         /* Fit the video nicely inside container */
+  border: none;                /* Optional: remove borders */
 }
 
 .video-list .video-item .data-wrap[id="list"] {
-  flex-grow: 1;
-  max-width: 10%;
-  padding: 8pt;
-  border: none;
+  flex: 0 0 60%;               /* 40% of the width for data text */
+  padding: 10pt;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;     /* Vertically center the text */
+  color: #fff;
+  box-sizing: border-box;
 }
 
 /* Navigation Arrows Styling */

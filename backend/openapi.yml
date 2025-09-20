@@ -61,6 +61,7 @@ paths:
     post:
       tags: [User]
       summary: Register
+      description: Register a new user with phone number, password, and email
       requestBody:
         required: true
         content:
@@ -70,16 +71,22 @@ paths:
               required:
                 - phone_number
                 - password
+                - email
               properties:
                 phone_number:
                   type: string
+                  pattern: '^[0-9]{8,15}$'
+                  description: Phone number (8-15 digits only)
                   example: "0912345678"
                 password:
                   type: string
+                  minLength: 6
+                  description: Password (minimum 6 characters)
                   example: "password123"
                 email:
                   type: string
                   format: email
+                  description: Email address (required)
                   example: "user@example.com"
       responses:
         '201':
@@ -95,19 +102,43 @@ paths:
               schema:
                 type: object
                 properties:
-                  error:
+                  message:
                     type: string
-                    example: "Phone number and password are required"
+                    examples:
+                      missing_params:
+                        value: "Phone number, password and email are required"
+                      invalid_phone:
+                        value: "Phone number must contain only digits"
+                      phone_length:
+                        value: "Phone number must be between 8 and 15 digits"
+                      password_length:
+                        value: "Password must be at least 6 characters long"
+                      invalid_email:
+                        value: "Invalid email format"
         '409':
-          description: Conflict - user already exists
+          description: Conflict - phone number or email already exists
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  error:
+                  message:
                     type: string
-                    example: "User already exists"
+                    examples:
+                      phone_exists:
+                        value: "Phone number already exists"
+                      email_exists:
+                        value: "Email already exists"
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Registration Failed"
 
   /login:
     post:
@@ -213,6 +244,108 @@ paths:
                     type: string
                     example: "User not found"
   
+  /user/profile:
+    put:
+      tags: [User]
+      summary: Update user profile
+      description: "Update current logged-in user's profile (email and password only). Note: If password is changed, user will be automatically logged out for security."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: New email address
+                  example: "newemail@example.com"
+                password:
+                  type: string
+                  description: New password (minimum 6 characters)
+                  example: "newpassword123"
+              description: "At least one field (email or password) must be provided"
+      responses:
+        '200':
+          description: Profile updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    examples:
+                      email_updated:
+                        value: "Profile updated successfully"
+                      password_updated:
+                        value: "Password updated successfully. Please login again."
+                  user:
+                    $ref: '#/components/schemas/User'
+                  logout:
+                    type: boolean
+                    description: True if user was logged out (when password changed)
+                    example: true
+        '400':
+          description: Bad request (invalid data, no fields provided, etc.)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    examples:
+                      no_data:
+                        value: "No data provided"
+                      no_fields:
+                        value: "No valid fields to update (email or password)"
+                      invalid_email:
+                        value: "Invalid email format"
+                      short_password:
+                        value: "Password must be at least 6 characters long"
+        '401':
+          description: User not logged in
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Please login first"
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "User not found"
+        '409':
+          description: Email already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Email already exists"
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Failed to update profile"
+
   /job/{job_id}:
     get:
       tags: [Job]

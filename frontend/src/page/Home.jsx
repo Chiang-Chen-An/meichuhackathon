@@ -92,7 +92,11 @@ function HomePage() {
         ) : (
           <div className="video-list">
             {videos.map((video) => (
-              <div key={video.id} className="video-item">
+              <button
+                key={video.id}
+                className="video-item"
+                onClick={() => navigate(`/job_detail/${video.id}`)}
+              >
                 <div name="list" className="video-container">
                   <video
                     className="video"
@@ -109,7 +113,7 @@ function HomePage() {
                   <p className="video-name">{video.name}</p>
                   <p className="video-data">{video.data}</p>
                 </div>
-              </div>
+              </button>
             ))}
           </div>
         )}
@@ -117,8 +121,8 @@ function HomePage() {
 
       {mode === "short" ? (
         <div className="navigation-arrows">
-          <IoIosArrowBack size={35} className="arrow-left" />
-          <IoIosArrowForward size={35} className="arrow-right" />
+          <IoIosArrowBack size={35} className="arrow-left" tabIndex={-1} />
+          <IoIosArrowForward size={35} className="arrow-right" tabIndex={-1} />
         </div>
       ) : (
         <></>

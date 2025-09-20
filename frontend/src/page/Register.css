@@ -39,31 +39,31 @@
 .register-email-input,
 .register-password-input {
   width: 100%;
-  padding: 10px;
+  padding: 0.625rem;
   box-sizing: border-box;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 0.0625rem solid #ccc;
+  border-radius: 0.25rem;
 }
 
 .register-login-button {
   width: 45%;
   margin: 5% auto;
-  padding: 10px;
+  padding: 0.625rem;
   background-color: #4caf50;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 0.25rem;
   cursor: pointer;
 }
 
 .register-button {
   width: 45%;
   margin: 5% auto;
-  padding: 10px;
+  padding: 0.625rem;
   background-color: #008cba;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 0.25rem;
   cursor: pointer;
 }
 
@@ -100,5 +100,5 @@
 }
 
 .focused {
-  outline: 3px solid #007bff;
+  outline: 0.1875rem solid #007bff;
 }

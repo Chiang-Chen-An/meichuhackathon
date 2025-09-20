@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Saved.css";
 import Navigation from "../components/navigation";
-import JobElement from "../components/job_element";
 import { getSavedJob } from "../route/userJob";
 
 function SavedPage() {
@@ -34,15 +33,6 @@ function SavedPage() {
     navigate("/login");
   };
 
-  const handleJobUnsaved = (unsavedJob) => {
-    console.log('Job unsaved:', unsavedJob);
-    // 從列表中移除已取消收藏的工作
-    set_saved_jobs(prevJobs => 
-      prevJobs.filter(savedJobData => 
-        savedJobData.job?.job_id !== unsavedJob.job_id
-      )
-    );
-  };
 
   if (loading) {
     return (
@@ -56,7 +46,7 @@ function SavedPage() {
 
   return (
     <div className="saved-content-page">
-      <h3>Saved Jobs</h3>
+      {!error && <h3>Saved Jobs</h3>}
       
       {error && (
         <div className="error-message">
@@ -69,30 +59,37 @@ function SavedPage() {
 
       <div className="saved-info">
         <div className="saved-list">
-          {saved_jobs.length > 0 ? (
+          {!error && saved_jobs.length > 0 ? (
             saved_jobs.map((savedJobData, index) => (
               <div className="saved-item" key={savedJobData.job?.job_id || index}>
-                <JobElement 
-                  job={savedJobData.job} 
-                  showSaveButton={false}  // 在收藏頁面不顯示收藏按鈕
-                  showUnsaveButton={true}  // 顯示取消收藏按鈕
-                  onUnsave={handleJobUnsaved}  // 取消收藏的回調
-                />
-                <div className="saved-date">
-                  收藏時間: {savedJobData.saved_date ? new Date(savedJobData.saved_date).toLocaleDateString() : '未知'}
+                <div className="job-card">
+                  <div className="job-header">
+                    <div className="job-name">{savedJobData.job?.job_name || 'Job Name Not Available'}</div>
+                    <span className="job-type">{savedJobData.job?.type || 'Type Not Specified'}</span>
+                  </div>
+                  <div className="job-details">
+                    <div className="job-info">
+                      <span className="job-salary">💰 {savedJobData.job?.payment || 'Salary Not Listed'}</span>
+                      <span className="job-date">📅 {savedJobData.job?.date || 'Date Not Available'}</span>
+                    </div>
+                  </div>
+                  <div className="saved-date">
+                    🗺 Saved: {savedJobData.saved_date ? new Date(savedJobData.saved_date).toLocaleDateString() : 'Unknown'}
+                  </div>
                 </div>
               </div>
             ))
-          ) : (
+          ) : !error ? (
             <div className="no-result-container">
               <p className="no-result-text">Nothing Saved</p>
               <p className="no-result-subtitle">
                 Start browsing jobs and save the ones you like!
               </p>
             </div>
-          )}
+          ) : null}
         </div>
       </div>
+
       <Navigation />
     </div>
   );

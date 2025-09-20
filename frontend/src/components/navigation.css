@@ -8,18 +8,18 @@
   width: 100%;
   height: 10%;
   background-color: #ffffff;
-  border-top: 1px solid #e0e0e0;
-  box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
+  border-top: 0.0625rem solid #e0e0e0;
+  box-shadow: 0 -0.0625rem 0.1875rem rgba(0, 0, 0, 0.1);
   z-index: 1000;
 }
 
 .nav-item.focused {
-  outline: 3px solid #007bff;
-  outline-offset: -2px;
+  outline: 0.1875rem solid #007bff;
+  outline-offset: -0.125rem;
   background-color: #e6f2ff;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
-  border-radius: 8px;
+  transform: translateY(-0.125rem);
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 123, 255, 0.2);
+  border-radius: 0.5rem;
 }
 
 /* Fixed bottom bar with 5 equal-width text items */
@@ -30,12 +30,12 @@
   width: 100%;
   background-color: #333;
   color: white;
-  font-size: 12px; /* 調小字體大小 */
+  font-size: 0.75rem; /* 調小字體大小 */
   z-index: 9999;
   display: flex;
   justify-content: space-evenly; /* Distribute space evenly between items */
   align-items: center; /* Vertically center content */
-  padding: 8px 0;
+  padding: 0.5rem 0;
   box-sizing: border-box;
 }
 
@@ -50,7 +50,7 @@
 }
 
 .fixed-bottom-bar .text-item svg {
-  font-size: 24px; /* 調小圖示大小 */
+  font-size: 1.5rem; /* 調小圖示大小 */
   color: #b3b3b3; /* Default icon color (inactive) */
   transition: color 0.3s ease; /* Smooth color transition */
 }
@@ -62,7 +62,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
+  gap: 0.125rem;
 }
 
 .fixed-bottom-bar .text-item a:hover svg,
@@ -73,4 +73,48 @@
 .fixed-bottom-bar .text-item a.active svg,
 .fixed-bottom-bar .text-item button.active svg {
   color: #007bff; /* 活躍狀態顏色 */
+}
+
+/* 響應式設計 */
+@media (max-width: 48rem) {
+  .fixed-bottom-bar {
+    font-size: 0.6875rem;
+    padding: 0.4375rem 0;
+  }
+  
+  .fixed-bottom-bar .text-item svg {
+    font-size: 1.375rem;
+  }
+  
+  .fixed-bottom-bar .text-item a,
+  .fixed-bottom-bar .text-item button {
+    gap: 0.125rem;
+  }
+}
+
+@media (max-width: 30rem) {
+  .fixed-bottom-bar {
+    font-size: 0.625rem;
+    padding: 0.375rem 0;
+  }
+  
+  .fixed-bottom-bar .text-item svg {
+    font-size: 1.25rem;
+  }
+  
+  .fixed-bottom-bar .text-item a,
+  .fixed-bottom-bar .text-item button {
+    gap: 0.0625rem;
+  }
+}
+
+@media (max-width: 20rem) {
+  .fixed-bottom-bar {
+    font-size: 0.5625rem;
+    padding: 0.3125rem 0;
+  }
+  
+  .fixed-bottom-bar .text-item svg {
+    font-size: 1.125rem;
+  }
 }

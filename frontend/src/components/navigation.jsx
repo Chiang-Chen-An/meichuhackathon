@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import { FaHome, FaSearch, FaBookmark, FaUser } from 'react-icons/fa'
+import { IoMdAdd } from 'react-icons/io';
 import "./navigation.css";
 
 function Navigation() {
@@ -9,15 +10,17 @@ function Navigation() {
   const isLoggedIn = false;//localStorage.getItem("isLoggedIn") === true;
 
   const iconMap = {
-    home_icon: <FaHome size={24} />,
-    search_icon: <FaSearch size={24} />,
-    profile_icon: <FaUser size={24} />,
-    saved_icon: <FaBookmark size={24} />,
+    home_icon: <FaHome/>,
+    search_icon: <FaSearch/>,
+    create_icon: <IoMdAdd/>,
+    saved_icon: <FaBookmark/>,
+    profile_icon: <FaUser/>,
   };
 
   const navLinks = [
     { to: "/home", iconName: "home_icon"},
     { to: "/search", iconName: "search_icon" },
+    { to: "/createJob", iconName: "create_icon"},
     { to: "/saved", iconName: "saved_icon"},
     {
       to: isLoggedIn ? "/profile" : "/register", // Redirect to login if not logged in

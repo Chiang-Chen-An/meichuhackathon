@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import './Register.css'; // Assuming you save the CSS in Register.css
-import "../route/user"
+import "./Register.css"; // Assuming you save the CSS in Register.css
+import "../route/user";
 import { register } from "../route/user";
 
 const Register = () => {
@@ -23,61 +23,69 @@ const Register = () => {
     // Simulating successful registration
     setSuccessMessage("Registration successful!");
     setErrorMessage("");
-    
+
     // You can replace this with actual form submission logic
     console.log({ phoneNumber, email, password });
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <h2>Register</h2>
+    <>
+      <form onSubmit={handleSubmit} className="register-form">
+        <h2 className="page-title">Register</h2>
 
-        <label htmlFor="phone-number">Phone Number</label>
-        <input
-          type="text"
-          id="phone-number"
-          value={phoneNumber}
-          onChange={(e) => setPhoneNumber(e.target.value)}
-        />
+        <div className="phone-number">
+          <label className="phone-number-label">Phone Number</label>
+          <input
+            type="text"
+            className="phone-number-input"
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
+          />
+        </div>
 
-        <label htmlFor="email">Email</label>
-        <input
-          type="email"
-          id="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        <div className="email">
+          <label className="email-label">Email</label>
+          <input
+            type="email"
+            className="email-input"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
 
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <div className="password">
+          <label className="password-label">Password</label>
+          <input
+            type="password"
+            className="password-input"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
 
         <button
           type="submit"
           onClick={() => {
             register({ phone_number: phoneNumber, password, email })
-              .then(msg => {
+              .then((msg) => {
                 console.log(msg);
                 alert(msg.message);
                 setSuccessMessage(msg.message);
                 setId(msg.user_id);
               })
-              .catch(err => {
+              .catch((err) => {
                 console.error(err);
                 alert("Register failed");
               });
           }}
-        >Register</button>
+        >
+          Register
+        </button>
       </form>
 
       {successMessage && <div className="message">{successMessage}</div>}
       {errorMessage && <div className="error-message">{errorMessage}</div>}
-    </div>
+    </>
   );
 };
 

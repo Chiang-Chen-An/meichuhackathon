@@ -25,7 +25,7 @@
 }
 
 .search-button {
-  width: 20%; /* 給按鈕一個固定的寬度 */
+  width: 20%;
   border: none;
   border-radius: 0 5pt 5pt 0;
   background-color: #007bff;

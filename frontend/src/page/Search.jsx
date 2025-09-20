@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { get_jobs } from "../route/job";
-// import Navigation from "../components/navigation";
+import Navigation from "../components/navigation";
 import { FaSearch } from "react-icons/fa";
 import JobElement from "../components/job_element";
 import "./Search.css";
@@ -42,8 +42,8 @@ function SearchPage() {
             <p className="no-result-text">No jobs found</p>
           )}
         </div>
-        {/* <p className="no-result-text">nothing be found</p> */}
-        {/* <Navigation /> */}
+        <p className="no-result-text">nothing be found</p>
+        <Navigation />
       </div>
     </>
   );

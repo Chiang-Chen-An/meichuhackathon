@@ -1,100 +1,75 @@
-/* Register.css */
-
-/* Resetting margin, padding, and box-sizing */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-/* Make body fill the screen */
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f2f2f2;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;  /* Full height of the viewport */
-  width: 100vw;   /* Full width of the viewport */
-  padding: 5%;
-  margin: 0;
-}
-
-form {
+.register-form {
   width: 100%;
-  max-width: 100%; /* Form takes the full width of the screen */
+  height: 100%;
+}
+
+.page-title {
+  text-align: center;
+  margin-bottom: 2%;
+}
+
+.phone-number {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 8%; /* Spacing between form elements */
+  align-items: flex-start;
+  width: 90%;
+  margin: 1%;
+  gap: 2%;
 }
 
-/* Title */
-h2 {
-  font-size: 16px;
-  text-align: center;
-  margin-bottom: 10%;
-  color: #333;
-  width: 100%;
-}
-
-/* Label styling */
-label {
-  font-size: 12px;
-  color: #555;
-  margin-bottom: 5%;
-  display: block;
-  width: 100%; /* Labels take full width */
+.phone-number-label {
   text-align: left;
+  font-weight: bold;
 }
 
-/* Input styling */
-input {
-  width: 100%;   /* Input takes full width */
-  padding: 5% 2%; /* Padding with percentage */
-  margin-bottom: 10%;
-  font-size: 14px;
-  border: 1px solid #ddd;
+.phone-number-input {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
   border-radius: 4px;
 }
 
-input:focus {
-  border-color: #007bff;
-  outline: none;
+.email {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 90%;
+  margin: 1%;
+  gap: 2%;
 }
 
-/* Submit button */
-button {
-  width: 100%; /* Button takes full width */
-  padding: 8% 0; /* Adjust padding with percentage */
-  background-color: #007bff;
-  color: white;
-  font-size: 14px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+.email-label {
+  text-align: left;
+  font-weight: bold;
 }
 
-button:hover {
-  background-color: #0056b3;
-}
-
-/* Message styles */
-.message {
-  background-color: #28a745;
-  color: white;
-  padding: 5% 0;
-  margin-top: 10%;
-  text-align: center;
+.email-input {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
   border-radius: 4px;
 }
 
-.error-message {
-  background-color: #dc3545;
-  color: white;
-  padding: 5% 0;
-  margin-top: 10%;
-  text-align: center;
+.password {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 90%;
+  margin: 1%;
+  gap: 2%;
+}
+
+.password-label {
+  text-align: left;
+  font-weight: bold;
+}
+
+.password-input {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
   border-radius: 4px;
 }

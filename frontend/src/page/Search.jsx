@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { get_jobs } from "../route/job";
-import Navigation from "../components/navigation";
+// import Navigation from "../components/navigation";
+import { FaSearch } from "react-icons/fa";
 import JobElement from "../components/job_element";
 import "./Search.css";
 
@@ -19,10 +20,6 @@ function SearchPage() {
 
   return (
     <>
-      <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-      ></link>
       <div className="content-page">
         <div className="search-bar">
           <input
@@ -31,7 +28,7 @@ function SearchPage() {
             className="search-input"
           />
           <button className="search-button">
-            <i class="fa fa-search"></i>
+            <FaSearch />
           </button>
         </div>
         <div className="job-list">
@@ -46,7 +43,7 @@ function SearchPage() {
           )}
         </div>
         {/* <p className="no-result-text">nothing be found</p> */}
-        <Navigation />
+        {/* <Navigation /> */}
       </div>
     </>
   );

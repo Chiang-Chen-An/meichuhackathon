@@ -81,6 +81,7 @@ function HomePage() {
               // playsInline
               // webkit-playsinline
               // disablePictureInPicture
+              disablePictureInPicture
             >
               <source src={videos[currentIndex].videoUrl} type="video/mp4" />
             </video>
@@ -104,6 +105,7 @@ function HomePage() {
                     // webkit-playsinline
                     // disablePictureInPicture
                     x-puffin-playsinline
+                    disablePictureInPicture
                   >
                     <source src={video.videoUrl} type="video/mp4" />
                   </video>

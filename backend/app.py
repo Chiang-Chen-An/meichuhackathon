@@ -5,10 +5,13 @@ from flask_restful import Api
 from models import db, migrate
 from controller.User import user_bp
 from controller.Job import job_bp
+from controller.recruit import recruit_bp
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://user:user@mysql:3306/db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# 設定 secret key 用於 session 管理
+app.config['SECRET_KEY'] = 'meichuhackathon2024-super-secret-key-for-session-management'
 db.init_app(app)
 migrate.init_app(app, db)
 app.config['SWAGGER'] = {
@@ -26,6 +29,7 @@ api = Api(app)
 # API
 app.register_blueprint(user_bp)
 app.register_blueprint(job_bp)
+app.register_blueprint(recruit_bp)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8000, debug=True)

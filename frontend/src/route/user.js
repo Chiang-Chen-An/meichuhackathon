@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export async function login(data) {
     try {
-        const base_url = 'http://localhost:8000';  // 改為 localhost
+        const base_url = 'http://203.116.30.127:8000';  // 改為 localhost
         const response = await axios.post(`${base_url}/login`, data, {
             withCredentials: true
         });
@@ -14,7 +14,7 @@ export async function login(data) {
 
 export async function register(data) {
     try {
-        const base_url = 'http://localhost:8000';  // 改為 localhost
+        const base_url = 'http://203.116.30.127:8000';  // 改為 localhost
         const response = await axios.post(`${base_url}/register`, data, {
             withCredentials: true
         });
@@ -38,7 +38,7 @@ export async function updateUsername() {
 
 export async function getCurrentUser() {
     try {
-        const base_url = 'http://localhost:8000';
+        const base_url = 'http://203.116.30.127:8000';
         const response = await axios.get(`${base_url}/current_user`, {
             withCredentials: true
         });

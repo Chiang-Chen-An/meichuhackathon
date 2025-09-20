@@ -57,12 +57,22 @@ const Register = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <button type="submit" onClick={() => {
-          let msg = register({"phone_number":phoneNumber, "password":password, "email":email});
-          alert(msg.message);
-          setSuccessMessage(msg.message);
-          setId(msg.user_id);
-        }}>Register</button>
+        <button
+          type="submit"
+          onClick={() => {
+            register({ phone_number: phoneNumber, password, email })
+              .then(msg => {
+                console.log(msg);
+                alert(msg.message);
+                setSuccessMessage(msg.message);
+                setId(msg.user_id);
+              })
+              .catch(err => {
+                console.error(err);
+                alert("Register failed");
+              });
+          }}
+        >Register</button>
       </form>
 
       {successMessage && <div className="message">{successMessage}</div>}

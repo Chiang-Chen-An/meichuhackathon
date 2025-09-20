@@ -9,6 +9,7 @@ from controller.recruit import recruit_bp
 from controller.search import search_bp
 from flask_cors import CORS
 
+from controller.search import search_bp
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://user:user@mysql:3306/db'
@@ -19,7 +20,7 @@ CORS(app)
 db.init_app(app)
 migrate.init_app(app, db)
 app.config['SWAGGER'] = {
-    "title": "ORAN WEB API",
+    "title": "WEB API",
     "description": "API For MySQL",
     "version": "1.0.0",
     "termsOfService": "",

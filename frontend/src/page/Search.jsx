@@ -1,8 +1,22 @@
-import React from "react";
-import Navigation from "./navigation";
+import React, { useState, useEffect } from "react";
+import { getjobs } from "../user";
+import Navigation from "../components/navigation";
+import JobElement from "../components/job_element";
 import "./Search.css";
 
 function SearchPage() {
+  const [jobs, setJobs] = useState([]);
+
+  useEffect(() => {
+    getjobs()
+      .then((response) => {
+        console.log("Registration successful:", response);
+      })
+      .catch((error) => {
+        console.error("Registration failed:", error);
+      });
+  }, []);
+
   return (
     <>
       <link
@@ -20,9 +34,20 @@ function SearchPage() {
             <i class="fa fa-search"></i>
           </button>
         </div>
-        <p className="no-result-text">nothing be found</p>
+        <div className="job-list">
+          {jobs.length > 0 ? (
+            jobs.map((job, index) => (
+              <div className="job-item" key={index}>
+                <JobElement job={job} />
+              </div>
+            ))
+          ) : (
+            <p className="no-result-text">No jobs found</p>
+          )}
+        </div>
+        {/* <p className="no-result-text">nothing be found</p> */}
+        <Navigation />
       </div>
-      <Navigation />
     </>
   );
 }

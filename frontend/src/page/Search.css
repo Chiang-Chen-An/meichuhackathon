@@ -5,25 +5,25 @@
 }
 
 .search-bar {
-  position: absolute;
-  height: 3%;
+  height: 10%;
+  width: 90%;
   border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 14px;
-  padding: auto;
-  top: 7%;
+  border-radius: 5pt;
+  margin-top: 7%;
+  font-size: larger;
   display: flex;
   overflow: hidden;
 }
 
 .search-input {
   flex: 1;
-  padding: auto;
+  padding: 2%;
   border: none;
   outline: none;
 }
 
 .search-button {
+  flex: 1;
   border: none;
   padding: auto;
   background-color: #007bff;
@@ -33,4 +33,10 @@
 
 .search-button:hover {
   background-color: #0056b3;
+}
+
+.job-list {
+  top: 25%;
+  width: 90%;
+  height: 70%;
 }

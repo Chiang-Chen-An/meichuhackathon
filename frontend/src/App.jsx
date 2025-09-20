@@ -19,9 +19,9 @@ function App() {
     <Router>
       <div className="app-container">
         {/* logo or title */}
-        <header className="app-header">
+        {/* <header className="app-header">
           <h3>KaziLink</h3>
-        </header>
+        </header> */}
 
         {/* main contains */}
         <main className="app-content">

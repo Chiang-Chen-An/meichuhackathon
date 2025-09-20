@@ -1,45 +1,26 @@
-/* HomePage.css */
-
-.content-page {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  /* Pushes navigation to the bottom */
-  align-items: center;
-  width: 100vw;
-  height: 100vh;
-  /* Full viewport height */
-  background-color: #8a8a8aff;
-  /* Dark background for video content */
-  color: #fff;
-  /* White text for contrast */
-  font-family: Arial, sans-serif;
-  /* Example font */
-  overflow: hidden;
-  /* Hide scrollbars unless content truly overflows */
-  position: relative;
-  /* Needed for absolute positioning of children */
-}
-
 /* Mode Toggle Button */
 .mode-toggle-button {
   background-color: #333;
   color: #fff;
   border: none;
-  font-size: 12pt;
-  /* Body size from QVGA table */
+  font-size: 14pt; /* Adjust font size for better readability */
   font-weight: 400;
-  /* Regular */
   cursor: pointer;
-  padding: 5pt 10pt;
-  /* Add padding for better touch/click area */
-  border-radius: 5pt;
+  padding: 5pt;
   position: absolute;
-  /* Position it absolutely to keep it out of flow */
   top: 10pt;
   right: 10pt;
   z-index: 10;
-  /* Ensure it's above other content */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4pt;
+  width: 30pt;
+  height: 30pt;
+}
+
+.mode-toggle-button i {
+  font-size: 20px;
 }
 
 .mode-toggle-button:hover {
@@ -49,111 +30,106 @@
 /* Video Screen Container */
 .video-screen {
   flex-grow: 1;
-  /* Allows it to take available vertical space */
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* Center content vertically */
   align-items: center;
   width: 100%;
-  padding: 10pt;
-  /* Add some padding around the video content */
+  height: 100%;
   box-sizing: border-box;
-  /* Include padding in width/height */
+  overflow: hidden;
+  border: none;
+  padding-bottom: 10%;
 }
 
 /* Common Video Item Styling */
 .video-item {
   display: flex;
   flex-direction: column;
-  border-radius: 8pt;
+  border-radius: 8pt; /* Rounded corners */
   overflow: hidden;
   background-color: #1a1a1a;
-  /* Slightly lighter background for the item */
-  box-shadow: 0 4pt 8pt rgba(0, 0, 0, 0.4);
+  box-shadow: 0 2pt 4pt rgba(0, 0, 0, 0.3);
+  margin: 5pt; /* Reduced margin */
+  border: 1px solid #333; /* Thin border */
+  width: 100%;  /* Ensure it takes up full width */
+  height: 100%; /* Ensure it takes up full height */
+  max-width: 100%; /* Prevent width from exceeding the screen width */
+  max-height: 100%; /* Prevent height from exceeding the screen height */
 }
 
 /* Video Image Styling */
 .video-image {
   width: 100%;
-  padding-top: 56.25%;
-  /* 16:9 aspect ratio (height / width * 100%) */
-  background-size: cover;
+  height: 100%;
+  background-size: cover; /* Cover the entire area */
   background-position: center;
   background-repeat: no-repeat;
-  border-bottom: 1pt solid #333;
-  /* Separator for text */
+  border: none;
 }
 
 /* Data Wrapper for video name and description */
 .data-wrap {
   display: flex;
   flex-direction: column;
-  padding: 10pt;
+  padding: 5pt;
   box-sizing: border-box;
   position: relative;
-  /* For absolute positioning of text if needed */
+  border: none;
+  z-index: 2; /* Ensure the text sits above the image */
 }
 
-
 .video-name {
-  font-size: 12pt;
-  /* Headline size */
+  font-size: 14pt; /* Larger font size */
   font-weight: 900;
-  /* Black/900 */
   margin: 0;
   color: #fff;
   line-height: 1.2;
 }
 
 .video-data {
-  font-size: 10pt;
-  /* Body size */
+  font-size: 10pt; /* Smaller description text */
   font-weight: 400;
-  /* Regular/400 */
   margin: 5pt 0 0 0;
   color: #ccc;
   line-height: 1.3;
 }
 
 /* Specific styles for 'short' video mode */
-.video-screen>.video-item {
-  /* Target the single video item in short mode */
-  /* Ensure it's centered and takes up a good portion of the screen */
-  height: 95%;
-  /* Example: take 80% of the screen height */
-  max-height: 320px;
-  /* Cap its max height */
+.video-screen > .video-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center video content */
+  align-items: center;
   width: 100%;
-  max-width: 240px;
-  justify-content: flex-end;
-  /* Push content to the bottom */
-  position: relative;
-  /* For absolute positioning of inner elements */
+  height: 100%;
+  position: relative; /* Important for absolute positioning of the image */
 }
 
-.video-screen>.video-item .video-image {
-  position: absolute;
+.video-screen > .video-item .video-image {
+  position: absolute; /* Position the image absolutely to fill the container */
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  padding-top: 0;
-  /* Remove padding-top for full height image */
-  border-bottom: none;
-  z-index: 1;
-  /* Ensure image is behind text */
+  padding-top: 0; /* Reset padding */
+  border: none;
 }
 
-.video-screen>.video-item .data-wrap[name="short"] {
-  position: relative;
-  /* Make text stack over image */
-  z-index: 2;
-  /* Ensure text is above the image */
+.video-screen > .video-item .data-wrap[name="short"] {
+  position: absolute; /* Position the text container on top of the image */
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 15pt;
   background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
-  /* Gradient overlay for readability */
-  padding-top: 50pt;
-  /* More padding at the top to account for gradient */
+  color: white; /* Ensure text is visible */
+}
+
+/* Specific styling for smaller video items */
+.video-screen > .video-item .data-wrap[name="short"] p {
+  margin: 0;
+  padding: 5pt 0;
 }
 
 
@@ -162,86 +138,52 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-height: calc(100vh - 60pt - 20pt);
-  /* Adjust based on navigation height and button top margin */
+  max-height: calc(100vh - 60pt); /* Adjust height based on viewport */
   overflow-y: auto;
-  /* Enable scrolling for the list */
-  padding: 10pt 0;
-  /* Vertical padding */
+  /* padding: 0pt; */
   box-sizing: border-box;
+  border: none;
 }
 
 .video-list .video-item {
   flex-direction: row;
-  /* Layout items side-by-side in list mode */
-  width: 95%;
-  /* Make list items a bit wider */
-  max-width: 400px;
-  /* Add a max-width for list items too */
+  width: 90%;
   margin: 5pt auto;
-  /* Center list items and add vertical spacing */
   background-color: #222;
   box-shadow: 0 2pt 4pt rgba(0, 0, 0, 0.3);
+  border: none;
 }
 
 .video-list .video-item .video-image {
   width: 35%;
-  /* Image takes 35% width in list mode */
   min-width: 80px;
-  /* Ensure image isn't too small */
-  padding-top: 0;
-  /* Remove padding-top for list items, use height */
-  height: 80pt;
-  /* Fixed height for list item thumbnails */
-  border-bottom: none;
-  border-right: 1pt solid #333;
-  /* Separator for text */
+  height: 100pt;
+  border: none;
 }
 
 .video-list .video-item .data-wrap[id="list"] {
-  /* Target the data-wrap specifically for list mode */
   flex-grow: 1;
-  /* Text content takes remaining space */
-  padding: 8pt 10pt;
+  padding: 8pt;
+  border: none;
 }
 
-/* Navigation Component Styling (assuming it's a fixed bottom bar) */
-.navigation {
-  /* Assuming your Navigation component renders a div with this class */
-  width: 100%;
-  height: 60pt;
-  /* Example height for navigation */
-  background-color: #111;
-  /* Darker background for navigation */
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  border-top: 1pt solid #333;
-  z-index: 10;
-  /* Ensure navigation is on top */
-}
-
-/* Responsive adjustments for potentially larger screens (if needed) */
-@media (min-width: 480px) {
-  .video-list .video-item {
-    width: 80%;
-    /* Wider list items on larger screens */
-  }
-}
-
-/* Styles for the "CloudMosa" header (if you add it directly in this component) */
-.header-text {
-  font-size: 24pt;
-  /* Header size */
-  font-weight: 700;
-  /* Black/700 */
-  color: #fff;
-  margin: 10pt 0;
-  text-align: center;
-  width: 100%;
+/* Navigation Arrows Styling */
+.navigation-arrows {
   position: absolute;
-  top: 10pt;
-  left: 0;
-  /* This would be for the "CloudMosa" text if you're putting it here.
-     If it's part of your Navigation or another component, adjust accordingly. */
+  top: 50%;
+  width: 100%;
+  z-index: 5;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 3px; /* Padding between the arrows */
+  transform: translateY(-50%); /* Vertically center the arrows */
+}
+
+.arrow-left,
+.arrow-right {
+  cursor: pointer;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0); /* Semi-transparent background */
+  border-radius: 50%;
+  padding: 2px;
 }

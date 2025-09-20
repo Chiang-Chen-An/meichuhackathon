@@ -12,7 +12,7 @@ import HomePage from "./page/Home";
 import SearchPage from "./page/Search";
 import ProfilePage from "./page/Profile";
 import RegisterPage from "./page/Register";
-// import SavedPage from './page/Saved';
+import SavedPage from './page/Saved';
 
 function App() {
   return (
@@ -29,7 +29,7 @@ function App() {
             <Route path="/" element={<HomePage />} />{" "}
             {/* 根路徑顯示 ShopPage */}
             <Route path="/home" element={<HomePage />} />
-            {/* <Route path="/saved" element={<SavedPage />} /> */}
+            <Route path="/saved" element={<SavedPage />} />
             {/* <Route path="/nav" element={<NavigationPage />} /> */}
             <Route path="/search" element={<SearchPage />} />
             <Route path="/profile" element={<ProfilePage />} />

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
-import { FaHome, FaSearch, FaBars, FaUser } from 'react-icons/fa'
+import { FaHome, FaSearch, FaBookmark, FaUser } from 'react-icons/fa'
 import "./navigation.css";
 
 function Navigation() {
@@ -11,13 +11,13 @@ function Navigation() {
     home_icon: <FaHome size={24} />,
     search_icon: <FaSearch size={24} />,
     profile_icon: <FaUser size={24} />,
-    menu_icon: <FaBars size={24} />,
+    saved_icon: <FaBookmark size={24} />,
   };
 
   const navLinks = [
-    { to: "/menu", iconName: "menu_icon"},
     { to: "/home", iconName: "home_icon"},
     { to: "/search", iconName: "search_icon" },
+    { to: "/saved", iconName: "saved_icon"},
     {
       to: isLoggedIn ? "/profile" : "/register", // Redirect to login if not logged in
       iconName: "profile_icon",

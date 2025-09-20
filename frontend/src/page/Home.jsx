@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Navigation from '../components/navigation';
+import { FaExchangeAlt } from 'react-icons/fa';
+import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import './Home.css';
 function HomePage() {
 
@@ -37,7 +39,7 @@ function HomePage() {
   return (
     <div className="content-page">
       <button className="mode-toggle-button" onClick={toggleMode}>
-        {mode === 'short' ? 'Switch to List Mode' : 'Switch to Short Video Mode'}
+        <FaExchangeAlt size={20} />
       </button>
 
       <div className="video-screen">
@@ -70,8 +72,12 @@ function HomePage() {
         )}
       </div>
 
-      <Navigation />
+      <div className="navigation-arrows">
+        <IoIosArrowBack size={35} className="arrow-left" />
+        <IoIosArrowForward size={35} className="arrow-right" />
+      </div>
 
+      <Navigation />
 
     </div>
   );

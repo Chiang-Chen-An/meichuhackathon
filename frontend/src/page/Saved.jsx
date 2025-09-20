@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import './Profile.css';
 import Navigation from '../components/navigation';
 
-function ProfilePage() {
+function SavedPage() {
 
   const saved_jobs = ['googoogaga', 'HAHA', 'AMD', 'google'];
 
@@ -17,4 +17,4 @@ function ProfilePage() {
   );
 }
 
-export default ProfilePage;
+export default SavedPage;

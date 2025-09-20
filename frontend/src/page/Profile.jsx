@@ -159,7 +159,6 @@ function ProfilePage() {
           <div className="user-info-compact">
             <div className="info-item">
               <span className="info-label">User ID:</span>
-              <span className="info-label">User ID:</span>
               <span className="info-value">{user.user_id}</span>
             </div>
             <div className="info-item">
@@ -175,8 +174,6 @@ function ProfilePage() {
               </div>
             </div>
             <div className="info-item">
-              <span className="info-label">Username:</span>
-              <span className="info-value">{user.username || "Not set"}</span>
               <span className="info-label">Username:</span>
               <span className="info-value">{user.username || "Not set"}</span>
             </div>
@@ -211,7 +208,6 @@ function ProfilePage() {
           <form onSubmit={handleUpdateProfile} className="profile-form-compact">
             <div className="form-group-compact">
               <label className="form-label-compact">Email:</label>
-              <label className="form-label-compact">Email:</label>
               <input
                 type="email"
                 className="form-input-compact"
@@ -222,7 +218,7 @@ function ProfilePage() {
             </div>
 
             <div className="form-group-compact">
-              <label className="form-label-compact">新密碼:</label>
+              <label className="form-label-compact">New password:</label>
               <input
                 type="password"
                 className="form-input-compact"

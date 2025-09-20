@@ -50,8 +50,12 @@ paths:
                 type: object
                 properties:
                   error:
-                    type: string
-  
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: "User not found"
+
   /register:
     post:
       tags: [User]
@@ -82,14 +86,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: "User registered successfully"
-                  user_id:
-                    type: integer
-                    example: 1
+                $ref: '#/components/schemas/RegisterResponse'
         '400':
           description: Bad request - missing required fields or invalid data
           content:
@@ -137,24 +134,23 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: "User login successfully"
-                  user_id:
-                    type: integer
-                    example: 1
+                $ref: '#/components/schemas/LoginResponse'
         '400':
-          description: Bad request - missing required fields or invalid data
+          description: Already logged in
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlreadyLoggedInResponse'
+        '404':
+          description: Missing required parameters
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  error:
+                  message:
                     type: string
-                    example: "Phone number and password are required"
+                    example: "Lack of necessary parameter"
         '401':
           description: Unauthorized - invalid credentials
           content:
@@ -162,9 +158,9 @@ paths:
               schema:
                 type: object
                 properties:
-                  error:
+                  message:
                     type: string
-                    example: "Invalid phone number or password"
+                    example: "phone number or password not correct"
 
   /logout:
     post:
@@ -194,18 +190,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  user_id:
-                    type: integer
-                    example: 123
-                  email:
-                    type: string
-                    example: "user@example.com"
-                  created_at:
-                    type: string
-                    format: date
-                    example: "2023-11-01"
+                $ref: '#/components/schemas/User'
         '401':
           description: Not logged in
           content:
@@ -746,6 +731,49 @@ paths:
 
 components:
   schemas:
+    User:
+      type: object
+      properties:
+        user_id:
+          type: integer
+          example: 1
+        email:
+          type: string
+          example: "user@example.com"
+        created_at:
+          type: string
+          format: date
+          example: "2025-09-20"
+    
+    LoginResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Login Successfully"
+        User:
+          $ref: '#/components/schemas/User'
+    
+    AlreadyLoggedInResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Already logged in"
+        User:
+          $ref: '#/components/schemas/User'
+    
+    RegisterResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Register Successfully"
+        User:
+          type: string
+          description: User representation string
+          example: "<User 1>"
+    
     Error:
       type: object
       properties:

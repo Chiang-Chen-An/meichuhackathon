@@ -51,6 +51,19 @@ def register():
     
 @user_bp.route('/login', methods=['POST'])
 def login():
+    # 檢查是否已經登入
+    if session.get('user_id'):
+        current_user_id = session.get('user_id')
+        current_user = User.query.get(current_user_id)
+        if current_user:
+            return { 
+                'message': 'Already logged in',
+                'User': current_user.to_dict()
+            }, 400
+        else:
+            # 如果 session 中的用戶不存在，清除 session
+            session.clear()
+    
     data = request.get_json()
 
     phone_number = data.get("phone_number", None)

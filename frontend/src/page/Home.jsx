@@ -78,6 +78,8 @@ function HomePage() {
               autoPlay
               loop
               playsInline
+              webkit-playsinline
+              disablePictureInPicture
             >
               <source src={videos[currentIndex].videoUrl} type="video/mp4" />
             </video>
@@ -98,6 +100,8 @@ function HomePage() {
                     loop
                     muted
                     playsInline
+                    webkit-playsinline
+                    disablePictureInPicture
                   >
                     <source src={video.videoUrl} type="video/mp4" />
                   </video>

@@ -73,3 +73,28 @@
   width: 90%;
   margin: auto;
 }
+
+.register-back-arrow {
+  color: #333;
+  border: none;
+  font-size: 14pt; /* Adjust font size for better readability */
+  font-weight: 400;
+  cursor: pointer;
+  padding: 5pt;
+  position: absolute;
+  top: 5pt;
+  left: 5pt;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4pt;
+  width: 30pt;
+  height: 30pt;
+  background: none;  /* Remove background */
+  transition: color 0.2s ease; /* Smooth transition on hover */
+}
+
+.register-back-arrow:hover {
+  color: #888;  /* Highlight the arrow on hover (change to any color you prefer) */
+}

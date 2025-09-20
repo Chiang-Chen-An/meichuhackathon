@@ -3,6 +3,8 @@ import "./Register.css"; // Assuming you save the CSS in Register.css
 import "../route/user";
 import { register } from "../route/user";
 import { useNavigate } from "react-router-dom"; // Add this import
+import { IoIosArrowBack } from 'react-icons/io';
+
 
 const Register = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -34,6 +36,13 @@ const Register = () => {
   return (
     <>
       <form onSubmit={handleSubmit} className="register-content-page">
+        <button 
+          className="register-back-arrow"
+          type="button"  // Use type="button" to avoid form submission
+          onClick={() => navigate("/")}
+        >
+          <IoIosArrowBack size={20} />
+        </button>
         <h2 className="register-page-title">Register</h2>
 
         <div className="register-phone-number">

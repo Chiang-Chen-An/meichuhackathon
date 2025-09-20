@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 // import './Profile.css';
+import "../route/user"
 import Navigation from "../components/navigation";
+import { login, register } from "../route/user";
 
 function ProfilePage() {
-  const [name, setName] = useState("unknownUser");
-  const [email, setEmail] = useState("unknownUser@google.com");
+  const [phone, setphonenum] = useState("9876543210");
+  const [psw, setpsw] = useState("0000");
+  const [id, setid] = useState("0");
 
   const buttons = ["Edit Profile", "Log Out", "Log In", "Sign Up"];
 
@@ -82,16 +85,16 @@ function ProfilePage() {
 
   const handleEditProfile = () => {
     setFocusedButtonIndex(-1);
-    const newName = prompt("Enter your new name:", name);
-    const newEmail = prompt("Enter your new email:", email);
-    if (newName) setName(newName);
-    if (newEmail) setEmail(newEmail);
+    const newPhone = alert("Enter your new phone number:", phone);
+    const newPassword = alert("Enter your new password:", psw);
+    if (newPhone) setphonenum(newPhone);
+    if (newPassword) setpsw(newPassword);
   };
 
   const resetProfile = () => {
     setFocusedButtonIndex(-1);
-    setName("username");
-    setEmail("defult@abc.com");
+    setphonenum("0123456789");
+    setpsw("defultabcpsw");
   };
 
   return (
@@ -99,10 +102,13 @@ function ProfilePage() {
       <h2 className="page-title">Profile</h2>
       <div className="profile-info">
         <p>
-          <strong>Name:</strong> {name}
+          <strong>User_id:</strong> {id}
         </p>
         <p>
-          <strong>Email:</strong> {email}
+          <strong>Phone_number:</strong> {phone}
+        </p>
+        <p>
+          <strong>Password:</strong> {psw}
         </p>
         <button
           className={`profile-button ${
@@ -129,8 +135,9 @@ function ProfilePage() {
         <button
           className={`auth-button ${focusedButtonIndex === 2 ? "focused" : ""}`}
           onClick={() => {
-            setFocusedButtonIndex(-1);
-            alert(`You clicked on: Log In`);
+            let msg = register({"phone_number":phone, "password":psw});
+            alert(msg.message);
+            setid(msg.user_id);
           }}
           ref={buttonRefs.current[2]}
           tabIndex={focusedButtonIndex === 2 ? 0 : -1}
@@ -140,8 +147,9 @@ function ProfilePage() {
         <button
           className={`auth-button ${focusedButtonIndex === 3 ? "focused" : ""}`}
           onClick={() => {
-            setFocusedButtonIndex(-1);
-            alert(`You clicked on: Sign Up`);
+            let msg = login({"phone_number":phone, "password":psw});
+            alert(msg.message);
+            setid(msg.user_id);
           }}
           ref={buttonRefs.current[3]}
           tabIndex={focusedButtonIndex === 3 ? 0 : -1}

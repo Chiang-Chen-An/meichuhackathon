@@ -6,16 +6,17 @@ from sqlalchemy import and_
 
 search_bp = Blueprint('search', __name__)
 
-@search_bp.route('/search/jobs', methods=['GET'])
+@search_bp.route('/search/jobs', methods=['POST'])
 def search_jobs():
     """搜尋工作 - 支援按名稱、類型、日期範圍搜尋"""
     
+    data = request.get_json()
     # 取得查詢參數
-    job_name = request.args.get('name', '').strip()
-    job_type = request.args.get('type', '').strip()
-    date_start = request.args.get('date_start', '').strip()
-    date_end = request.args.get('date_end', '').strip()
-    status = request.args.get('status', 'open').strip()  # 預設只搜尋開放的工作
+    job_name = data.get('name', '').strip()
+    job_type = data.get('type', '').strip()
+    date_start = data.get('date_start', '').strip()
+    date_end = data.get('date_end', '').strip()
+    status = data.get('status', 'open').strip()  # 預設只搜尋開放的工作
     
     # 建立基本查詢
     query = Job.query

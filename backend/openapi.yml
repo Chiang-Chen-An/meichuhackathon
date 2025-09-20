@@ -1223,45 +1223,43 @@ paths:
                 $ref: '#/components/schemas/Error'
 
   /search/jobs:
-    get:
+    post:
       tags: [Search]
       summary: Search jobs
       description: Search for jobs by name, type, or date range
-      parameters:
-        - in: query
-          name: name
-          schema:
-            type: string
-          description: Search jobs by name (partial match)
-          example: "工程師"
-        - in: query
-          name: type
-          schema:
-            type: string
-          description: Search jobs by type (partial match)
-          example: "服務業"
-        - in: query
-          name: date_start
-          schema:
-            type: string
-            format: date
-          description: Search jobs available from this date (YYYY-MM-DD)
-          example: "2023-12-01"
-        - in: query
-          name: date_end
-          schema:
-            type: string
-            format: date
-          description: Search jobs available until this date (YYYY-MM-DD)
-          example: "2023-12-31"
-        - in: query
-          name: status
-          schema:
-            type: string
-            enum: [open, closed]
-            default: open
-          description: Filter by job status
-          example: "open"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+              properties:
+                name:
+                  type: string
+                  description: Search jobs by name (partial match)
+                  example: "工程師"
+                type:
+                  type: string
+                  description: Search jobs by type (partial match)
+                  example: "服務業"
+                date_start:
+                  type: string
+                  format: date
+                  description: Search jobs available from this date (YYYY-MM-DD)
+                  example: "2023-12-01"
+                date_end:
+                  type: string
+                  format: date
+                  description: Search jobs available until this date (YYYY-MM-DD)
+                  example: "2023-12-31"
+                status:
+                  type: string
+                  enum: [open, closed]
+                  default: open
+                  description: Filter by job status
+                  example: "open"
       responses:
         '200':
           description: Search results

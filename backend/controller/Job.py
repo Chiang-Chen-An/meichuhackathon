@@ -30,7 +30,6 @@ def getJobbyProvider(provider_id):
 
 @job_bp.route('/job', methods=['POST'])
 def createJob():
-    # 從 session 取得當前登入用戶
     current_user_id = session.get('user_id')
     if not current_user_id:
         return {'message': 'Please login first'}, 401
@@ -49,13 +48,10 @@ def createJob():
     if not job_name or not payment_low or not payment_high or not date_start or not date_end:
         return { 'message': 'Lack of necessary information' }, 400
     
-    # 驗證日期格式和邏輯
     try:
-        # 嘗試解析日期字符串（假設格式為 YYYY-MM-DD）
         start_date = datetime.strptime(date_start, '%Y-%m-%d').date()
         end_date = datetime.strptime(date_end, '%Y-%m-%d').date()
         
-        # 驗證開始日期必須早於結束日期
         if start_date > end_date:
             return { 'message': 'Date start must be earlier than date end' }, 400
             
@@ -90,15 +86,13 @@ def createJob():
 
 @job_bp.route('/job/my-jobs', methods=['GET'])
 def getMyJobs():
-    """取得當前登入用戶發布的所有工作"""
-    # 從 session 取得當前登入用戶
     current_user_id = session.get('user_id')
     if not current_user_id:
         return {'message': 'Please login first'}, 401
     
     provider = User.query.get(current_user_id)
     if not provider:
-        session.clear()  # 清除無效的 session
+        session.clear()  
         return {'message': 'User not found'}, 404
     
     jobs = provider.jobs
@@ -119,8 +113,6 @@ def getAlljob():
 
 @job_bp.route('/job/<int:job_id>/status', methods=['PUT'])
 def updateJobStatus(job_id):
-    """更新工作狀態 - 開放或關閉應徵"""
-    # 從 session 取得當前登入用戶
     current_user_id = session.get('user_id')
     if not current_user_id:
         return {'message': 'Please login first'}, 401
@@ -128,25 +120,21 @@ def updateJobStatus(job_id):
     data = request.get_json()
     new_status = data.get('status', None)
     
-    # 驗證狀態值
     if not new_status or new_status not in ['open', 'closed']:
         return {'message': 'Status must be either "open" or "closed"'}, 400
     
-    # 檢查工作是否存在
     job = Job.query.get(job_id)
     if not job:
         return {'message': 'Job does not exist'}, 404
     
-    # 檢查是否為工作發布者
     if job.provider_id != current_user_id:
         return {'message': 'You are not authorized to update this job status'}, 403
     
     try:
-        # 更新工作狀態
         if new_status == 'open':
             job.status = JobStatus.OPEN
             message = 'Job opened for applications'
-        else:  # new_status == 'closed'
+        else:  
             job.status = JobStatus.CLOSED
             message = 'Job closed for applications'
         
@@ -166,24 +154,19 @@ def updateJobStatus(job_id):
 
 @job_bp.route('/job/<int:job_id>', methods=['PUT'])
 def updateJob(job_id):
-    """編輯工作內容 - 只有工作發布者可以編輯"""
-    # 從 session 取得當前登入用戶
     current_user_id = session.get('user_id')
     if not current_user_id:
         return {'message': 'Please login first'}, 401
     
-    # 檢查工作是否存在
     job = Job.query.get(job_id)
     if not job:
         return {'message': 'Job does not exist'}, 404
     
-    # 檢查是否為工作發布者
     if job.provider_id != current_user_id:
         return {'message': 'You are not authorized to update this job'}, 403
     
     data = request.get_json()
     
-    # 取得要更新的欄位（都是可選的）
     job_name = data.get('job_name', None)
     payment_low = data.get('payment_low', None)
     payment_high = data.get('payment_high', None)
@@ -191,13 +174,11 @@ def updateJob(job_id):
     date_end = data.get('date_end', None)
     job_type = data.get('job_type', None)
     
-    # 如果提供了日期，需要驗證格式和邏輯
     start_date = None
     end_date = None
     
     if date_start or date_end:
         try:
-            # 如果只提供其中一個日期，使用現有的另一個日期
             if date_start:
                 start_date = datetime.strptime(date_start, '%Y-%m-%d').date()
             else:
@@ -208,14 +189,12 @@ def updateJob(job_id):
             else:
                 end_date = job.date_end
                 
-            # 驗證開始日期必須早於結束日期
             if start_date > end_date:
                 return {'message': 'Date start must be earlier than date end'}, 400
                 
         except ValueError as e:
             return {'message': 'Invalid date format. Please use YYYY-MM-DD format'}, 400
     
-    # 驗證薪資範圍
     if payment_low is not None and payment_high is not None:
         if payment_low > payment_high:
             return {'message': 'Payment low must be less than or equal to payment high'}, 400
@@ -227,7 +206,6 @@ def updateJob(job_id):
             return {'message': 'Current payment low must be less than or equal to payment high'}, 400
     
     try:
-        # 更新提供的欄位
         if job_name is not None:
             job.job_name = job_name.strip()
         if payment_low is not None:
@@ -257,27 +235,20 @@ def updateJob(job_id):
 
 @job_bp.route('/job/<int:job_id>', methods=['DELETE'])
 def deleteJob(job_id):
-    """刪除工作 - 只有工作發布者可以刪除"""
-    # 從 session 取得當前登入用戶
     current_user_id = session.get('user_id')
     if not current_user_id:
         return {'message': 'Please login first'}, 401
     
-    # 檢查工作是否存在
     job = Job.query.get(job_id)
     if not job:
         return {'message': 'Job does not exist'}, 404
     
-    # 檢查是否為工作發布者
     if job.provider_id != current_user_id:
         return {'message': 'You are not authorized to delete this job'}, 403
     
-    try:
-        # 先刪除相關的應徵記錄
-        
+    try: 
         JobApplication.query.filter_by(job_id=job_id).delete()
         
-        # 然後刪除工作
         db.session.delete(job)
         db.session.commit()
         

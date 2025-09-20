@@ -30,7 +30,6 @@ def getSavedJob():
 
 @user_job_bp.route('/user/jobs', methods=['POST'])
 def savedJob():
-    # 從 session 取得當前登入用戶 ID
     user_id = session.get('user_id')
     if not user_id:
         return {'message': 'Please login first'}, 401
@@ -41,7 +40,6 @@ def savedJob():
     if not job_id:
         return {'message': 'job_id is required'}, 400
     
-    # 檢查是否已經收藏過這個工作
     existing = UserJob.query.filter_by(user_id=user_id, job_id=job_id).first()
     if existing:
         return {'message': 'Job already saved'}, 409
@@ -59,7 +57,6 @@ def savedJob():
 
 @user_job_bp.route('/user/jobs/check/<int:job_id>', methods=['GET'])
 def checkJobSaved(job_id):
-    """檢查指定工作是否已被當前用戶收藏"""
     user_id = session.get('user_id')
     if not user_id:
         return {'message': 'Please login first'}, 401
@@ -73,7 +70,6 @@ def checkJobSaved(job_id):
 
 @user_job_bp.route('/user/jobs/batch_check', methods=['POST'])
 def batchCheckJobsSaved():
-    """批量檢查多個工作的收藏狀態"""
     user_id = session.get('user_id')
     if not user_id:
         return {'message': 'Please login first'}, 401
@@ -84,13 +80,11 @@ def batchCheckJobsSaved():
     if not job_ids:
         return {'message': 'job_ids is required'}, 400
     
-    # 查詢這些工作的收藏狀態
     saved_jobs = UserJob.query.filter(
         UserJob.user_id == user_id,
         UserJob.job_id.in_(job_ids)
     ).all()
     
-    # 建立收藏狀態字典
     saved_job_ids = {uj.job_id for uj in saved_jobs}
     
     result = {}
@@ -103,12 +97,10 @@ def batchCheckJobsSaved():
 
 @user_job_bp.route('/user/jobs/<int:job_id>', methods=['DELETE'])
 def unsaveJob(job_id):
-    """取消收藏指定的工作"""
     user_id = session.get('user_id')
     if not user_id:
         return {'message': 'Please login first'}, 401
     
-    # 查找要刪除的收藏記錄
     user_job = UserJob.query.filter_by(user_id=user_id, job_id=job_id).first()
     
     if not user_job:

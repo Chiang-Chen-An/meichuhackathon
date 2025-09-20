@@ -41,6 +41,29 @@ const Login = () => {
       }, 1000);
     } catch (error) {
       console.error("Login failed:", error);
+      console.error("Error type:", typeof error);
+      console.error("Error keys:", error ? Object.keys(error) : 'no keys');
+      
+      // 處理不同格式的錯誤訊息
+      let errorMsg = "Login failed. Please try again.";
+      
+      if (error && error.message) {
+        // 直接有 message 屬性
+        errorMsg = error.message;
+        console.log("Using error.message:", errorMsg);
+      } else if (typeof error === 'string') {
+        // 錯誤是字串
+        errorMsg = error;
+        console.log("Using string error:", errorMsg);
+      } else if (error && typeof error === 'object' && error.message) {
+        // 錯誤物件有 message 屬性
+        errorMsg = error.message;
+        console.log("Using object error.message:", errorMsg);
+      } else {
+        console.log("Using default error message:", errorMsg);
+      }
+      
+      setErrorMessage(errorMsg);
     } finally {
       setIsLoading(false);
     }
@@ -96,8 +119,30 @@ const Login = () => {
         </div>
       </form>
 
-      {successMessage && <div className="message">{successMessage}</div>}
-      {errorMessage && <div className="error-message">{errorMessage}</div>}
+      {successMessage && (
+        <div className="message">
+          {successMessage}
+          <button 
+            className="close-message-btn"
+            onClick={() => setSuccessMessage("")}
+            type="button"
+          >
+            ×
+          </button>
+        </div>
+      )}
+      {errorMessage && (
+        <div className="error-message">
+          {errorMessage}
+          <button 
+            className="close-message-btn"
+            onClick={() => setErrorMessage("")}
+            type="button"
+          >
+            ×
+          </button>
+        </div>
+      )}
     </>
   );
 };

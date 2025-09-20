@@ -391,6 +391,132 @@ paths:
                 properties:
                   error:
                     type: string
+    
+    put:
+      tags: [Job]
+      summary: Update job information
+      description: Update job details (only job provider can edit)
+      parameters:
+        - in: path
+          name: job_id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                job_name:
+                  type: string
+                  description: Job title (optional)
+                  example: "資深軟體工程師"
+                payment_low:
+                  type: integer
+                  description: Minimum payment (optional)
+                  example: 50000
+                payment_high:
+                  type: integer
+                  description: Maximum payment (optional)
+                  example: 80000
+                date_start:
+                  type: string
+                  format: date
+                  description: Job start date (optional, YYYY-MM-DD)
+                  example: "2024-01-15"
+                date_end:
+                  type: string
+                  format: date
+                  description: Job end date (optional, YYYY-MM-DD)
+                  example: "2024-12-31"
+                job_type:
+                  type: string
+                  description: Job type (optional)
+                  example: "全職"
+              additionalProperties: false
+      responses:
+        '200':
+          description: Job updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Job updated successfully"
+                  job:
+                    type: object
+                    properties:
+                      job_id:
+                        type: integer
+                      job_name:
+                        type: string
+                      type:
+                        type: string
+                      payment:
+                        type: string
+                      date:
+                        type: string
+                      status:
+                        type: string
+                        enum: [open, closed]
+                      job_provider_id:
+                        type: integer
+                      created_at:
+                        type: date
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Date start must be earlier than date end"
+        '401':
+          description: User not logged in
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Please login first"
+        '403':
+          description: Not authorized to update this job
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "You are not authorized to update this job"
+        '404':
+          description: Job not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Job does not exist"
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Failed to update job"
               
     delete:
       tags: [Job]
@@ -1226,24 +1352,18 @@ paths:
     post:
       tags: [Search]
       summary: Search jobs
-      description: Search for jobs by name, type, or date range
+      description: Search for jobs by keyword (matches both job name and type), and/or date range
       requestBody:
         required: true
         content:
           application/json:
             schema:
               type: object
-              required:
-                - name
               properties:
-                name:
+                keyword:
                   type: string
-                  description: Search jobs by name (partial match)
+                  description: Search keyword that matches both job name and type (partial match)
                   example: "工程師"
-                type:
-                  type: string
-                  description: Search jobs by type (partial match)
-                  example: "服務業"
                 date_start:
                   type: string
                   format: date
@@ -1272,12 +1392,9 @@ paths:
                     type: object
                     description: Applied search parameters
                     properties:
-                      name:
+                      keyword:
                         type: string
                         example: "工程師"
-                      type:
-                        type: string
-                        example: "服務業"
                       date_start:
                         type: string
                         example: "2023-12-01"

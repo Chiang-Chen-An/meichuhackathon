@@ -163,6 +163,97 @@ def updateJobStatus(job_id):
             'error': str(e)
         }, 500
 
+@job_bp.route('/job/<int:job_id>', methods=['PUT'])
+def updateJob(job_id):
+    """編輯工作內容 - 只有工作發布者可以編輯"""
+    # 從 session 取得當前登入用戶
+    current_user_id = session.get('user_id')
+    if not current_user_id:
+        return {'message': 'Please login first'}, 401
+    
+    # 檢查工作是否存在
+    job = Job.query.get(job_id)
+    if not job:
+        return {'message': 'Job does not exist'}, 404
+    
+    # 檢查是否為工作發布者
+    if job.provider_id != current_user_id:
+        return {'message': 'You are not authorized to update this job'}, 403
+    
+    data = request.get_json()
+    
+    # 取得要更新的欄位（都是可選的）
+    job_name = data.get('job_name', None)
+    payment_low = data.get('payment_low', None)
+    payment_high = data.get('payment_high', None)
+    date_start = data.get('date_start', None)
+    date_end = data.get('date_end', None)
+    job_type = data.get('job_type', None)
+    
+    # 如果提供了日期，需要驗證格式和邏輯
+    start_date = None
+    end_date = None
+    
+    if date_start or date_end:
+        try:
+            # 如果只提供其中一個日期，使用現有的另一個日期
+            if date_start:
+                start_date = datetime.strptime(date_start, '%Y-%m-%d').date()
+            else:
+                start_date = job.date_start
+                
+            if date_end:
+                end_date = datetime.strptime(date_end, '%Y-%m-%d').date()
+            else:
+                end_date = job.date_end
+                
+            # 驗證開始日期必須早於結束日期
+            if start_date > end_date:
+                return {'message': 'Date start must be earlier than date end'}, 400
+                
+        except ValueError as e:
+            return {'message': 'Invalid date format. Please use YYYY-MM-DD format'}, 400
+    
+    # 驗證薪資範圍
+    if payment_low is not None and payment_high is not None:
+        if payment_low > payment_high:
+            return {'message': 'Payment low must be less than or equal to payment high'}, 400
+    elif payment_low is not None and job.payment_high is not None:
+        if payment_low > job.payment_high:
+            return {'message': 'Payment low must be less than or equal to current payment high'}, 400
+    elif payment_high is not None and job.payment_low is not None:
+        if job.payment_low > payment_high:
+            return {'message': 'Current payment low must be less than or equal to payment high'}, 400
+    
+    try:
+        # 更新提供的欄位
+        if job_name is not None:
+            job.job_name = job_name.strip()
+        if payment_low is not None:
+            job.payment_low = payment_low
+        if payment_high is not None:
+            job.payment_high = payment_high
+        if date_start:
+            job.date_start = start_date
+        if date_end:
+            job.date_end = end_date
+        if job_type is not None:
+            job.job_type = job_type.strip() if job_type else None
+        
+        db.session.commit()
+        
+        return {
+            'message': 'Job updated successfully',
+            'job': job.to_dict()
+        }, 200
+        
+    except Exception as e:
+        db.session.rollback()
+        return {
+            'message': 'Failed to update job',
+            'error': str(e)
+        }, 500
+
 @job_bp.route('/job/<int:job_id>', methods=['DELETE'])
 def deleteJob(job_id):
     """刪除工作 - 只有工作發布者可以刪除"""

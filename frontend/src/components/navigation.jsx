@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FaHome, FaSearch, FaBookmark, FaUser } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
-import { getCurrentUser } from '../route/user';
+import { getCurrentUser } from "../route/user";
 import "./navigation.css";
 
 function Navigation() {
@@ -12,7 +12,6 @@ function Navigation() {
   const [focusedLinkIndex, setFocusedLinkIndex] = useState(-1);
   const navigate = useNavigate();
 
-  // 檢查登入狀態
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
@@ -36,33 +35,37 @@ function Navigation() {
   };
 
   const navLinks = [
-    { to: "/home", iconName: "home_icon", label: "Home"},
+    { to: "/home", iconName: "home_icon", label: "Home" },
     { to: "/search", iconName: "search_icon", label: "Search" },
-    { to: "/createJob", iconName: "create_icon", label: "Create"},
-    { to: "/saved", iconName: "saved_icon", label: "Saved"},
+    { to: "/createJob1", iconName: "create_icon", label: "Create" },
+    { to: "/saved", iconName: "saved_icon", label: "Saved" },
     {
-      to: "#", // 使用 # 作為佔位符，實際導航由 handleNavClick 處理
+      to: isLoggedIn ? "/profile" : "/login",
       iconName: "profile_icon",
-      label: isLoggedIn ? "Profile" : "Login"
+      label: isLoggedIn ? "Profile" : "Login",
     },
   ];
-
-  const handleNavClick = (e, link) => {
-    if (link.iconName === "profile_icon") {
-      e.preventDefault();
-      if (isLoggedIn) {
-        navigate("/profile");
-      } else {
-        navigate("/login");  // 改為跳轉到登入頁面
-      }
-    }
-  };
 
   const linkRefs = useRef([]);
   linkRefs.current = navLinks.map(
     (_, i) => linkRefs.current[i] ?? React.createRef()
   );
-      
+
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      try {
+        const user = await getCurrentUser();
+        setIsLoggedIn(!!user);
+      } catch (error) {
+        console.error("Failed to fetch user:", error);
+        setIsLoggedIn(false);
+      } finally {
+        setLoading(false);
+      }
+    };
+    checkLoginStatus();
+  }, []);
+
   useEffect(() => {
     const handleKeyDown = (event) => {
       const isNumberKey =
@@ -82,7 +85,7 @@ function Navigation() {
             event.preventDefault();
             const index = parseInt(event.key, 10) - 1;
             if (navLinks[index]) {
-              navigate(navLinks[index].to); // 🚀 直接跳轉
+              navigate(navLinks[index].to);
             }
           }
           break;
@@ -114,7 +117,6 @@ function Navigation() {
     }
   }, [focusedLinkIndex]);
 
-  // 等待登入狀態檢查完成
   if (loading) {
     return (
       <div className="fixed-bottom-bar">
@@ -127,41 +129,13 @@ function Navigation() {
     <div className="fixed-bottom-bar">
       {navLinks.map((link, index) => (
         <div className="text-item" key={link.iconName}>
-          {link.iconName === "profile_icon" ? (
-            <button 
-              onClick={(e) => handleNavClick(e, link)}
-              className={"nav-button"}
-              style={{
-                background: 'none',
-                border: 'none',
-                color: 'inherit',
-                cursor: 'pointer',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                padding: '8px',
-                fontSize: 'inherit'
-              }}
-            >
-              {iconMap[link.iconName]}
-              {link.label && <span style={{ fontSize: '10px', marginTop: '2px' }}>{link.label}</span>}
-            </button>
-          ) : (
-            <NavLink 
-              to={link.to}
-              className={({ isActive }) => isActive ? "active" : ""}
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                textDecoration: 'none',
-                color: 'inherit'
-              }}
-            >
-              {iconMap[link.iconName]}
-              {link.label && <span style={{ fontSize: '10px', marginTop: '2px' }}>{link.label}</span>}
-            </NavLink>
-          )}
+          <NavLink
+            to={link.to}
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            {iconMap[link.iconName]}
+            {link.label}
+          </NavLink>
         </div>
       ))}
     </div>

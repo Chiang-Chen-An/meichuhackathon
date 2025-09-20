@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import './Register.css'; // Assuming you save the CSS in Register.css
+import "../route/user"
+import { register } from "../route/user";
 
 const Register = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -7,6 +9,7 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [id, setId] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -54,7 +57,12 @@ const Register = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <button type="submit">Register</button>
+        <button type="submit" onClick={() => {
+          let msg = register({"phone_number":phoneNumber, "password":password, "email":email});
+          alert(msg.message);
+          setSuccessMessage(msg.message);
+          setId(msg.user_id);
+        }}>Register</button>
       </form>
 
       {successMessage && <div className="message">{successMessage}</div>}

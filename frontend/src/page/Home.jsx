@@ -23,11 +23,9 @@ function HomePage() {
     }else if (nav === 0 && event.key === "enter") {
       setCurrentIndex((prevIndex) => (prevIndex - 1 + videos.length) % videos.length); // 改成 把現在的短影音加入收藏
     }else if (event.key === "LSK") {
-      setNavMode(1);
-      console.log("nav 1");
-    }else if (event.key == "RSK") {
-      setNavMode(0);
-      console.log("nav 0");
+      if(nav === 0) setNavMode(1);
+      else setNavMode(0);
+      console.log(`nav: ${nav}`);
     }
     console.log("Current Image Path:", videos[currentIndex].image);
   };

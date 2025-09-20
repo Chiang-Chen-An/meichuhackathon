@@ -77,13 +77,10 @@ function Navigation() {
             linkRefs.current[focusedLinkIndex].current.click();
           }
           break;
-        case ("RSK" || "9"):
-          setNavMode(0);
-          console.log("nav 0");
-          break;
-        case ("LSK" || "0"):
-          setNavMode(1);
-          console.log("nav 1");
+        case "LSK":
+          if(nav === 0) setNavMode(1);
+          else setNavMode(0);
+          console.log(`nav: ${nav}`);
           event.preventDefault();
           setFocusedLinkIndex(0);
           break;

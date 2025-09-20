@@ -21,7 +21,7 @@ function SearchPage() {
 
   return (
     <>
-      <div className="content-page">
+      <div className="search-content-page">
         <div className="search-bar">
           <input
             type="text"

@@ -37,7 +37,7 @@ function HomePage() {
   };
 
   return (
-    <div className="content-page">
+    <div className="home-content-page">
       <button className="mode-toggle-button" onClick={toggleMode}>
         <FaExchangeAlt size={20} />
       </button>

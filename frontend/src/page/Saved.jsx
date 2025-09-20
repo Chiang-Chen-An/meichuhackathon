@@ -7,7 +7,7 @@ function SavedPage() {
   const saved_jobs = ['googoogaga', 'HAHA', 'AMD', 'google'];
 
   return (
-    <div className="content-page">
+    <div className="saved-content-page">
       <h3>Saved works</h3>
       <div className="profile-info">
         

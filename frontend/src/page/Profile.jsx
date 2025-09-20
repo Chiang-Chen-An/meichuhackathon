@@ -98,7 +98,7 @@ function ProfilePage() {
   };
 
   return (
-    <div className="content-page">
+    <div className="profile-content-page">
       <h2 className="page-title">Profile</h2>
       <div className="profile-info">
         <p>

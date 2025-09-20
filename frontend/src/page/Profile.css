@@ -1,12 +1,15 @@
-.content-page {
+.profile-content-page {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  padding: 20px;
   background-color: #f0f2f5;
-  min-height: 320px;
-  height: 320px;
-  width: 240px;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  margin: 0;
+  border: none;
 }
 
 .page-title {

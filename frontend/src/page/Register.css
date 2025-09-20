@@ -1,14 +1,25 @@
-.register-form {
-  width: 100%;
+.register-content-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f0f2f5;
   height: 100%;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  margin: 0;
+  border: none;
 }
 
-.page-title {
+.register-page-title {
   text-align: center;
   margin-bottom: 2%;
 }
 
-.phone-number {
+.register-phone-number,
+.register-email,
+.register-password {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -17,12 +28,16 @@
   gap: 2%;
 }
 
-.phone-number-label {
+.register-phone-number-label,
+.register-email-label,
+.register-password-label {
   text-align: left;
   font-weight: bold;
 }
 
-.phone-number-input {
+.register-phone-number-input,
+.register-email-input,
+.register-password-input {
   width: 100%;
   padding: 10px;
   box-sizing: border-box;
@@ -30,51 +45,7 @@
   border-radius: 4px;
 }
 
-.email {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 90%;
-  margin: auto;
-  gap: 2%;
-}
-
-.email-label {
-  text-align: left;
-  font-weight: bold;
-}
-
-.email-input {
-  width: 100%;
-  padding: 10px;
-  box-sizing: border-box;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.password {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 90%;
-  margin: auto;
-  gap: 2%;
-}
-
-.password-label {
-  text-align: left;
-  font-weight: bold;
-}
-
-.password-input {
-  width: 100%;
-  padding: 10px;
-  box-sizing: border-box;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.log-in-button {
+.register-login-button {
   width: 45%;
   margin: 5% auto;
   padding: 10px;
@@ -96,7 +67,7 @@
   cursor: pointer;
 }
 
-.button-group {
+.register-button-group {
   display: flex;
   justify-content: space-between;
   width: 90%;

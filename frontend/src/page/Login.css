@@ -1,0 +1,82 @@
+.login-content-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Vertically center the content */
+  align-items: center;
+  background-color: #f0f2f5;
+  height: 100%; /* Full height of viewport */
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  margin: 0;
+}
+
+.login-page-title {
+  text-align: center;
+  margin-bottom: 1.5%; /* Reduced margin */
+}
+
+.login-phone-or-email,
+.login-password {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 90%; /* Responsive width */
+  margin: 0; /* Center inputs */
+  gap: 0.5rem; /* Reduced gap between fields */
+}
+
+.login-phone-or-email-label,
+.login-password-label {
+  text-align: left;
+  font-weight: bold;
+}
+
+.login-phone-or-email-input,
+.login-password-input {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 0.5rem; /* Reduce space between inputs */
+}
+
+.login-phone-or-email-input:focus,
+.login-password-input:focus {
+  border-color: #0066cc;
+  outline: none;
+}
+
+.login-button{
+  width: 45%; /* Full width for button */
+  padding: 12px;
+  background-color: #4caf50;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 1.5rem; /* Adjust space above the button */
+}
+
+.login-register-button {
+  width: 45%; /* Full width for button */
+  padding: 12px;
+  background-color: #008cba;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 1.5rem; /* Adjust space above the button */
+}
+
+.login-button-group {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  margin: auto;
+}

@@ -1,71 +1,93 @@
 import React, { useState } from "react";
-import './Login.css'; // Assuming you save the CSS in Login.css
-import "../route/user"
+import "./Login.css"; // Assuming you save the CSS in Login.css
+import "../route/user";  // Assuming this contains your login function
+import { login } from "../route/user"; // Assuming this contains the login function
+import { useNavigate } from "react-router-dom"; // Add this import
 
 const Login = () => {
-    const [phoneNumber, setPhoneNumber] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [errorMessage, setErrorMessage] = useState("");
-    const [successMessage, setSuccessMessage] = useState("");
+  const [phoneNumberOrEmail, setPhoneNumberOrEmail] = useState(""); // Phone number or email
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [id, setId] = useState("");
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+  const navigate = useNavigate();
 
-        // Simple validation
-        if (!phoneNumber || !email || !password) {
-            setErrorMessage("All fields are required.");
-            return;
-        }
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-        // Simulating successful registration
-        // setSuccessMessage("Registration successful!");
-        setErrorMessage("");
+    // Simple validation
+    if (!phoneNumberOrEmail || !password) {
+      setErrorMessage("Both phone number/email and password are required.");
+      return;
+    }
 
-        // You can replace this with actual form submission logic
-        console.log({ phoneNumber, email, password });
-    };
+    // Simulating successful login
+    setErrorMessage("");
 
-    return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <h2>Login</h2>
+    // You can replace this with actual form submission logic
+    login({ phone_number_or_email: phoneNumberOrEmail, password })
+      .then((msg) => {
+        console.log(msg);
+        alert(msg.message);
+        setSuccessMessage(msg.message);
+        setId(msg.user_id);
+      })
+      .catch((err) => {
+        console.error(err);
+        alert("Login failed");
+      });
+  };
 
-                <label htmlFor="phone-number">Phone Number</label>
-                <input
-                    type="text"
-                    id="phone-number"
-                    value={phoneNumber}
-                    onChange={(e) => setPhoneNumber(e.target.value)}
-                />
+  return (
+    <>
+      <form onSubmit={handleSubmit} className="login-content-page">
+        <h2 className="login-page-title">Login</h2>
 
-                <label htmlFor="email">Email</label>
-                <input
-                    type="email"
-                    id="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-
-                <label htmlFor="password">Password</label>
-                <input
-                    type="password"
-                    id="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-
-                <button type="submit" onClick={() => {
-                    let msg = login({ "phone_number": phoneNumber, "password": password, "email": email });
-                    alert(msg.message);
-                    setSuccessMessage(msg.message);
-                }}>Login</button>
-            </form>
-
-            {successMessage && <div className="message">{successMessage}</div>}
-            {errorMessage && <div className="error-message">{errorMessage}</div>}
+        <div className="login-phone-or-email">
+          <label className="login-phone-or-email-label">Phone Number or Email</label>
+          <input
+            type="text"
+            className="login-phone-or-email-input"
+            value={phoneNumberOrEmail}
+            onChange={(e) => setPhoneNumberOrEmail(e.target.value)}
+          />
         </div>
-    );
+
+        <div className="login-password">
+          <label className="login-password-label">Password</label>
+          <input
+            type="password"
+            className="login-password-input"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+
+
+        <div className="login-button-group">
+          <button
+            className="login-button"
+            type="button"  // Use type="button" to avoid form submission
+            onClick={() => navigate("/login")}  // Navigate to login page on click
+          >
+            Log In
+          </button>
+
+          <button
+            className="login-register-button"
+            type="button"  // Use type="button" to avoid form submission
+            onClick={() => navigate("/register")}  // Navigate to login page on click
+          >
+            Sign Up
+          </button>
+        </div>
+      </form>
+
+      {successMessage && <div className="message">{successMessage}</div>}
+      {errorMessage && <div className="error-message">{errorMessage}</div>}
+    </>
+  );
 };
 
 export default Login;

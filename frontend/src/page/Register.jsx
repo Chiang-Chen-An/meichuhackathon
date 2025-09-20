@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./Register.css"; // Assuming you save the CSS in Register.css
 import "../route/user";
 import { register } from "../route/user";
+import { useNavigate } from "react-router-dom"; // Add this import
 
 const Register = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -10,6 +11,8 @@ const Register = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [id, setId] = useState("");
+
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -30,56 +33,44 @@ const Register = () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="register-form">
-        <h2 className="page-title">Register</h2>
+      <form onSubmit={handleSubmit} className="register-content-page">
+        <h2 className="register-page-title">Register</h2>
 
-        <div className="phone-number">
-          <label className="phone-number-label">Phone Number</label>
+        <div className="register-phone-number">
+          <label className="register-phone-number-label">Phone Number</label>
           <input
             type="text"
-            className="phone-number-input"
+            className="register-phone-number-input"
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
           />
         </div>
 
-        <div className="email">
-          <label className="email-label">Email</label>
+        <div className="register-email">
+          <label className="register-email-label">Email</label>
           <input
             type="email"
-            className="email-input"
+            className="register-email-input"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
 
-        <div className="password">
-          <label className="password-label">Password</label>
+        <div className="register-password">
+          <label className="register-password-label">Password</label>
           <input
             type="password"
-            className="password-input"
+            className="register-password-input"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
 
-        <div className="button-group">
+        <div className="register-button-group">
           <button
-            className="log-in-button"
-            type="submit"
-            onClick={() => {
-              register({ phone_number: phoneNumber, password, email })
-                .then((msg) => {
-                  console.log(msg);
-                  alert(msg.message);
-                  setSuccessMessage(msg.message);
-                  setId(msg.user_id);
-                })
-                .catch((err) => {
-                  console.error(err);
-                  alert("Register failed");
-                });
-            }}
+            className="register-login-button"
+            type="button"  // Use type="button" to avoid form submission
+            onClick={() => navigate("/login")}  // Navigate to login page on click
           >
             Log In
           </button>

@@ -88,16 +88,16 @@ function JobDetailPage() {
         <p className="job-detail-text">
           <BiCategory /> {job.type}
         </p>
-        {/* <video
-        className="video"
-        key={job.videoUrl}
-        autoPlay
-        loop
-        muted
-        x-puffin-playsinline=""
-      >
-        <source src={job.videoUrl} type="video/mp4" />
-      </video> */}
+        <video
+          className="video"
+          key={job.videoUrl}
+          autoPlay
+          loop
+          muted
+          x-puffin-playsinline=""
+        > 
+          <source src={`${API_BASE_URL}/job/${jobId}/video`} type="video/mp4" />
+        </video>
       </div>
       <Navigation />
     </div>

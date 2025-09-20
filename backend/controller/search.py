@@ -1,5 +1,4 @@
 from models.Job import Job, JobStatus
-from models import db
 from flask import request, jsonify, Blueprint
 from datetime import datetime
 

@@ -3,7 +3,6 @@ from models.Job import Job, JobStatus
 from models.JobApplication import JobApplication, ApplicationStatus
 from models import db
 from flask import request, jsonify, Blueprint, session
-from datetime import datetime
 from sqlalchemy.exc import IntegrityError
 
 recruit_bp = Blueprint('recruit', __name__)

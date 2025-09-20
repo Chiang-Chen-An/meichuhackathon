@@ -1,97 +1,66 @@
 import React, { useState } from "react";
-// import './Register.css'; // Importing CSS for styling
-import Navigation from "../components/navigation";
+import './Register.css'; // Assuming you save the CSS in Register.css
 
-function RegisterPage() {
-  // Local state to hold form data
-  const [username, setUsername] = useState("");
+const Register = () => {
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     // Simple validation
-    if (!username || !email || !password || !confirmPassword) {
-      setErrorMessage("Please fill in all fields");
+    if (!phoneNumber || !email || !password) {
+      setErrorMessage("All fields are required.");
       return;
     }
 
-    if (password !== confirmPassword) {
-      setErrorMessage("Passwords do not match");
-      return;
-    }
-
-    // Simulate successful registration (could be API call here)
-    alert("Registration successful!");
-    // Reset form fields after submission
-    setUsername("");
-    setEmail("");
-    setPassword("");
-    setConfirmPassword("");
+    // Simulating successful registration
+    setSuccessMessage("Registration successful!");
     setErrorMessage("");
+    
+    // You can replace this with actual form submission logic
+    console.log({ phoneNumber, email, password });
   };
 
   return (
-    <div className="register-container">
-      <h2 className="register-title">Create an Account</h2>
-      <form className="register-form" onSubmit={handleSubmit}>
-        <div className="input-group">
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Enter your username"
-          />
-        </div>
+    <div>
+      <form onSubmit={handleSubmit}>
+        <h2>Register</h2>
 
-        <div className="input-group">
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter your email"
-          />
-        </div>
+        <label htmlFor="phone-number">Phone Number</label>
+        <input
+          type="text"
+          id="phone-number"
+          value={phoneNumber}
+          onChange={(e) => setPhoneNumber(e.target.value)}
+        />
 
-        <div className="input-group">
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter your password"
-          />
-        </div>
+        <label htmlFor="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
-        <div className="input-group">
-          <label htmlFor="confirm-password">Confirm Password</label>
-          <input
-            type="password"
-            id="confirm-password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            placeholder="Confirm your password"
-          />
-        </div>
+        <label htmlFor="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
-
-        <button type="submit" className="submit-button">Register</button>
+        <button type="submit">Register</button>
       </form>
 
-      <div className="login-redirect">
-        <p>Already have an account? <a href="/login">Login here</a></p>
-      </div>
+      {successMessage && <div className="message">{successMessage}</div>}
+      {errorMessage && <div className="error-message">{errorMessage}</div>}
     </div>
   );
-}
+};
 
-export default RegisterPage;
+export default Register;

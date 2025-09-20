@@ -6,12 +6,15 @@ from models import db, migrate
 from controller.User import user_bp
 from controller.Job import job_bp
 from controller.recruit import recruit_bp
+from flask_cors import CORS
+
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://user:user@mysql:3306/db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # 設定 secret key 用於 session 管理
 app.config['SECRET_KEY'] = 'meichuhackathon2024-super-secret-key-for-session-management'
+CORS(app)  
 db.init_app(app)
 migrate.init_app(app, db)
 app.config['SWAGGER'] = {

@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { FaExchangeAlt } from "react-icons/fa";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import Navigation from "../components/navigation";
 import { useNavigate } from "react-router-dom";
+import Navigation from "../components/navigation";
 import "./Home.css";
 
 function HomePage() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [nav, setNavMode] = useState(0);
   const [mode, setMode] = useState("short");
 
   const videos = [
@@ -15,19 +14,22 @@ function HomePage() {
       id: 1,
       name: "Video 1",
       data: "Banana is very yummy",
-      videoUrl: "/video/test.mp4", // Example YouTube video
+      videoUrl: "/video/test.mp4", // Local MP4
+      type: "mp4",
     },
     {
       id: 2,
       name: "Video 2",
       data: "Cat looks sad",
-      videoUrl: "/video/test2.mp4", // Another YouTube video
+      videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", // YouTube
+      type: "iframe",
     },
     {
       id: 3,
       name: "Video 3",
       data: "Crying cat looks yummy",
-      videoUrl: "/video/test.mp4", // Another YouTube video
+      videoUrl: "https://www.youtube.com/embed/Kx2-7-cXpg8", // YouTube
+      type: "iframe",
     },
   ];
 
@@ -43,14 +45,10 @@ function HomePage() {
 
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [currentIndex, nav]);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
-  const toggleMode = () => {
-    setMode(mode === "short" ? "list" : "short");
-  };
+  const toggleMode = () => setMode(mode === "short" ? "list" : "short");
 
   return (
     <div className="home-content-page">
@@ -61,15 +59,26 @@ function HomePage() {
       <div className="video-screen">
         {mode === "short" ? (
           <div className="video-item">
-            <iframe
-              title={videos[currentIndex].name}
-              src={`${videos[currentIndex].videoUrl}?autoplay=1&loop=1&controls=0&mute=1`}
-              width="100%"
-              height="100%"
-              frameBorder="0"
-              allow="autoplay; fullscreen"
-              allowFullScreen={false} // Prevent fullscreen
-            />
+            {videos[currentIndex].type === "mp4" ? (
+              <video
+                src={videos[currentIndex].videoUrl}
+                autoPlay
+                loop
+                muted
+                style={{ width: "100%", height: "100%" }}
+                controls={false}
+              />
+            ) : (
+              <iframe
+                title={videos[currentIndex].name}
+                src={`${videos[currentIndex].videoUrl}?autoplay=1&loop=1&controls=0&mute=1`}
+                width="100%"
+                height="100%"
+                frameBorder="0"
+                allow="autoplay"
+                allowFullScreen={false}
+              />
+            )}
             <div className="data-wrap" name="short">
               <p className="video-name">{videos[currentIndex].name}</p>
               <p className="video-data">{videos[currentIndex].data}</p>
@@ -79,17 +88,26 @@ function HomePage() {
           <div className="video-list">
             {videos.map((video) => (
               <div key={video.id} className="video-item">
-                <div name="list" className="video-container">
+                {video.type === "mp4" ? (
+                  <video
+                    src={video.videoUrl}
+                    autoPlay
+                    loop
+                    muted
+                    style={{ width: "100%", height: "100%" }}
+                    controls={false}
+                  />
+                ) : (
                   <iframe
                     title={video.name}
                     src={`${video.videoUrl}?autoplay=1&loop=1&controls=0&mute=1`}
                     width="100%"
                     height="100%"
                     frameBorder="0"
-                    allow="autoplay; fullscreen"
-                    allowFullScreen={false} // Prevent fullscreen
+                    allow="autoplay"
+                    allowFullScreen={false}
                   />
-                </div>
+                )}
                 <div className="data-wrap" id="list">
                   <p className="video-name">{video.name}</p>
                   <p className="video-data">{video.data}</p>

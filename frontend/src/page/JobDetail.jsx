@@ -8,7 +8,7 @@ import { MdDateRange } from "react-icons/md";
 import { BiCategory } from "react-icons/bi";
 import { savedJob, unsaveJob, checkJobSaved } from "../route/userJob";
 import "./JobDetail.css";
-import { API_BASE_URL } from "../config";
+import { API_BASE_URL } from "../config/config";
 
 function JobDetailPage() {
   const { jobId } = useParams();

@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { get_jobs, get_jobs_by_keyword } from "../route/job";
 import Navigation from "../components/navigation";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaMoneyBillWave } from "react-icons/fa";
+import { MdDateRange } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 import "./Search.css";
 
 function SearchPage() {
   const [jobs, setJobs] = useState([]);
   const [searchText, setSearchText] = useState();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadJobs();
@@ -41,7 +45,7 @@ function SearchPage() {
         <div className="search-bar">
           <input
             type="text"
-            placeholder="Search for jobs, location, company"
+            placeholder="Search"
             className="search-input"
             onChange={(e) => setSearchText(e.target.value)}
           />
@@ -52,28 +56,24 @@ function SearchPage() {
         <div className="job-list">
           {jobs.length > 0 ? (
             jobs.map((job, index) => (
-              <div className="job-item" key={job.job_id || index}>
-                <div className="job-card">
-                  <div className="job-header">
-                    <h3 className="job-name">
-                      {job.job_name || "Job Name Not Available"}
-                    </h3>
-                    <span className="job-type">
-                      {job.type || "Type Not Specified"}
-                    </span>
-                  </div>
-                  <div className="job-details">
-                    <div className="job-info">
-                      <span className="job-salary">
-                        💰 {job.payment || "Salary Not Listed"}
-                      </span>
-                      <span className="job-date">
-                        📅 {job.date || "Date Not Available"}
-                      </span>
-                    </div>
-                  </div>
+              <button
+                className="job-button"
+                key={job.job_id || index}
+                onClick={() => navigate(`/job_detail/${job.job_id}`)}
+              >
+                <div className="job-text">
+                  {job.job_name || "Job Name Not Available"}
                 </div>
-              </div>
+                <div className="job-tag">
+                  {job.type || "Type Not Specified"}
+                </div>
+                <div className="job-text">
+                  <FaMoneyBillWave /> {job.payment || "Salary Not Listed"}
+                </div>
+                <div className="job-text">
+                  <MdDateRange /> {job.date || "Date Not Available"}
+                </div>
+              </button>
             ))
           ) : (
             <div className="no-result-container">

@@ -33,7 +33,6 @@ function SavedPage() {
     navigate("/login");
   };
 
-
   if (loading) {
     return (
       <div className="saved-content-page">
@@ -47,7 +46,7 @@ function SavedPage() {
   return (
     <div className="saved-content-page">
       {!error && <h3>Saved Jobs</h3>}
-      
+
       {error && (
         <div className="error-message">
           {error}
@@ -61,23 +60,40 @@ function SavedPage() {
         <div className="saved-list">
           {!error && saved_jobs.length > 0 ? (
             saved_jobs.map((savedJobData, index) => (
-              <div className="saved-item" key={savedJobData.job?.job_id || index}>
+              <button
+                className="saved-item"
+                key={savedJobData.job?.job_id || index}
+                onClick={() =>
+                  navigate(`/job_detail/${savedJobData.job?.job_id}`)
+                }
+              >
                 <div className="job-card">
                   <div className="job-header">
-                    <div className="job-name">{savedJobData.job?.job_name || 'Job Name Not Available'}</div>
-                    <span className="job-type">{savedJobData.job?.type || 'Type Not Specified'}</span>
+                    <div className="job-name">
+                      {savedJobData.job?.job_name || "Job Name Not Available"}
+                    </div>
+                    <span className="job-type">
+                      {savedJobData.job?.type || "Type Not Specified"}
+                    </span>
                   </div>
                   <div className="job-details">
                     <div className="job-info">
-                      <span className="job-salary">💰 {savedJobData.job?.payment || 'Salary Not Listed'}</span>
-                      <span className="job-date">📅 {savedJobData.job?.date || 'Date Not Available'}</span>
+                      <span className="job-salary">
+                        💰 {savedJobData.job?.payment || "Salary Not Listed"}
+                      </span>
+                      <span className="job-date">
+                        📅 {savedJobData.job?.date || "Date Not Available"}
+                      </span>
                     </div>
                   </div>
                   <div className="saved-date">
-                    🗺 Saved: {savedJobData.saved_date ? new Date(savedJobData.saved_date).toLocaleDateString() : 'Unknown'}
+                    🗺 Saved:{" "}
+                    {savedJobData.saved_date
+                      ? new Date(savedJobData.saved_date).toLocaleDateString()
+                      : "Unknown"}
                   </div>
                 </div>
-              </div>
+              </button>
             ))
           ) : !error ? (
             <div className="no-result-container">

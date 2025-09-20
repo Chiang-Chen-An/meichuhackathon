@@ -11,11 +11,11 @@
 }
 
 .search-bar {
-  height: 10vh;
+  height: 10%;
   width: 90%;
-  border: 0.0625rem solid #ccc;
-  border-radius: 0.3125rem;
-  margin-top: 7vh;
+  border: 1px solid #ccc;
+  border-radius: 5pt;
+  margin-top: 7%;
   display: flex;
   overflow: hidden;
 }
@@ -24,16 +24,16 @@
   width: 100%;
   height: 100%;
   flex: 1;
-  padding: 2%;
   border: none;
-  border-radius: 0.25rem 0 0 0.25rem;
+  border-radius: 4pt 0 0 4pt;
+  padding-left: 5%;
   outline: none;
 }
 
 .search-button {
   width: 20%;
   border: none;
-  border-radius: 0 0.3125rem 0.3125rem 0;
+  border-radius: 0 5pt 5pt 0;
   background-color: #007bff;
   color: #fff;
   cursor: pointer;
@@ -47,103 +47,31 @@
 }
 
 .job-list {
-  margin-top: 2vh;
+  margin-top: 2%;
   width: 90%;
   height: auto;
-  max-height: 70vh;
+  max-height: 70%;
   overflow-y: auto;
-  margin-bottom: 3.75rem;
 }
 
-.job-item {
-  margin-bottom: 0.75rem;
-}
-
-.job-card {
-  background-color: white;
-  border: 0.0625rem solid #e0e0e0;
-  border-radius: 0.5rem;
-  padding: 1rem;
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease, transform 0.2s ease;
-  cursor: pointer;
-}
-
-.job-card:hover {
-  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15);
-  transform: translateY(-0.125rem);
-}
-
-.job-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 0.75rem;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.job-name {
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: #333;
-  margin: 0;
-  flex: 1;
-  min-width: 12.5rem;
-  line-height: 1.3;
-}
-
-.job-type {
-  background-color: #e3f2fd;
-  color: #1976d2;
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem;
-  font-size: 0.75rem;
-  font-weight: 500;
-  white-space: nowrap;
-}
-
-.job-details {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.job-info {
-  display: flex;
-  flex-direction: column;
-  gap: 0.375rem;
+.job-button {
+  background-color: rgb(253, 243, 231);
+  height: 40%;
   width: 100%;
+  border-radius: 4pt;
+  margin-top: 5%;
+  margin-bottom: 5%;
 }
 
-.job-salary,
-.job-date {
-  font-size: 0.875rem;
-  color: #666;
-  display: flex;
-  align-items: center;
-  gap: 0.375rem;
+.job-text {
+  font-weight: 550;
 }
 
-.job-salary {
-  font-weight: 500;
-  color: #4caf50;
-}
-
-.no-result-container {
-  text-align: center;
-  padding: 2.5rem 1.25rem;
-  color: #666;
-}
-
-.no-result-text {
-  font-size: 1.125rem;
-  color: #999;
-  margin-bottom: 0.5rem;
-}
-
-.no-result-subtitle {
-  font-size: 0.875rem;
-  color: #bbb;
-  line-height: 1.4;
+.job-tag {
+  background-color: #59cff0;
+  border-radius: 4pt;
+  padding: 2px 6px;
+  margin: 5px;
+  font-size: 10px;
+  display: inline-block;
 }

@@ -13,6 +13,7 @@ import SearchPage from "./page/Search";
 import ProfilePage from "./page/Profile";
 import RegisterPage from "./page/Register";
 import SavedPage from './page/Saved';
+import LoginPage from './page/Login';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
             <Route path="/search" element={<SearchPage />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/register" element={<RegisterPage />} />
+            <Route path="/login" element={<LoginPage />} />
           </Routes>
         </main>
       </div>

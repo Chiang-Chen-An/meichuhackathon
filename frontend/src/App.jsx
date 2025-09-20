@@ -11,6 +11,7 @@ import "./App.css"; // 你的主 App CSS 檔案
 import HomePage from "./page/Home";
 import SearchPage from "./page/Search";
 import ProfilePage from "./page/Profile";
+import RegisterPage from "./page/Register";
 // import SavedPage from './page/Saved';
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
             {/* <Route path="/saved" element={<SavedPage />} /> */}
             <Route path="/search" element={<SearchPage />} />
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/register" element={<RegisterPage />} />
           </Routes>
         </main>
       </div>

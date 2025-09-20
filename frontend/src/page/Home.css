@@ -245,37 +245,3 @@
   /* This would be for the "CloudMosa" text if you're putting it here.
      If it's part of your Navigation or another component, adjust accordingly. */
 }
-/* Fixed bottom bar */
-.fixed-bottom-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%; /* Full width */
-  background-color: #333;
-  color: white;
-  padding: 10px;
-  font-size: 14px; /* Adjust font size for small screen */
-  z-index: 9999;
-  display: flex;
-  justify-content: space-between; /* Spread out left and right content */
-  align-items: center; /* Vertically center text */
-  box-sizing: border-box;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-
-/* Ensure left and right content are aligned horizontally */
-.fixed-bottom-bar .left-content,
-.fixed-bottom-bar .right-content {
-  white-space: nowrap; /* Prevent text wrapping */
-  display: inline-block;
-  text-align: center; /* Center text if needed */
-}
-
-.fixed-bottom-bar .left-content {
-  text-align: left; /* Align text to the left */
-}
-
-.fixed-bottom-bar .right-content {
-  text-align: right; /* Align text to the right */
-}

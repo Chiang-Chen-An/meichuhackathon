@@ -240,6 +240,10 @@ paths:
                     type: string
                   date:
                     type: string
+                  status:
+                    type: string
+                    enum: [open, closed]
+                    example: "open"
                   job_provider_id:
                     type: integer
                   created_at:
@@ -254,6 +258,71 @@ paths:
                   error:
                     type: string
               
+    delete:
+      tags: [Job]
+      summary: Delete job
+      description: Delete a job posting (only job provider can delete)
+      parameters:
+        - in: path
+          name: job_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Job deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Job deleted successfully"
+                  deleted_job_id:
+                    type: integer
+                    example: 1
+        '401':
+          description: User not logged in
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Please login first"
+        '403':
+          description: Not authorized to delete this job
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "You are not authorized to delete this job"
+        '404':
+          description: Job not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Job does not exist"
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Failed to delete job"
+
   /job/provider/{provider_id}:
     get:
       tags: [Job]
@@ -290,6 +359,10 @@ paths:
                     date:
                       type: string
                       example: "2023-12-31 - 2023-12-01"
+                    status:
+                      type: string
+                      enum: [open, closed]
+                      example: "open"
                     job_provider_id:
                       type: integer
                       example: 1
@@ -347,6 +420,10 @@ paths:
                         date:
                           type: string
                           example: "2025-01-01 ~ 2025-03-31"
+                        status:
+                          type: string
+                          enum: [open, closed]
+                          example: "open"
                         job_provider_id:
                           type: integer
                           example: 123
@@ -445,6 +522,10 @@ paths:
                       date:
                         type: string
                         example: "2023-12-01 ~ 2023-12-31"
+                      status:
+                        type: string
+                        enum: [open, closed]
+                        example: "open"
                       job_provider_id:
                         type: integer
                         example: 1
@@ -544,6 +625,10 @@ paths:
                     date:
                       type: string
                       example: "2023-12-01 - 2023-12-31"
+                    status:
+                      type: string
+                      enum: [open, closed]
+                      example: "open"
                     job_provider_id:
                       type: integer
                       example: 1
@@ -561,6 +646,106 @@ paths:
                   message:
                     type: string
                     example: "No jobs found"
+
+  /job/{job_id}/status:
+    put:
+      tags: [Job]
+      summary: Update job status
+      description: Update job status to open or close applications (only job provider can update)
+      parameters:
+        - in: path
+          name: job_id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - status
+              properties:
+                status:
+                  type: string
+                  enum: [open, closed]
+                  description: New status for the job
+                  example: "closed"
+      responses:
+        '200':
+          description: Job status updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Job closed for applications"
+                  job:
+                    type: object
+                    properties:
+                      job_id:
+                        type: integer
+                        example: 1
+                      job_name:
+                        type: string
+                        example: "餐廳服務生"
+                      status:
+                        type: string
+                        enum: [open, closed]
+                        example: "closed"
+        '400':
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Status must be either 'open' or 'closed'"
+        '401':
+          description: User not logged in
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Please login first"
+        '403':
+          description: Not authorized to update this job
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "You are not authorized to update this job status"
+        '404':
+          description: Job not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Job does not exist"
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Failed to update job status"
 
   /recruit/apply:
     post:
@@ -594,11 +779,15 @@ paths:
                   application:
                     $ref: '#/components/schemas/JobApplication'
         '400':
-          description: Bad request (missing fields, applying to own job, etc.)
+          description: Bad request (missing fields, applying to own job, job closed, etc.)
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "This job is no longer accepting applications"
         '401':
           description: Not logged in
           content:
@@ -907,6 +1096,36 @@ components:
           type: string
           description: Error message
           example: "An error occurred"
+    
+    Job:
+      type: object
+      properties:
+        job_id:
+          type: integer
+          example: 1
+        job_name:
+          type: string
+          example: "餐廳服務生"
+        type:
+          type: string
+          example: "服務業"
+        payment:
+          type: string
+          example: "200 ~ 300"
+        date:
+          type: string
+          example: "2023-12-01 ~ 2023-12-31"
+        status:
+          type: string
+          enum: [open, closed]
+          example: "open"
+        job_provider_id:
+          type: integer
+          example: 1
+        create_at:
+          type: string
+          format: date
+          example: "2023-11-01"
     
     JobApplication:
       type: object

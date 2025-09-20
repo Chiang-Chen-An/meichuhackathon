@@ -1,5 +1,5 @@
 from models.User import User
-from models.Job import Job
+from models.Job import Job, JobStatus
 from models.JobApplication import JobApplication, ApplicationStatus
 from models import db
 from flask import request, jsonify, Blueprint, session
@@ -33,6 +33,10 @@ def apply_for_job():
     job = Job.query.get(job_id)
     if not job:
         return {'message': 'Job does not exist'}, 404
+    
+    # 檢查工作是否開放應徵
+    if job.status != JobStatus.OPEN:
+        return {'message': 'This job is no longer accepting applications'}, 400
         
     # 檢查是否為自己發布的工作
     if job.provider_id == applicant_id:

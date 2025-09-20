@@ -24,7 +24,7 @@ class JobApplication(db.Model):
     
     # 關聯關係
     applicant = db.relationship('User', foreign_keys=[applicant_id], backref='applications')
-    job = db.relationship('Job', foreign_keys=[job_id], backref='applications')
+    job = db.relationship('Job', foreign_keys=[job_id])
     
     # 複合唯一約束：同一使用者不能重複應徵同一工作
     __table_args__ = (db.UniqueConstraint('applicant_id', 'job_id', name='unique_user_job_application'),)

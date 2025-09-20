@@ -1,5 +1,5 @@
 from models.User import User
-from models.Job import Job
+from models.Job import Job, JobStatus
 from models import db
 from flask import request, jsonify, Blueprint, session
 from datetime import datetime
@@ -115,3 +115,88 @@ def getAlljob():
     jobs = Job.query.all()
     jobs_list = [job.to_dict() for job in jobs]
     return jsonify(jobs_list), 200
+
+@job_bp.route('/job/<int:job_id>/status', methods=['PUT'])
+def updateJobStatus(job_id):
+    """更新工作狀態 - 開放或關閉應徵"""
+    # 從 session 取得當前登入用戶
+    current_user_id = session.get('user_id')
+    if not current_user_id:
+        return {'message': 'Please login first'}, 401
+    
+    data = request.get_json()
+    new_status = data.get('status', None)
+    
+    # 驗證狀態值
+    if not new_status or new_status not in ['open', 'closed']:
+        return {'message': 'Status must be either "open" or "closed"'}, 400
+    
+    # 檢查工作是否存在
+    job = Job.query.get(job_id)
+    if not job:
+        return {'message': 'Job does not exist'}, 404
+    
+    # 檢查是否為工作發布者
+    if job.provider_id != current_user_id:
+        return {'message': 'You are not authorized to update this job status'}, 403
+    
+    try:
+        # 更新工作狀態
+        if new_status == 'open':
+            job.status = JobStatus.OPEN
+            message = 'Job opened for applications'
+        else:  # new_status == 'closed'
+            job.status = JobStatus.CLOSED
+            message = 'Job closed for applications'
+        
+        db.session.commit()
+        
+        return {
+            'message': message,
+            'job': job.to_dict()
+        }, 200
+        
+    except Exception as e:
+        db.session.rollback()
+        return {
+            'message': 'Failed to update job status',
+            'error': str(e)
+        }, 500
+
+@job_bp.route('/job/<int:job_id>', methods=['DELETE'])
+def deleteJob(job_id):
+    """刪除工作 - 只有工作發布者可以刪除"""
+    # 從 session 取得當前登入用戶
+    current_user_id = session.get('user_id')
+    if not current_user_id:
+        return {'message': 'Please login first'}, 401
+    
+    # 檢查工作是否存在
+    job = Job.query.get(job_id)
+    if not job:
+        return {'message': 'Job does not exist'}, 404
+    
+    # 檢查是否為工作發布者
+    if job.provider_id != current_user_id:
+        return {'message': 'You are not authorized to delete this job'}, 403
+    
+    try:
+        # 先刪除相關的應徵記錄
+        from models.JobApplication import JobApplication
+        JobApplication.query.filter_by(job_id=job_id).delete()
+        
+        # 然後刪除工作
+        db.session.delete(job)
+        db.session.commit()
+        
+        return {
+            'message': 'Job deleted successfully',
+            'deleted_job_id': job_id
+        }, 200
+        
+    except Exception as e:
+        db.session.rollback()
+        return {
+            'message': 'Failed to delete job',
+            'error': str(e)
+        }, 500

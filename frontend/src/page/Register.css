@@ -13,7 +13,7 @@
   flex-direction: column;
   align-items: flex-start;
   width: 90%;
-  margin: 1%;
+  margin: auto;
   gap: 2%;
 }
 
@@ -35,7 +35,7 @@
   flex-direction: column;
   align-items: flex-start;
   width: 90%;
-  margin: 1%;
+  margin: auto;
   gap: 2%;
 }
 
@@ -57,7 +57,7 @@
   flex-direction: column;
   align-items: flex-start;
   width: 90%;
-  margin: 1%;
+  margin: auto;
   gap: 2%;
 }
 
@@ -72,4 +72,33 @@
   box-sizing: border-box;
   border: 1px solid #ccc;
   border-radius: 4px;
+}
+
+.log-in-button {
+  width: 45%;
+  margin: 5% auto;
+  padding: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.register-button {
+  width: 45%;
+  margin: 5% auto;
+  padding: 10px;
+  background-color: #008cba;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  margin: auto;
 }

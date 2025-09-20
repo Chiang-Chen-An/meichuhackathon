@@ -63,24 +63,47 @@ const Register = () => {
           />
         </div>
 
-        <button
-          type="submit"
-          onClick={() => {
-            register({ phone_number: phoneNumber, password, email })
-              .then((msg) => {
-                console.log(msg);
-                alert(msg.message);
-                setSuccessMessage(msg.message);
-                setId(msg.user_id);
-              })
-              .catch((err) => {
-                console.error(err);
-                alert("Register failed");
-              });
-          }}
-        >
-          Register
-        </button>
+        <div className="button-group">
+          <button
+            className="log-in-button"
+            type="submit"
+            onClick={() => {
+              register({ phone_number: phoneNumber, password, email })
+                .then((msg) => {
+                  console.log(msg);
+                  alert(msg.message);
+                  setSuccessMessage(msg.message);
+                  setId(msg.user_id);
+                })
+                .catch((err) => {
+                  console.error(err);
+                  alert("Register failed");
+                });
+            }}
+          >
+            Log In
+          </button>
+
+          <button
+            className="register-button"
+            type="submit"
+            onClick={() => {
+              register({ phone_number: phoneNumber, password, email })
+                .then((msg) => {
+                  console.log(msg);
+                  alert(msg.message);
+                  setSuccessMessage(msg.message);
+                  setId(msg.user_id);
+                })
+                .catch((err) => {
+                  console.error(err);
+                  alert("Register failed");
+                });
+            }}
+          >
+            Sign Up
+          </button>
+        </div>
       </form>
 
       {successMessage && <div className="message">{successMessage}</div>}

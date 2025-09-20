@@ -7,7 +7,9 @@ from controller.User import user_bp
 from controller.Job import job_bp
 from controller.recruit import recruit_bp
 from controller.search import search_bp
+from controller.userJob import user_job_bp
 from flask_cors import CORS
+
 
 from controller.search import search_bp
 
@@ -36,6 +38,7 @@ app.register_blueprint(user_bp)
 app.register_blueprint(job_bp)
 app.register_blueprint(recruit_bp)
 app.register_blueprint(search_bp)
+app.register_blueprint(user_job_bp)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8000, debug=True)

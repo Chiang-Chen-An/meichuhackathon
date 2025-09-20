@@ -22,6 +22,7 @@ def register():
     phone_number = data.get("phone_number", None)
     password = data.get("password", None)
     email = data.get("email", None)
+    username = data.get('username', None)
 
     if not phone_number or not password or not email:
         return { 'message': 'Phone number, password and email are required' }, 400
@@ -51,7 +52,7 @@ def register():
     existing_email = User.query.filter_by(email=email).first()
     if existing_email:
         return { 'message': 'Email already exists' }, 409
-    
+
     hashed_password = generate_password_hash(password, method='pbkdf2:sha256', salt_length=16)
 
     try:
@@ -62,6 +63,14 @@ def register():
         )
 
         db.session.add(user)
+
+        db.session.flush()
+
+        if not username:
+            username = f'User#{user.user_id}'
+        
+        user.username = username
+
         db.session.commit()
 
         return {
@@ -216,3 +225,32 @@ def update_profile():
             'message': 'Failed to update profile',
             'error': str(e)
         }, 500
+
+@user_bp.route('/update/username', methods=['PUT'])
+def updateUsername():
+    user_id = session.get('user_id')
+    if not user_id:
+        return {'message': 'Please login first'}, 401
+    
+    user = User.query.get(user_id)
+    if not user:
+        session.clear()  # 清除無效的 session
+        return {'message': 'User not found'}, 404
+    
+    data = request.get_json()
+
+    username = data.get('username', None)
+
+    if not username:
+        return { 'message': 'Username can not be empty' }, 404
+    
+    try:
+        user.username = username
+        db.session.commit()
+
+        return { 'message': 'Username update successfully' }, 200
+    except Exception as error:
+        db.session.rollback()
+
+        return { 'message': 'Username update failed.', 'Error': str(error) }, 500
+         

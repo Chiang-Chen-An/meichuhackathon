@@ -24,6 +24,8 @@ class Job(db.Model):
     provider_id = db.Column(db.Integer, db.ForeignKey('users.user_id', ondelete='CASCADE'), nullable=False)
     job_provider = db.relationship('User', back_populates='jobs')
 
+    saved_by_users = db.relationship('UserJob', back_populates='job', cascade='all, delete-orphan')
+    
     created_at = db.Column(db.Date, nullable=False, default=db.func.current_date())
     
     # 與 JobApplication 的關聯關係，設定 cascade 刪除

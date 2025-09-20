@@ -16,6 +16,7 @@ tags:
   - Job
   - Recruit
   - Search
+  - UserJobs
 
 paths:
   /user/{user_id}:
@@ -345,6 +346,92 @@ paths:
                   message:
                     type: string
                     example: "Failed to update profile"
+
+  /update/username:
+    put:
+      tags: [User]
+      summary: Update username
+      description: Update the current logged-in user's username.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+              properties:
+                username:
+                  type: string
+                  description: New username
+                  example: "User1234"
+      responses:
+        '200':
+          description: Username updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Username updated successfully"
+                  user:
+                    $ref: '#/components/schemas/User'
+        '400':
+          description: Bad request (invalid data, no username provided, etc.)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    examples:
+                      no_data:
+                        value: "No data provided"
+                      invalid_username:
+                        value: "Invalid username format"
+        '401':
+          description: User not logged in
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Please login first"
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "User not found"
+        '409':
+          description: Username already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Username already exists"
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Failed to update username"
 
   /job/{job_id}:
     get:
@@ -1435,6 +1522,71 @@ paths:
                   message:
                     type: string
                     example: "Failed to search jobs"
+
+  /user/jobs:
+    get:
+      tags: [UserJobs]
+      summary: Get saved works
+      responses:
+        '200':
+          description: Get saved job successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Load saved jobs successfully'
+        '404': 
+          description: Load saved job Failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Lack of necessary parameter'
+
+    post:
+      tags: [UserJobs]
+      summary: Save jobs
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                  example: 1
+                
+                job_id:
+                  type: integer
+                  example: 1
+      responses:
+        '200':
+          description: Saved job successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Saved job successfully'
+        '404': 
+          description: Saved job Failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Lack of necessary parameter'
 
 components:
   schemas:

@@ -71,7 +71,10 @@ function HomePage() {
 
       <div className="video-screen">
         {mode === "short" ? (
-          <div className="video-item">
+          <button
+            className="video-item"
+            onClick={() => navigate(`/job_detail/${videos[currentIndex].id}`)}
+          >
             <video
               className="video"
               key={videos[currentIndex].videoUrl}
@@ -86,7 +89,7 @@ function HomePage() {
               <p className="video-name">{videos[currentIndex].name}</p>
               <p className="video-data">{videos[currentIndex].data}</p>
             </div>
-          </div>
+          </button>
         ) : (
           <div className="video-list">
             {videos.map((video) => (

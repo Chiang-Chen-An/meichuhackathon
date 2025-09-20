@@ -2,8 +2,9 @@ from models.User import User
 from models.JobApplication import JobApplication
 from models.Job import Job, JobStatus
 from models import db
-from flask import request, jsonify, Blueprint, session
+from flask import request, jsonify, Blueprint, session, send_from_directory
 from datetime import datetime
+import os
 
 job_bp = Blueprint('job', __name__)
 
@@ -44,6 +45,7 @@ def createJob():
     date_start = request.form.get('date_start', None)
     date_end = request.form.get('date_end', None)
     job_type = request.form.get('job_type', None)  # no necessary
+    video_file = request.files.get('video', None)
 
     if not job_name or not payment_low or not payment_high or not date_start or not date_end:
         return { 'message': 'Lack of necessary information' }, 400
@@ -58,18 +60,17 @@ def createJob():
     except (ValueError, TypeError):
         return { 'message': 'Invalid payment values' }, 400
     
-    # 驗證日期格式和邏輯
     try:
-        # 嘗試解析日期字符串（假設格式為 YYYY-MM-DD）
         start_date = datetime.strptime(date_start, '%Y-%m-%d').date()
         end_date = datetime.strptime(date_end, '%Y-%m-%d').date()
         
-        # 驗證開始日期必須早於結束日期
         if start_date > end_date:
             return { 'message': 'Date start must be earlier than date end' }, 400
             
     except ValueError as e:
         return { 'message': 'Invalid date format. Please use YYYY-MM-DD format' }, 400
+
+
 
     try:
         job = Job(
@@ -83,7 +84,7 @@ def createJob():
         )
 
         db.session.add(job)
-        db.session.commit()
+        db.session.flush()
     
     except Exception as e:
         db.session.rollback()
@@ -92,6 +93,22 @@ def createJob():
             'error': str(e)
         }, 500
     
+    if video_file:
+        video_filename = f'video_{job.job_id}.mp4'
+        video_path = os.path.join('./video', video_filename)
+        
+        if not os.path.exists('./video'):
+                os.makedirs('./video', exist_ok=True)
+
+        if os.path.exists(video_path):
+            os.remove(video_path)
+        
+        video_file.save(video_path)
+        
+        job.video_filename = video_filename
+
+    db.session.commit()
+
     return {
         'message': 'Create Job Successfully',
         'Job': job.to_dict()
@@ -276,3 +293,21 @@ def deleteJob(job_id):
             'message': 'Failed to delete job',
             'error': str(e)
         }, 500
+    
+@job_bp.route('/job/<int:job_id>/video', methods=['GET'])
+def getJobVideo(job_id):
+    job = Job.query.get(job_id)
+    if not job:
+        return {'message': 'Job does not exist'}, 404
+    
+    if not job.video_filename:
+        return {'message': 'No video file for this job'}, 404
+    
+    video_path = os.path.join('./video', job.video_filename)
+    if not os.path.exists(video_path):
+        return {'message': 'Video file not found'}, 404
+    
+    try:
+        return send_from_directory('./video', job.video_filename)
+    except Exception as e:
+        return {'message': f'Error serving video: {str(e)}'}, 500

@@ -17,6 +17,8 @@ class Job(db.Model):
     date_start = db.Column(db.Date, nullable=False)
     date_end = db.Column(db.Date, nullable=False)
     job_type = db.Column(db.String(255))
+
+    video_filename = db.Column(db.String(255))
     
     # 工作狀態
     status = db.Column(db.Enum(JobStatus), nullable=False, default=JobStatus.OPEN)
@@ -46,5 +48,6 @@ class Job(db.Model):
             'date': f'{self.date_start} ~ {self.date_end}',
             'status': self.status.value,
             'job_provider_id': self.provider_id,
-            'create_at': self.created_at
+            'create_at': self.created_at,
+            'video_filename': self.video_filename
         }

@@ -8,8 +8,8 @@ info:
     - 所有 API 回傳 JSON。
 
 servers:
-  - url: http://127.0.0.1:8000
-    description: Development server
+  - url: http://203.116.30.127:8000
+    description: PROD
   
 tags:
   - User

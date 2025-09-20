@@ -14,14 +14,6 @@ export async function get_jobs() {
 }
 
 export async function get_jobs_by_keyword(data) {
-    // data = {
-    //     'name': ,
-    //     'type': ,
-    //     'date_start': ,
-    //     'date_end': ,
-    //     'status':
-    // }
-
     try {
         const base_url = API_BASE_URL;
         const response = await axios.post(`${base_url}/search/jobs`, data, {
@@ -36,7 +28,9 @@ export async function get_jobs_by_keyword(data) {
 export async function createJob(data) {
     try {
         const base_url = API_BASE_URL;
-        const response = await axios.post(`${base_url}/job`, data);
+        const response = await axios.post(`${base_url}/job`, data, {
+            withCredentials: true
+        });
         return response.data;
     } catch (error) {
         throw error.response ? error.response.data: error;
@@ -46,7 +40,9 @@ export async function createJob(data) {
 export async function get_job_by_job_id(job_id) {
     try {
         const base_url = API_BASE_URL;
-        const response = await axios.get(`${base_url}/job/${job_id}`)
+        const response = await axios.get(`${base_url}/job/${job_id}`, {
+            withCredentials: true
+        })
         return response.data;
     } catch (error) {
         throw error.response? error.response.data: error;

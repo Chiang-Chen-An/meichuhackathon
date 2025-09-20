@@ -25,7 +25,7 @@ export async function register(data) {
     }
 }
 
-export async function updateUsername() {
+export async function updateUsername(data) {
     try {
         const base_url = API_BASE_URL;
         const response = await axios.post(`${base_url}/update/username`, data, {

@@ -30,28 +30,41 @@ def getJobbyProvider(provider_id):
 
 @job_bp.route('/job', methods=['POST'])
 def createJob():
+    # 從 session 取得當前登入用戶
+    
     current_user_id = session.get('user_id')
     if not current_user_id:
-        return {'message': 'Please login first'}, 401
+        return {'message': 'Please login first', 'session': session}, 401
     
-    data = request.get_json()
+    # data = request.get_json()
 
-    job_name = data.get('job_name', None)
-    payment_low = data.get('payment_low', None)
-    payment_high = data.get('payment_high', None)
-
-    date_start = data.get('date_start', None)
-    date_end = data.get('date_end', None)
-
-    job_type = data.get('job_type', None) # no necessary
+    job_name = request.form.get('job_name', None)
+    payment_low = request.form.get('payment_low', None)
+    payment_high = request.form.get('payment_high', None)
+    date_start = request.form.get('date_start', None)
+    date_end = request.form.get('date_end', None)
+    job_type = request.form.get('job_type', None)  # no necessary
 
     if not job_name or not payment_low or not payment_high or not date_start or not date_end:
         return { 'message': 'Lack of necessary information' }, 400
     
     try:
+        payment_low = float(payment_low)
+        payment_high = float(payment_high)
+        
+        if payment_low > payment_high:
+            return { 'message': 'Payment low must be less than or equal to payment high' }, 400
+            
+    except (ValueError, TypeError):
+        return { 'message': 'Invalid payment values' }, 400
+    
+    # 驗證日期格式和邏輯
+    try:
+        # 嘗試解析日期字符串（假設格式為 YYYY-MM-DD）
         start_date = datetime.strptime(date_start, '%Y-%m-%d').date()
         end_date = datetime.strptime(date_end, '%Y-%m-%d').date()
         
+        # 驗證開始日期必須早於結束日期
         if start_date > end_date:
             return { 'message': 'Date start must be earlier than date end' }, 400
             

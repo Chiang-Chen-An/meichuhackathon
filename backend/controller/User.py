@@ -84,7 +84,7 @@ def login():
         current_user_id = session.get('user_id')
         current_user = User.query.get(current_user_id)
         if current_user:
-            return { 
+            return {
                 'message': 'Already logged in',
                 'User': current_user.to_dict()
             }, 400

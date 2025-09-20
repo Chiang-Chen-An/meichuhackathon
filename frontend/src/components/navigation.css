@@ -38,13 +38,23 @@
   box-sizing: border-box;
 }
 
-/* Styling for each text item */
 .fixed-bottom-bar .text-item {
-  flex: 1; /* Ensure each item takes up equal space */
-  text-align: center; /* Center the text within each item */
-  white-space: nowrap; /* Prevent text wrapping */
+  flex: 1;
+  text-align: center;
+  white-space: nowrap;
+  transition: all 0.3s ease;
 }
 
 .fixed-bottom-bar .text-item svg {
-  font-size: 30px; /* Set size of icons */
+  font-size: 30px;
+  color: #b3b3b3; /* Default icon color (inactive) */
+  transition: color 0.3s ease; /* Smooth color transition */
+}
+
+.fixed-bottom-bar .text-item a {
+  text-decoration: none; /* Remove underline */
+}
+
+.fixed-bottom-bar .text-item a:hover svg {
+  color: #555555; /* Hover effect for icons */
 }

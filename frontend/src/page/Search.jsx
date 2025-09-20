@@ -22,11 +22,10 @@ function SearchPage() {
     }
   };
 
-
   const handleSearch = async () => {
     try {
       console.log(searchText);
-      const response = await get_jobs_by_keyword({ 'name': searchText });
+      const response = await get_jobs_by_keyword({ name: searchText });
       console.log(response);
       setJobs(response.jobs || []);
     } catch (error) {
@@ -56,13 +55,21 @@ function SearchPage() {
               <div className="job-item" key={job.job_id || index}>
                 <div className="job-card">
                   <div className="job-header">
-                    <h3 className="job-name">{job.job_name || 'Job Name Not Available'}</h3>
-                    <span className="job-type">{job.type || 'Type Not Specified'}</span>
+                    <h3 className="job-name">
+                      {job.job_name || "Job Name Not Available"}
+                    </h3>
+                    <span className="job-type">
+                      {job.type || "Type Not Specified"}
+                    </span>
                   </div>
                   <div className="job-details">
                     <div className="job-info">
-                      <span className="job-salary">💰 {job.payment || 'Salary Not Listed'}</span>
-                      <span className="job-date">📅 {job.date || 'Date Not Available'}</span>
+                      <span className="job-salary">
+                        💰 {job.payment || "Salary Not Listed"}
+                      </span>
+                      <span className="job-date">
+                        📅 {job.date || "Date Not Available"}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -71,7 +78,9 @@ function SearchPage() {
           ) : (
             <div className="no-result-container">
               <p className="no-result-text">No jobs found</p>
-              <p className="no-result-subtitle">Try searching with different keywords</p>
+              <p className="no-result-subtitle">
+                Try searching with different keywords
+              </p>
             </div>
           )}
         </div>

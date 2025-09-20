@@ -14,7 +14,7 @@
 
 .login-page-title {
   text-align: center;
-  margin-bottom: 2%; /* Match the register page */
+  margin-bottom: 2%;
 }
 
 .login-phone-or-email,
@@ -24,7 +24,7 @@
   align-items: flex-start;
   width: 90%;
   margin: auto;
-  gap: 2%; /* Match the register page gap */
+  gap: 2%;
 }
 
 .login-phone-or-email-label,
@@ -74,7 +74,7 @@
 .login-back-arrow {
   color: #333;
   border: none;
-  font-size: 14pt; /* Adjust font size for better readability */
+  font-size: 14pt;
   font-weight: 400;
   cursor: pointer;
   padding: 5pt;
@@ -88,15 +88,14 @@
   border-radius: 4pt;
   width: 30pt;
   height: 30pt;
-  background: none;  /* Remove background */
-  transition: color 0.2s ease; /* Smooth transition on hover */
+  background: none;
+  transition: color 0.2s ease;
 }
 
 .login-back-arrow:hover {
-  color: #888;  /* Highlight the arrow on hover (change to any color you prefer) */
+  color: #888;
 }
 
-/* 新增錯誤和成功訊息樣式 */
 .message {
   background-color: #d4edda;
   color: #155724;
@@ -121,7 +120,6 @@
   font-weight: bold;
 }
 
-/* 改善按鈕樣式 */
 .login-button:hover {
   background-color: #45a049;
 }

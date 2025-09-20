@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import "./Login.css"; // Assuming you save the CSS in Login.css
-import "../route/user"; // Assuming this contains your login function
-import { login } from "../route/user"; // Assuming this contains the login function
-import { useNavigate } from "react-router-dom"; // Add this import
+import "./Login.css";
+import "../route/user";
+import { login } from "../route/user";
+import { useNavigate } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
 
 const Login = () => {
-  const [phoneNumberOrEmail, setPhoneNumberOrEmail] = useState(""); // Phone number or email
+  const [phoneNumberOrEmail, setPhoneNumberOrEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");

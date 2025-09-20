@@ -1,8 +1,8 @@
 import React, { useState, useRef } from "react";
-import "./Register.css"; // Assuming you save the CSS in Register.css
+import "./Register.css";
 import "../route/user";
 import { register } from "../route/user";
-import { useNavigate } from "react-router-dom"; // Add this import
+import { useNavigate } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
 
 const Register = () => {
@@ -18,19 +18,16 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Simple validation
     if (!phoneNumber || !email || !password) {
       setErrorMessage("All fields are required.");
       return;
     }
 
-    // Clear previous messages
     setErrorMessage("");
     setSuccessMessage("");
     setIsLoading(true);
 
     try {
-      // Call the API for registration
       const response = await register({
         phone_number: phoneNumber,
         email: email,
@@ -40,7 +37,6 @@ const Register = () => {
       console.log("Registration successful:", response);
       setSuccessMessage(response.message);
 
-      // Redirect to the login page after successful registration
       setTimeout(() => {
         navigate("/login");
       }, 1000);
@@ -59,7 +55,7 @@ const Register = () => {
       <form onSubmit={handleSubmit} className="register-content-page">
         <button
           className="register-back-arrow"
-          type="button" // Use type="button" to avoid form submission
+          type="button"
           onClick={() => navigate("/")}
         >
           <IoIosArrowBack size={20} />
@@ -107,7 +103,7 @@ const Register = () => {
 
           <button
             className="register-login-button"
-            type="button" // Use type="button" to avoid form submission
+            type="button"
             onClick={() => navigate("/login")}
             disabled={isLoading}
           >

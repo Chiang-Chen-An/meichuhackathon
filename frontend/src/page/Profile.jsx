@@ -15,7 +15,6 @@ function ProfilePage() {
   const [showPasswordUpdateModal, setShowPasswordUpdateModal] = useState(false);
   const [showLogoutConfirmModal, setShowLogoutConfirmModal] = useState(false);
 
-  // 表單狀態
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -36,7 +35,6 @@ function ProfilePage() {
     } catch (error) {
       console.error("Load user profile failed:", error);
       if (error.message === "Not logged in") {
-        // 如果未登入，跳轉到登入頁面
         navigate("/login");
       } else {
         setError(error.message || "Failed to load profile");
@@ -49,7 +47,6 @@ function ProfilePage() {
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
 
-    // 驗證表單
     if (!email && !password) {
       setError("Please provide at least email or password to update");
       return;
@@ -167,11 +164,15 @@ function ProfilePage() {
             </div>
             <div className="info-item">
               <span className="info-label">Phone:</span>
-              <span className="info-value">{user.phone_number || "Not set"}</span>
+              <span className="info-value">
+                {user.phone_number || "Not set"}
+              </span>
             </div>
             <div className="info-item email-item">
               <span className="info-label">Email:</span>
-              <div className="info-value email-wrap">{user.email || "Not set"}</div>
+              <div className="info-value email-wrap">
+                {user.email || "Not set"}
+              </div>
             </div>
             <div className="info-item">
               <span className="info-label">Username:</span>
@@ -182,7 +183,9 @@ function ProfilePage() {
             <div className="info-item">
               <span className="info-label">Created:</span>
               <span className="info-value">
-                {user.created_at ? new Date(user.created_at).toLocaleDateString() : "Unknown"}
+                {user.created_at
+                  ? new Date(user.created_at).toLocaleDateString()
+                  : "Unknown"}
               </span>
             </div>
 
@@ -236,7 +239,7 @@ function ProfilePage() {
                 className="form-input-compact"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="再次輸入新密碼"
+                placeholder="Re-enter new password"
               />
             </div>
 

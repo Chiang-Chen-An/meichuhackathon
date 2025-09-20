@@ -810,6 +810,46 @@ paths:
       requestBody:
         required: true
         content:
+          # 改為支援 FormData
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - job_name
+                - payment_low
+                - payment_high
+                - date_start
+                - date_end
+              properties:
+                job_name:
+                  type: string
+                  example: "餐廳服務生"
+                payment_low:
+                  type: number
+                  format: float
+                  example: 200.0
+                payment_high:
+                  type: number
+                  format: float
+                  example: 300.0
+                date_start:
+                  type: string
+                  format: date
+                  example: "2023-12-01"
+                date_end:
+                  type: string
+                  format: date
+                  example: "2023-12-31"
+                job_type:
+                  type: string
+                  example: "服務業"
+                # 為未來的影片檔案預留空間
+                video:
+                  type: string
+                  format: binary
+                  description: "Optional video file (MP4, AVI, MOV, etc.)"
+                  required: false
+          # 也保留 JSON 格式支援（向後相容）
           application/json:
             schema:
               type: object

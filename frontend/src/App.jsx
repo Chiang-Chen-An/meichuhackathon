@@ -14,7 +14,8 @@ import ProfilePage from "./page/Profile";
 import RegisterPage from "./page/Register";
 import SavedPage from './page/Saved';
 import LoginPage from './page/Login';
-// import CreateJobPage from './page/CreateJob';
+import CreateJobPageOne from "./page/CreateJob";
+import CreateJobPageTwo from "./page/CreateJobP2";
 
 function App() {
   return (
@@ -32,7 +33,8 @@ function App() {
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/login" element={<LoginPage />} />
-            {/* <Route path="/createJob" element={<CreateJobPage />} /> */}
+            <Route path="/createJob1" element={<CreateJobPageOne/>} />
+            <Route path="/createJob2" element={<CreateJobPageTwo/>} />
           </Routes>
         </main>
       </div>

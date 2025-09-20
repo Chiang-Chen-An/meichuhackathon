@@ -1,14 +1,12 @@
 .search-content-page {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
   background-color: #f0f2f5;
   height: 100%;
   width: 100%;
   overflow: auto;
   position: relative;
-  margin: 0;
   border: none;
 }
 
@@ -49,7 +47,9 @@
 }
 
 .job-list {
-  top: 25%;
+  margin-top: 2%;
   width: 90%;
-  height: 70%;
+  height: auto;
+  max-height: 70%;
+  overflow-y: auto;
 }

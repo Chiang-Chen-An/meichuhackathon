@@ -58,7 +58,6 @@ function SearchPage() {
             <p className="no-result-text">No jobs found</p>
           )}
         </div>
-        <p className="no-result-text">nothing be found</p>
         <Navigation />
       </div>
     </>

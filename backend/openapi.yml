@@ -257,7 +257,8 @@ paths:
   /job/provider/{provider_id}:
     get:
       tags: [Job]
-      summary: Get job by provider_id
+      summary: Get jobs by provider ID (public endpoint)
+      description: Get all jobs posted by a specific provider. This is a public endpoint that doesn't require authentication. For getting your own jobs, use /job/my-jobs instead.
       parameters:
         - in: path
           name: provider_id
@@ -307,10 +308,81 @@ paths:
                     type: string
                     example: "Provider is not exist"
 
+  /job/my-jobs:
+    get:
+      tags: [Job]
+      summary: Get my published jobs
+      description: Retrieve all jobs published by the currently logged in user
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  provider_id:
+                    type: integer
+                    example: 123
+                  provider_email:
+                    type: string
+                    example: "employer@example.com"
+                  jobs:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        job_id:
+                          type: integer
+                          example: 1
+                        job_name:
+                          type: string
+                          example: "軟體工程師"
+                        type:
+                          type: string
+                          example: "全職"
+                        payment:
+                          type: string
+                          example: "50000 ~ 80000"
+                        date:
+                          type: string
+                          example: "2025-01-01 ~ 2025-03-31"
+                        job_provider_id:
+                          type: integer
+                          example: 123
+                        create_at:
+                          type: string
+                          format: date
+                          example: "2025-09-20"
+                  total_jobs:
+                    type: integer
+                    example: 5
+        '401':
+          description: Not logged in
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Please login first"
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "User not found"
+
   /job:
     post:
       tags: [Job]
       summary: Create new job
+      description: Create a new job posting (provider_id automatically obtained from session)
       requestBody:
         required: true
         content:
@@ -323,7 +395,6 @@ paths:
                 - payment_high
                 - date_start
                 - date_end
-                - provider_id
               properties:
                 job_name:
                   type: string
@@ -345,9 +416,6 @@ paths:
                 job_type:
                   type: string
                   example: "服務業"
-                provider_id:
-                  type: integer
-                  example: 1
       responses:
         '201':
           description: Job created successfully
@@ -357,6 +425,64 @@ paths:
                 type: object
                 properties:
                   message:
+                    type: string
+                    example: "Create Job Successfully"
+                  Job:
+                    type: object
+                    properties:
+                      job_id:
+                        type: integer
+                        example: 1
+                      job_name:
+                        type: string
+                        example: "餐廳服務生"
+                      type:
+                        type: string
+                        example: "服務業"
+                      payment:
+                        type: string
+                        example: "200 ~ 300"
+                      date:
+                        type: string
+                        example: "2023-12-01 ~ 2023-12-31"
+                      job_provider_id:
+                        type: integer
+                        example: 1
+                      create_at:
+                        type: string
+                        format: date
+                        example: "2023-11-01"
+        '400':
+          description: Bad request - missing required fields or invalid date format
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Date start must be earlier than date end"
+        '401':
+          description: Not logged in
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Please login first"
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Create Job Failed"
+                  error:
                     type: string
                     example: "Create Job Successfully"
                   Job:

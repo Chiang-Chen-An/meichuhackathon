@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getjobs } from "../user";
+import { get_jobs } from "../route/job";
 import Navigation from "../components/navigation";
 import JobElement from "../components/job_element";
 import "./Search.css";
@@ -8,7 +8,7 @@ function SearchPage() {
   const [jobs, setJobs] = useState([]);
 
   useEffect(() => {
-    getjobs()
+    get_jobs()
       .then((response) => {
         console.log("Registration successful:", response);
       })

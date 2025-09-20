@@ -30,7 +30,7 @@ function App() {
             {/* 根路徑顯示 ShopPage */}
             <Route path="/home" element={<HomePage />} />
             {/* <Route path="/saved" element={<SavedPage />} /> */}
-            <Route path="/nav" element={<NavigationPage />} />
+            {/* <Route path="/nav" element={<NavigationPage />} /> */}
             <Route path="/search" element={<SearchPage />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/register" element={<RegisterPage />} />

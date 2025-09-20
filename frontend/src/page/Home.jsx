@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import Navigation from './navigation.jsx';
+import Navigation from '../components/navigation';
 import './Home.css';
 function HomePage() {
 

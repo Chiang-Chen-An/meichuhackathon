@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { FaHome, FaSearch, FaBars, FaUser } from 'react-icons/fa'
 import "./navigation.css";
 
-function NavigationPage() {
+function Navigation() {
   const [focusedLinkIndex, setFocusedLinkIndex] = useState(-1);
   const isLoggedIn = false;//localStorage.getItem("isLoggedIn") === true;
 

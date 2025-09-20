@@ -1,137 +1,77 @@
-import React, { useState, useEffect, useRef } from "react";
-import { NavLink } from "react-router-dom";
-import { FaHome, FaSearch, FaBookmark, FaUser } from 'react-icons/fa'
-import { IoMdAdd } from 'react-icons/io';
+import React, { useState, useEffect } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { FaHome, FaSearch, FaBookmark, FaUser } from "react-icons/fa";
+import { IoMdAdd } from "react-icons/io";
 import "./navigation.css";
 
 function Navigation() {
-  const [focusedLinkIndex, setFocusedLinkIndex] = useState(-1);
   const [nav, setNavMode] = useState(0);
-  const isLoggedIn = false;//localStorage.getItem("isLoggedIn") === true;
+  const isLoggedIn = false; //localStorage.getItem("isLoggedIn") === true;
+  const navigate = useNavigate();
 
   const iconMap = {
-    home_icon: <FaHome/>,
-    search_icon: <FaSearch/>,
-    create_icon: <IoMdAdd/>,
-    saved_icon: <FaBookmark/>,
-    profile_icon: <FaUser/>,
+    home_icon: <FaHome />,
+    search_icon: <FaSearch />,
+    create_icon: <IoMdAdd />,
+    saved_icon: <FaBookmark />,
+    profile_icon: <FaUser />,
   };
 
   const navLinks = [
-    { to: "/home", iconName: "home_icon"},
+    { to: "/home", iconName: "home_icon" },
     { to: "/search", iconName: "search_icon" },
-    { to: "/createJob", iconName: "create_icon"},
-    { to: "/saved", iconName: "saved_icon"},
+    { to: "/createJob", iconName: "create_icon" },
+    { to: "/saved", iconName: "saved_icon" },
     {
-      to: isLoggedIn ? "/profile" : "/register", // Redirect to login if not logged in
+      to: isLoggedIn ? "/profile" : "/register",
       iconName: "profile_icon",
-    //   label: isLoggedIn ? "Profile" : "Log In", // Change label based on login state
     },
   ];
 
-  const handleNavClick = (e, link) => {
-    if (link.to === "/profile" && !isLoggedIn) {
-      e.preventDefault();
-      alert("You must log in to access your profile.");
-      navigate("/register");
-    }
-  };
-
-  const linkRefs = useRef([]);
-  linkRefs.current = navLinks.map(
-    (_, i) => linkRefs.current[i] ?? React.createRef()
-  );
-      
   useEffect(() => {
     const handleKeyDown = (event) => {
-      const isNavFocused =
-        document.activeElement &&
-        linkRefs.current.some(
-          (ref) => ref.current && ref.current.contains(document.activeElement)
-        );
+      const isNumberKey =
+        event.key >= "1" && event.key <= String(navLinks.length);
 
       switch (event.key) {
-        case "ArrowLeft":
-          event.preventDefault();
-          setFocusedLinkIndex((prevIndex) => {
-            if(nav === 0) return -1;
-            if (prevIndex === -1) return 3;
-            if (prevIndex === 0) return -1;
-            return (prevIndex - 1 + navLinks.length) % navLinks.length;
-          });
-          break;
-        case "ArrowRight":
-          event.preventDefault();
-          setFocusedLinkIndex((prevIndex) => {
-            if(nav === 0) return -1;
-            if (prevIndex === -1) return 0;
-            if (prevIndex === 3) return -1;
-            return (prevIndex + 1) % navLinks.length;
-          });
-          break;
-        case "Enter":
-          event.preventDefault();
-          if (
-            nav === 1 &&
-            focusedLinkIndex !== -1 &&
-            linkRefs.current[focusedLinkIndex].current
-          ) {
-            setFocusedLinkIndex(-1);
-            linkRefs.current[focusedLinkIndex].current.click();
-          }
-          break;
         case "LSK":
-          if(nav === 0) setNavMode(1);
-          else setNavMode(0);
+        case "Shift":
+          if (nav === 0) setNavMode(1);
+          else if (nav === 1) setNavMode(0);
           console.log(`nav: ${nav}`);
           event.preventDefault();
-          setFocusedLinkIndex(0);
           break;
+
         default:
+          if (nav === 1 && isNumberKey) {
+            event.preventDefault();
+            const index = parseInt(event.key, 10) - 1;
+            if (navLinks[index]) {
+              navigate(navLinks[index].to); // 🚀 直接跳轉
+            }
+          }
           break;
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
-
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [navLinks.length, focusedLinkIndex]);
+  }, [nav, navLinks, navigate]);
 
-  useEffect(() => {
-    if (
-      focusedLinkIndex !== -1 &&
-      linkRefs.current[focusedLinkIndex] &&
-      linkRefs.current[focusedLinkIndex].current
-    ) {
-      linkRefs.current[focusedLinkIndex].current.focus();
-    } else if (focusedLinkIndex === -1) {
-      if (
-        document.activeElement &&
-        linkRefs.current.some(
-          (ref) => ref.current && ref.current.contains(document.activeElement)
-        )
-      ) {
-        document.activeElement.blur();
-      }
-    }
-  }, [focusedLinkIndex]);
-
-  return (    
+  return (
     <div className="fixed-bottom-bar">
-      {navLinks.map((link) => (
+      {navLinks.map((link, i) => (
         <div className="text-item" key={link.to}>
-          <NavLink 
+          <NavLink
             to={link.to}
-            onClick={(e) => handleNavClick(e, link)}
-            className={({ isActive }) => isActive ? "active" : ""}
+            className={({ isActive }) => (isActive ? "active" : "")}
           >
-            {/* Dynamically render icon */}
+            {/* Icon */}
             {iconMap[link.iconName]}
-
-            {/* Render the label if available */}
-            {link.label && <span>{link.label}</span>}
+            {/* 顯示數字提示 */}
+            <span className="nav-number">{i + 1}</span>
           </NavLink>
         </div>
       ))}

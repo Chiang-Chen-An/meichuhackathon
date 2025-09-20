@@ -98,3 +98,7 @@
 .register-back-arrow:hover {
   color: #888;  /* Highlight the arrow on hover (change to any color you prefer) */
 }
+
+.focused {
+  outline: 3px solid #007bff;
+}

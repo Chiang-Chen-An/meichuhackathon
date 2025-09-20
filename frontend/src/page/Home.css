@@ -207,3 +207,7 @@
   border-radius: 50%;
   padding: 2px;
 }
+
+.focused {
+  outline: 3px solid #007bff;
+}

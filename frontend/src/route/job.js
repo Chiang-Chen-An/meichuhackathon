@@ -41,3 +41,13 @@ export async function createJob(data) {
         throw error.response ? error.response.data: error;
     }
 }
+
+export async function get_job_by_job_id(job_id) {
+    try {
+        const base_url = 'http://127.0.0.1:8000';
+        const response = await axios.get(`${base_url}/job/${job_id}`)
+        return response.data;
+    } catch (error) {
+        throw error.response? error.response.data: error;
+    }
+}

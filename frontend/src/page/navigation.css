@@ -20,3 +20,31 @@
   box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
   border-radius: 8px;
 }
+
+/* Fixed bottom bar with 4 equal-width text items */
+.fixed-bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #333;
+  color: white;
+  font-size: 14px; /* Adjust font size for small screen */
+  z-index: 9999;
+  display: flex;
+  justify-content: space-evenly; /* Distribute space evenly between items */
+  align-items: center; /* Vertically center content */
+  padding: 5px 0;
+  box-sizing: border-box;
+}
+
+/* Styling for each text item */
+.fixed-bottom-bar .text-item {
+  flex: 1; /* Ensure each item takes up equal space */
+  text-align: center; /* Center the text within each item */
+  white-space: nowrap; /* Prevent text wrapping */
+}
+
+.fixed-bottom-bar .text-item svg {
+  font-size: 30px; /* Set size of icons */
+}

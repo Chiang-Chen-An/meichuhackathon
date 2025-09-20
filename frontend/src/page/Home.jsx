@@ -71,14 +71,8 @@ function HomePage() {
       </div>
 
       <Navigation />
-      <div className="fixed-bottom-bar">
-        <div className="left-content">
-          Home
-        </div>
-        <div className="right-content">
-          Back
-        </div>
-      </div>
+
+
     </div>
   );
 }

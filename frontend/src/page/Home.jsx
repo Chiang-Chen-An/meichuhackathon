@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import Navigation from '../components/navigation.jsx';
+import React, { useState, useEffect, useRef } from "react";
+import Navigation from './navigation.jsx';
 import './Home.css';
 function HomePage() {
 

@@ -1,5 +1,5 @@
 import React from "react";
-import Navigation from "../components/navigation";
+import Navigation from "./navigation";
 import "./Search.css";
 
 function SearchPage() {

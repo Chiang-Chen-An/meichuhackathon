@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import "./navigation.css";
 
-function Navigation() {
+function NavigationPage() {
   const [focusedLinkIndex, setFocusedLinkIndex] = useState(-1);
 
   const navLinks = [
@@ -10,13 +10,14 @@ function Navigation() {
     { to: "/search", label: "Search", iconName: "search_icon" },
     { to: "/saved", label: "Saved", iconName: "saved_icon" },
     { to: "/profile", label: "Profile", iconName: "profile_icon" },
+    { to: "/nav", label: "Profile", iconName: "profile_icon" },
   ];
 
   const linkRefs = useRef([]);
   linkRefs.current = navLinks.map(
     (_, i) => linkRefs.current[i] ?? React.createRef()
   );
-
+      
   useEffect(() => {
     const handleKeyDown = (event) => {
       const isNavFocused =

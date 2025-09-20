@@ -16,19 +16,19 @@ function HomePage() {
       id: 1,
       name: "Video 1",
       data: "Banana is very yummy",
-      image: "../assets/test.jpg",
+      image: "/video/test.mp4",
     },
     {
       id: 2,
       name: "Video 2",
       data: "Cat looks sad",
-      image: "../assets/test.jpg",
+      image: "/video/test2.mp4",
     },
     {
       id: 3,
       name: "Video 3",
       data: "Crying cat looks yummy",
-      image: "../assets/test.jpg",
+      image: "/video/test.mp4",
     },
   ];
 

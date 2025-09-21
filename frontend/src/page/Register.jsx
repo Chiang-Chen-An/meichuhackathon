@@ -19,6 +19,11 @@ const Register = () => {
     e.preventDefault();
 
     if (!phoneNumber || !email || !password) {
+      setErrorMessage("Please fill in the necessary information");
+
+      setTimeout(() => {
+        setErrorMessage("");
+      }, 3000);
       return;
     }
 
@@ -41,6 +46,12 @@ const Register = () => {
       }, 1000);
     } catch (error) {
       console.error("Registration failed:", error);
+      setErrorMessage(error);
+
+      setTimeout(() => {
+        setErrorMessage("");
+      }, 3000);
+
     } finally {
       setIsLoading(false);
     }

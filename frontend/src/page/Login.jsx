@@ -18,6 +18,10 @@ const Login = () => {
     e.preventDefault();
 
     if (!phoneNumberOrEmail || !password) {
+      setErrorMessage("Please fill in phone number and password")
+      setTimeout(() => {
+        setErrorMessage("");
+      }, 3000);
       return;
     }
 
@@ -50,20 +54,28 @@ const Login = () => {
       if (error && error.message) {
         // 直接有 message 屬性
         errorMsg = error.message;
+        // setErrorMessage(error.message);
         console.log("Using error.message:", errorMsg);
       } else if (typeof error === 'string') {
         // 錯誤是字串
         errorMsg = error;
+        // setErrorMessage(error);
         console.log("Using string error:", errorMsg);
       } else if (error && typeof error === 'object' && error.message) {
         // 錯誤物件有 message 屬性
         errorMsg = error.message;
+        // setErrorMessage(error.message);
         console.log("Using object error.message:", errorMsg);
       } else {
         console.log("Using default error message:", errorMsg);
       }
       
       setErrorMessage(errorMsg);
+
+      setTimeout(() => {
+        setErrorMessage("");
+      }, 3000);
+
     } finally {
       setIsLoading(false);
     }
@@ -127,7 +139,6 @@ const Login = () => {
             onClick={() => setSuccessMessage("")}
             type="button"
           >
-            ×
           </button>
         </div>
       )}
@@ -139,7 +150,6 @@ const Login = () => {
             onClick={() => setErrorMessage("")}
             type="button"
           >
-            ×
           </button>
         </div>
       )}

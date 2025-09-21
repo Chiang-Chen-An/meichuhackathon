@@ -1,5 +1,5 @@
 import { get_job_by_job_id } from "../route/job";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import Navigation from "../components/navigation";
 import { ImProfile } from "react-icons/im";
@@ -19,8 +19,9 @@ function JobDetailPage() {
   const { jobId } = useParams();
   const [job, setJob] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
   const [saved, setIsSaved] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchJob = async () => {
@@ -38,6 +39,7 @@ function JobDetailPage() {
       } catch (err) {
         console.error("Error fetching job data:", err);
         setError("Please login.");
+        
       } finally {
         setIsLoading(false);
       }
@@ -46,12 +48,23 @@ function JobDetailPage() {
     fetchJob();
   }, [jobId]);
 
+  const handleLoginRedirect = () => {
+    navigate("/login");
+  };
+
   if (isLoading) {
     return <div className="job-detail-page">Loading...</div>;
   }
 
   if (error) {
-    return <div className="job-detail-page">Error: {error}</div>;
+    return (
+          <div className="error-message">
+          {error}
+          <button onClick={handleLoginRedirect} className="login-button">
+            Login
+          </button>
+        </div>
+        );
   }
 
   if (!job) {
@@ -66,7 +79,6 @@ function JobDetailPage() {
         await unsaveJob(jobId);
         setIsSaved(false);
       } else {
-        console.log("123");
         await savedJob({ job_id: jobId });
         setIsSaved(true);
       }
@@ -77,6 +89,8 @@ function JobDetailPage() {
   };
 
   return (
+    
+
     <div className="job-detail-page">
       <div className="job-detail-container">
         <button className="save-job-button" onClick={save}>
@@ -115,6 +129,7 @@ function JobDetailPage() {
       </div>
       <Navigation />
     </div>
+    
   );
 }
 

@@ -57,7 +57,7 @@ function SearchPage() {
           {jobs.length > 0 ? (
             jobs.map((job, index) => (
               <button
-                className="job-button"
+                className="saved-item"
                 key={job.job_id || index}
                 onClick={() => navigate(`/job_detail/${job.job_id}`)}
               >

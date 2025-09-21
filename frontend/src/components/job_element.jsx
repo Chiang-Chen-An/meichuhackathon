@@ -27,7 +27,7 @@ function JobElement({
       const response = await checkJobSaved(job.job_id);
       setIsSaved(response.is_saved);
     } catch (error) {
-      console.error('Check saved status failed:', error);
+      console.error("Check saved status failed:", error);
     } finally {
       setIsCheckingStatus(false);
     }
@@ -56,22 +56,21 @@ function JobElement({
   };
 
   const handleUnsaveJob = async () => {
-    if (!window.confirm('確定要取消收藏這個工作嗎？')) {
+    if (!window.confirm("確定要取消收藏這個工作嗎？")) {
       return;
     }
-    
+
     try {
       setIsUnsaving(true);
       const response = await unsaveJob(job.job_id);
       console.log("Unsave job successful:", response);
       setIsSaved(false);
 
-      
       if (onUnsave) {
         onUnsave(job);
       }
     } catch (error) {
-      console.error('Unsave job failed:', error);
+      console.error("Unsave job failed:", error);
     } finally {
       setIsUnsaving(false);
     }
@@ -84,7 +83,7 @@ function JobElement({
         <p className="job-payment">{job.payment}</p>
         <p className="job-date">{job.date}</p>
         <p className="job-type">{job.type}</p>
-        {/* <p className="job-description">{job.description}</p> */}
+        <p className="job-phone">{job.phone}</p>
       </div>
 
       {(showSaveButton || showUnsaveButton) && (
@@ -95,7 +94,13 @@ function JobElement({
               onClick={handleSaveJob}
               disabled={isSaving || isSaved || isCheckingStatus}
             >
-              {isCheckingStatus ? 'Checking...' : isSaving ? 'Saving...' : isSaved ? 'Saved' : 'Save'}
+              {isCheckingStatus
+                ? "Checking..."
+                : isSaving
+                ? "Saving..."
+                : isSaved
+                ? "Saved"
+                : "Save"}
             </button>
           )}
 
@@ -105,7 +110,7 @@ function JobElement({
               onClick={handleUnsaveJob}
               disabled={isUnsaving}
             >
-              {isUnsaving ? 'Removing...' : 'Remove from Saved'}
+              {isUnsaving ? "Removing..." : "Remove from Saved"}
             </button>
           )}
         </div>

@@ -3,7 +3,12 @@ import { useParams } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import Navigation from "../components/navigation";
 import { ImProfile } from "react-icons/im";
-import { FaMoneyBillWave, FaRegBookmark, FaBookmark } from "react-icons/fa";
+import {
+  FaMoneyBillWave,
+  FaRegBookmark,
+  FaBookmark,
+  FaPhoneAlt,
+} from "react-icons/fa";
 import { MdDateRange } from "react-icons/md";
 import { BiCategory } from "react-icons/bi";
 import { savedJob, unsaveJob, checkJobSaved } from "../route/userJob";
@@ -32,7 +37,7 @@ function JobDetailPage() {
         }
       } catch (err) {
         console.error("Error fetching job data:", err);
-        setError("Failed to load job data.");
+        setError("Please login.");
       } finally {
         setIsLoading(false);
       }
@@ -89,16 +94,24 @@ function JobDetailPage() {
         <p className="job-detail-text">
           <BiCategory /> {job.type}
         </p>
-        <video
-          className="video"
-          key={job.videoUrl}
-          autoPlay
-          loop
-          muted
-          x-puffin-playsinline=""
-        >
-          <source src={`${API_BASE_URL}/job/${jobId}/video`} type="video/mp4" />
-        </video>
+        <p className="job-detail-text">
+          <FaPhoneAlt /> {job.job_provider.phone_number}
+        </p>
+        <div className="job-detail-video-container">
+          <video
+            className="job-detail-video"
+            key={job.videoUrl}
+            autoPlay
+            loop
+            muted
+            x-puffin-playsinline=""
+          >
+            <source
+              src={`${API_BASE_URL}/job/${jobId}/video`}
+              type="video/mp4"
+            />
+          </video>
+        </div>
       </div>
       <Navigation />
     </div>

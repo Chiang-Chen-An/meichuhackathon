@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import "./Saved.css";
 import Navigation from "../components/navigation";
 import { getSavedJob } from "../route/userJob";
+import { FaSave, FaMoneyBillWave } from "react-icons/fa";
+import { MdDateRange } from "react-icons/md";
 
 function SavedPage() {
   const [saved_jobs, set_saved_jobs] = useState([]);
@@ -61,37 +63,31 @@ function SavedPage() {
           {!error && saved_jobs.length > 0 ? (
             saved_jobs.map((savedJobData, index) => (
               <button
-                className="saved-item"
+                className="job-button"
                 key={savedJobData.job?.job_id || index}
                 onClick={() =>
                   navigate(`/job_detail/${savedJobData.job?.job_id}`)
                 }
               >
-                <div className="job-card">
-                  <div className="job-header">
-                    <div className="job-name">
-                      {savedJobData.job?.job_name || "Job Name Not Available"}
-                    </div>
-                    <span className="job-type">
-                      {savedJobData.job?.type || "Type Not Specified"}
-                    </span>
-                  </div>
-                  <div className="job-details">
-                    <div className="job-info">
-                      <span className="job-salary">
-                        💰 {savedJobData.job?.payment || "Salary Not Listed"}
-                      </span>
-                      <span className="job-date">
-                        📅 {savedJobData.job?.date || "Date Not Available"}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="saved-date">
-                    🗺 Saved:{" "}
-                    {savedJobData.saved_date
-                      ? new Date(savedJobData.saved_date).toLocaleDateString()
-                      : "Unknown"}
-                  </div>
+                <div className="job-text">
+                  {savedJobData.job?.job_name || "Job Name Not Available"}
+                </div>
+                <div className="job-tag">
+                  {savedJobData.job?.type || "Type Not Specified"}
+                </div>
+                <div className="job-text">
+                  <FaMoneyBillWave />{" "}
+                  {savedJobData.job?.payment || "Salary Not Listed"}
+                </div>
+                <div className="job-text">
+                  <MdDateRange />{" "}
+                  {savedJobData.job?.date || "Date Not Available"}
+                </div>
+                <div className="job-text">
+                  <FaSave />{" "}
+                  {savedJobData.saved_date
+                    ? new Date(savedJobData.saved_date).toLocaleDateString()
+                    : "Unknown"}
                 </div>
               </button>
             ))

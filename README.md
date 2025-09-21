@@ -65,4 +65,3 @@ docker-compose up --build --no-cache
 -   [ ] 建立評價和投訴機制
 -   [ ] 職缺分類搜尋
 -   [ ] 短影音可以再沒有影片的情況下可自己設定BGM或是配音（畫面可由工作簡要自動生成一張圖片）
--   [ ] 仿照 [104](https://www.104.com.tw/job/3v4x8?jobsource=index_job) 的界面設計六個block來當作詳細介紹

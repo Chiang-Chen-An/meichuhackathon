@@ -14,53 +14,39 @@ function HomePage() {
 
   const navigate = useNavigate();
 
-  const videos = [
-    {
-      id: j,
-      name: "Video 1",
-      data: "Bnana is very yummy",
-      videoUrl: "/video/test.mp4",
-    },
-    {
-      id: 2,
-      name: "Video 2",
-      data: "cat looks sad",
-      videoUrl: "/video/test2.mp4",
-    },
-    {
-      id: 3,
-      name: "Video 3",
-      data: "crying cat looks yummy",
-      videoUrl: "/video/test.mp4",
-    },
-  ];
-  useEffect(async () => {
-    try {
-      const response = await get_jobs();
-      console.log("Searching successful:", response);
-      setJobs(response);
-    } catch (error) {
-      console.error("Searching failed:", error);
-    }
-  });
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        const response = await get_jobs();
+        console.log("Searching successful:", response);
+        setJobs(response);
+      } catch (error) {
+        console.error("Searching failed:", error);
+      }
+    };
+
+    fetchJobs();
+  }, []);
 
   const handleKeyDown = (event) => {
+    console.log(jobs);
+    if (jobs.length === 0) return;
     if (nav === 0 && event.key === "ArrowRight") {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % videos.length);
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % jobs.length);
     } else if (nav === 0 && event.key === "ArrowLeft") {
       setCurrentIndex(
-        (prevIndex) => (prevIndex - 1 + videos.length) % videos.length
+        (prevIndex) => (prevIndex - 1 + jobs.length) % jobs.length
       );
     } else if (nav === 0 && event.key === "enter") {
       setCurrentIndex(
-        (prevIndex) => (prevIndex - 1 + videos.length) % videos.length
+        (prevIndex) => (prevIndex - 1 + jobs.length) % jobs.length
       );
     } else if (event.key === "LSK") {
       if (nav === 0) setNavMode(1);
       else setNavMode(0);
       console.log(`nav: ${nav}`);
     }
-    console.log("Current Image Path:", videos[currentIndex].image);
+    // console.log("Current Image Path:", jobs[currentIndex].image);
   };
 
   useEffect(() => {
@@ -68,7 +54,7 @@ function HomePage() {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [jobs, currentIndex, nav]);
 
   const toggleMode = () => {
     setMode(mode === "short" ? "list" : "short");
@@ -82,6 +68,7 @@ function HomePage() {
 
       <div className="video-screen">
         {mode === "short" ? (
+          jobs.length > 0 && jobs[currentIndex] ? (
           <button
             className="video-item"
             onClick={() => navigate(`/job_detail/${jobs[currentIndex].job_id}`)}
@@ -104,29 +91,32 @@ function HomePage() {
               <p className="video-data">{jobs[currentIndex].type}</p>
             </div>
           </button>
+          ) : (
+          <div className="loading">Loading jobs...</div>
+        )
         ) : (
           <div className="video-list">
-            {videos.map((video) => (
+            {jobs.map((job) => (
               <button
-                key={video.id}
+                key={job.job_id}
                 className="video-item"
-                onClick={() => navigate(`/job_detail/${video.id}`)}
+                onClick={() => navigate(`/job_detail/${job.job_id}`)}
               >
                 <div name="list" className="video-container">
                   <video
                     className="video"
-                    key={video.videoUrl} // force reload if video changes
+                    key={job.job_id} // force reload if video changes
                     autoPlay
                     loop
                     muted
                     x-puffin-playsinline=""
                   >
-                    <source src={video.videoUrl} type="video/mp4" />
+                    <source src={`${API_BASE_URL}/job/${job.job_id}/video`} type="video/mp4" />
                   </video>
                 </div>
                 <div className="data-wrap" id="list">
-                  <p className="video-name">{video.name}</p>
-                  <p className="video-data">{video.data}</p>
+                  <p className="video-name">{job.job_name}</p>
+                  <p className="video-data">{job.type}</p>
                 </div>
               </button>
             ))}

@@ -156,6 +156,9 @@
   border: none;
   border-radius: 4pt;
   align-items: center;
+  height: calc((100vh - 120pt) / 4 - 10pt);
+  min-height: 30%;
+  flex-shrink: 0;
 }
 
 .video-list .video-item .video-container {

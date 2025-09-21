@@ -49,15 +49,17 @@
 
 .job-detail-video-container {
   flex: 0 0 40%;
-  width: 100%;
+  width: 80%;
   height: 40%;
   display: flex;
   justify-content: center;
+  align-items: center;
+  margin: 0 auto;
 }
 
 .job-detail-video {
   width: 100%;
   height: auto;
-  object-fit: cover;
+  object-fit: contain;
   border: none;
 }

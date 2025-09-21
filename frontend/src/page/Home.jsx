@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import Navigation from "../components/navigation";
+import { get_jobs } from "../route/job";
 import { FaExchangeAlt } from "react-icons/fa";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import "./Home.css";
+import { API_BASE_URL } from "../config/config";
 function HomePage() {
+  const [jobs, setJobs] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [nav, setNavMode] = useState(0);
   const [mode, setMode] = useState("short");
@@ -13,7 +16,7 @@ function HomePage() {
 
   const videos = [
     {
-      id: 1,
+      id: j,
       name: "Video 1",
       data: "Bnana is very yummy",
       videoUrl: "/video/test.mp4",
@@ -31,6 +34,15 @@ function HomePage() {
       videoUrl: "/video/test.mp4",
     },
   ];
+  useEffect(async () => {
+    try {
+      const response = await get_jobs();
+      console.log("Searching successful:", response);
+      setJobs(response);
+    } catch (error) {
+      console.error("Searching failed:", error);
+    }
+  });
 
   const handleKeyDown = (event) => {
     if (nav === 0 && event.key === "ArrowRight") {
@@ -72,21 +84,24 @@ function HomePage() {
         {mode === "short" ? (
           <button
             className="video-item"
-            onClick={() => navigate(`/job_detail/${videos[currentIndex].id}`)}
+            onClick={() => navigate(`/job_detail/${jobs[currentIndex].job_id}`)}
           >
             <video
               className="video"
-              key={videos[currentIndex].videoUrl}
+              key={currentIndex}
               autoPlay
               loop
               muted
               x-puffin-playsinline=""
             >
-              <source src={videos[currentIndex].videoUrl} type="video/mp4" />
+              <source
+                src={`${API_BASE_URL}/job/${jobs[currentIndex].job_id}/video`}
+                type="video/mp4"
+              />
             </video>
             <div className="data-wrap" name="short">
-              <p className="video-name">{videos[currentIndex].name}</p>
-              <p className="video-data">{videos[currentIndex].data}</p>
+              <p className="video-name">{jobs[currentIndex].job_name}</p>
+              <p className="video-data">{jobs[currentIndex].type}</p>
             </div>
           </button>
         ) : (

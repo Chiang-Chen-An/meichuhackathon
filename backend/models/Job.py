@@ -48,6 +48,7 @@ class Job(db.Model):
             'date': f'{self.date_start} ~ {self.date_end}',
             'status': self.status.value,
             'job_provider_id': self.provider_id,
+            'job_provider': self.job_provider.to_dict(),
             'create_at': self.created_at,
             'video_filename': self.video_filename
         }
